@@ -56,6 +56,13 @@ public class BufferedAppender<E extends DeferredProcessingAware>
     }
 
     @Override
+    public void stop()
+    {
+        this.appenderAttachable.detachAndStopAllAppenders();
+        super.stop();
+    }
+
+    @Override
     protected void append(E eventObject)
     {
         // preprocess for async
