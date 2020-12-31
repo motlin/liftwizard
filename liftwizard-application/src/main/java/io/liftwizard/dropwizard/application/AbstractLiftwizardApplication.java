@@ -98,7 +98,7 @@ public abstract class AbstractLiftwizardApplication<T extends Configuration & UU
         bootstrap.addBundle(redirectBundle);
         bootstrap.addBundle(new UUIDBundle());
         bootstrap.addBundle(new ClockBundle());
-        bootstrap.addBundle(new MetricsUIBundle());
+        bootstrap.addBundle(new MetricsUIBundle("/dashboard/*"));
     }
 
     protected void initializeDynamicBundles(@Nonnull Bootstrap<T> bootstrap)
