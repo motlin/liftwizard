@@ -37,6 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
+
 package io.liftwizard.logging.jersey;
 
 import java.io.IOException;
@@ -59,6 +60,7 @@ import org.glassfish.jersey.message.MessageUtils;
 
 /**
  * Server filter logs requests and responses to specified logger, at required level, with entity or not.
+ *
  * <p>
  * The filter is registered in {@link LoggingFeature#configure(FeatureContext)} and can be used on server side only. The Priority
  * is set to the maximum value, which means that filter is called as the first filter when request arrives and similarly as the
@@ -72,11 +74,10 @@ import org.glassfish.jersey.message.MessageUtils;
 @PreMatching
 @Priority(Integer.MIN_VALUE)
 @SuppressWarnings("ClassWithMultipleLoggers")
-final class ServerLoggingFilter
-        extends LoggingInterceptor
+public final class ServerLoggingFilter
+        extends AbstractLoggingInterceptor
         implements ContainerRequestFilter, ContainerResponseFilter
 {
-
     /**
      * Create a logging filter with custom logger and custom settings of entity
      * logging.
@@ -104,7 +105,7 @@ final class ServerLoggingFilter
         {
             return;
         }
-        final long id = _id.incrementAndGet();
+        final long id = this.idCounter.incrementAndGet();
         context.setProperty(LOGGING_ID_PROPERTY, id);
 
         final StringBuilder b = new StringBuilder();
@@ -135,7 +136,7 @@ final class ServerLoggingFilter
             return;
         }
         final Object requestId = requestContext.getProperty(LOGGING_ID_PROPERTY);
-        final long   id        = requestId != null ? (Long) requestId : _id.incrementAndGet();
+        final long   id        = requestId != null ? (Long) requestId : this.idCounter.incrementAndGet();
 
         final StringBuilder b = new StringBuilder();
 

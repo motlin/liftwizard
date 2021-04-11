@@ -37,6 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
+
 package io.liftwizard.logging.jersey;
 
 import java.io.BufferedInputStream;
@@ -72,10 +73,9 @@ import org.glassfish.jersey.message.MessageUtils;
  *
  * @author Ondrej Kosatka (ondrej.kosatka at oracle.com)
  */
-abstract class LoggingInterceptor
+abstract class AbstractLoggingInterceptor
         implements WriterInterceptor
 {
-
     /**
      * Prefix will be printed before requests
      */
@@ -96,20 +96,21 @@ abstract class LoggingInterceptor
     private static final MediaType TEXT_MEDIA_TYPE        = new MediaType("text", "*");
 
     private static final Set<MediaType> READABLE_APP_MEDIA_TYPES = new HashSet<MediaType>()
-    {{
-        add(TEXT_MEDIA_TYPE);
-        add(MediaType.APPLICATION_ATOM_XML_TYPE);
-        add(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
-        add(MediaType.APPLICATION_JSON_TYPE);
-        add(MediaType.APPLICATION_SVG_XML_TYPE);
-        add(MediaType.APPLICATION_XHTML_XML_TYPE);
-        add(MediaType.APPLICATION_XML_TYPE);
-    }};
+    {
+        {
+            add(TEXT_MEDIA_TYPE);
+            add(MediaType.APPLICATION_ATOM_XML_TYPE);
+            add(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
+            add(MediaType.APPLICATION_JSON_TYPE);
+            add(MediaType.APPLICATION_SVG_XML_TYPE);
+            add(MediaType.APPLICATION_XHTML_XML_TYPE);
+            add(MediaType.APPLICATION_XML_TYPE);
+        }
+    };
 
     private static final Comparator<Map.Entry<String, List<String>>> COMPARATOR =
             new Comparator<Map.Entry<String, List<String>>>()
             {
-
                 @Override
                 public int compare(final Map.Entry<String, List<String>> o1, final Map.Entry<String, List<String>> o2)
                 {
@@ -117,11 +118,12 @@ abstract class LoggingInterceptor
                 }
             };
 
-    @SuppressWarnings("NonConstantLogger") final Logger     logger;
-    final                                        Level      level;
-    final                                        AtomicLong _id = new AtomicLong(0);
-    final                                        Verbosity  verbosity;
-    final                                        int        maxEntitySize;
+    @SuppressWarnings("NonConstantLogger")
+    protected final Logger     logger;
+    protected final Level      level;
+    protected final AtomicLong idCounter = new AtomicLong(0);
+    protected final Verbosity  verbosity;
+    protected final int        maxEntitySize;
 
     /**
      * Creates a logging filter with custom logger and entity logging turned on, but potentially limiting the size
@@ -134,7 +136,11 @@ abstract class LoggingInterceptor
      *                      logging filter will print (and buffer in memory) only the specified number of bytes
      *                      and print "...more..." string at the end. Negative values are interpreted as zero.
      */
-    LoggingInterceptor(final Logger logger, final Level level, final Verbosity verbosity, final int maxEntitySize)
+    AbstractLoggingInterceptor(
+            final Logger logger,
+            final Level level,
+            final Verbosity verbosity,
+            final int maxEntitySize)
     {
         this.logger        = logger;
         this.level         = level;
@@ -216,7 +222,7 @@ abstract class LoggingInterceptor
 
     Set<Map.Entry<String, List<String>>> getSortedHeaders(final Set<Map.Entry<String, List<String>>> headers)
     {
-        final TreeSet<Map.Entry<String, List<String>>> sortedHeaders = new TreeSet<Map.Entry<String, List<String>>>(
+        final Set<Map.Entry<String, List<String>>> sortedHeaders = new TreeSet<Map.Entry<String, List<String>>>(
                 COMPARATOR);
         sortedHeaders.addAll(headers);
         return sortedHeaders;
@@ -224,21 +230,22 @@ abstract class LoggingInterceptor
 
     InputStream logInboundEntity(final StringBuilder b, InputStream stream, final Charset charset) throws IOException
     {
-        if (!stream.markSupported())
+        InputStream inputStream = stream;
+        if (!inputStream.markSupported())
         {
-            stream = new BufferedInputStream(stream);
+            inputStream = new BufferedInputStream(inputStream);
         }
-        stream.mark(maxEntitySize + 1);
+        inputStream.mark(maxEntitySize + 1);
         final byte[] entity     = new byte[maxEntitySize + 1];
-        final int    entitySize = stream.read(entity);
+        final int    entitySize = inputStream.read(entity);
         b.append(new String(entity, 0, Math.min(entitySize, maxEntitySize), charset));
         if (entitySize > maxEntitySize)
         {
             b.append("...more...");
         }
         b.append('\n');
-        stream.reset();
-        return stream;
+        inputStream.reset();
+        return inputStream;
     }
 
     @Override
@@ -258,6 +265,7 @@ abstract class LoggingInterceptor
 
     /**
      * Returns {@code true} if specified {@link MediaType} is considered textual.
+     *
      * <p>
      * See {@link #READABLE_APP_MEDIA_TYPES}.
      *
@@ -288,7 +296,7 @@ abstract class LoggingInterceptor
      */
     static boolean printEntity(Verbosity verbosity, MediaType mediaType)
     {
-        return verbosity == Verbosity.PAYLOAD_ANY || (verbosity == Verbosity.PAYLOAD_TEXT && isReadable(mediaType));
+        return verbosity == Verbosity.PAYLOAD_ANY || verbosity == Verbosity.PAYLOAD_TEXT && isReadable(mediaType);
     }
 
     /**
@@ -297,7 +305,6 @@ abstract class LoggingInterceptor
     class LoggingStream
             extends FilterOutputStream
     {
-
         private final StringBuilder         b;
         private final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 

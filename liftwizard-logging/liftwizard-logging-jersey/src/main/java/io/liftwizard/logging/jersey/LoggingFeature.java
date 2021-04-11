@@ -37,6 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
+
 package io.liftwizard.logging.jersey;
 
 import java.util.Map;
@@ -52,10 +53,12 @@ import org.glassfish.jersey.CommonProperties;
 /**
  * This feature enables logging request and/or response on client-side and/or server-side depending
  * on the context's {@link RuntimeType}.
+ *
  * <p>
  * The feature may be register programmatically like other features by calling any of {@link javax.ws.rs.core.Configurable}
  * {@code register(...)} method, i.e. {@link javax.ws.rs.core.Configurable#register(Class)} or by setting any of the
  * configuration property listed bellow.
+ *
  * <p>
  * Common configurable properties applies for both client and server and are following:
  * <ul>
@@ -64,6 +67,7 @@ import org.glassfish.jersey.CommonProperties;
  * <li>{@link #LOGGING_FEATURE_VERBOSITY}</li>
  * <li>{@link #LOGGING_FEATURE_MAX_ENTITY_SIZE}</li>
  * </ul>
+ *
  * <p>
  * If any of the configuration value is not set, following default values are applied:
  * <ul>
@@ -72,6 +76,7 @@ import org.glassfish.jersey.CommonProperties;
  * <li>verbosity: {@link Verbosity#PAYLOAD_TEXT}</li>
  * <li>maximum entity size: {@value #DEFAULT_MAX_ENTITY_SIZE}</li>
  * </ul>
+ *
  * <p>
  * Server configurable properties:
  * <ul>
@@ -94,7 +99,6 @@ import org.glassfish.jersey.CommonProperties;
 public class LoggingFeature
         implements Feature
 {
-
     /**
      * Default logger name to log request and response messages.
      */
@@ -267,7 +271,7 @@ public class LoggingFeature
         return enabled;
     }
 
-    private LoggingInterceptor createLoggingFilter(FeatureContext context, RuntimeType runtimeType)
+    private AbstractLoggingInterceptor createLoggingFilter(FeatureContext context, RuntimeType runtimeType)
     {
         Map properties = context.getConfiguration().getProperties();
         String filterLoggerName = CommonProperties.getValue(
@@ -278,8 +282,7 @@ public class LoggingFeature
                 CommonProperties.getValue(
                         properties,
                         LOGGING_FEATURE_LOGGER_NAME,
-                        DEFAULT_LOGGER_NAME
-                ));
+                        DEFAULT_LOGGER_NAME));
         String filterLevel = CommonProperties.getValue(
                 properties,
                 runtimeType == RuntimeType.SERVER
@@ -295,8 +298,7 @@ public class LoggingFeature
                 CommonProperties.getValue(
                         properties,
                         LOGGING_FEATURE_VERBOSITY,
-                        DEFAULT_VERBOSITY
-                ));
+                        DEFAULT_VERBOSITY));
         int filterMaxEntitySize = CommonProperties.getValue(
                 properties,
                 runtimeType == RuntimeType.SERVER ? LOGGING_FEATURE_MAX_ENTITY_SIZE_SERVER
@@ -304,8 +306,7 @@ public class LoggingFeature
                 CommonProperties.getValue(
                         properties,
                         LOGGING_FEATURE_MAX_ENTITY_SIZE,
-                        DEFAULT_MAX_ENTITY_SIZE
-                ));
+                        DEFAULT_MAX_ENTITY_SIZE));
 
         Level loggerLevel = Level.parse(filterLevel);
 
@@ -329,6 +330,7 @@ public class LoggingFeature
 
     /**
      * {@code Verbosity} determines how detailed message will be logged.
+     *
      * <p>
      * <ul>
      * <li>The lowest verbosity ({@link #HEADERS_ONLY}) will log only request/response headers.</li>
@@ -338,6 +340,7 @@ public class LoggingFeature
      * </li>
      * <li>The highest verbosity will log all types of an entity (besides the request/response headers.</li>
      * </ul>
+     *
      * <p>
      * Note that the entity is logged up to the maximum number specified in any of the following constructors {@link
      * LoggingFeature#LoggingFeature(Logger, Integer)}, {@link LoggingFeature#LoggingFeature(Logger, Level, Verbosity, Integer)}

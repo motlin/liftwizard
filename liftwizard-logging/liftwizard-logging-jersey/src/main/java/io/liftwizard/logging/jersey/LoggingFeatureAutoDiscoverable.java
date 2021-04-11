@@ -37,6 +37,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
+
 package io.liftwizard.logging.jersey;
 
 import java.util.Map;
@@ -47,25 +48,14 @@ import javax.ws.rs.core.FeatureContext;
 
 import org.glassfish.jersey.internal.spi.AutoDiscoverable;
 
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL_CLIENT;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL_SERVER;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_LOGGER_NAME;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_LOGGER_NAME_CLIENT;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_LOGGER_NAME_SERVER;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_MAX_ENTITY_SIZE;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_MAX_ENTITY_SIZE_CLIENT;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_MAX_ENTITY_SIZE_SERVER;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_VERBOSITY;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_VERBOSITY_CLIENT;
-import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_VERBOSITY_SERVER;
-
 /**
  * Auto-discoverable class that registers {@link LoggingFeature} based on configuration properties.
+ *
  * <p>
  * Feature is registered if any of the common properties (see {@link LoggingFeature}) is set or any of the client properties is
  * set and context's {@link RuntimeType} is {@link RuntimeType#CLIENT} or any of the server properties is set and context's
  * {@link RuntimeType} is {@link RuntimeType#SERVER}.
+ *
  * <p>
  * The registration does not occur if the feature is already registered or auto-discoverable mechanism is disabled.
  *
@@ -76,20 +66,16 @@ import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_VERBOS
 public final class LoggingFeatureAutoDiscoverable
         implements AutoDiscoverable
 {
-
     @Override
     public void configure(FeatureContext context)
     {
         if (!context.getConfiguration().isRegistered(LoggingFeature.class))
         {
-
             Map properties = context.getConfiguration().getProperties();
 
             if (commonPropertyConfigured(properties)
-                    || (context.getConfiguration().getRuntimeType() == RuntimeType.CLIENT
-                    && clientConfigured(properties))
-                    || (context.getConfiguration().getRuntimeType() == RuntimeType.SERVER
-                    && serverConfigured(properties)))
+                    || context.getConfiguration().getRuntimeType() == RuntimeType.CLIENT && this.clientConfigured(properties)
+                    || context.getConfiguration().getRuntimeType() == RuntimeType.SERVER && this.serverConfigured(properties))
             {
                 context.register(LoggingFeature.class);
             }
@@ -98,25 +84,25 @@ public final class LoggingFeatureAutoDiscoverable
 
     private boolean commonPropertyConfigured(Map properties)
     {
-        return properties.containsKey(LOGGING_FEATURE_LOGGER_NAME)
-                || properties.containsKey(LOGGING_FEATURE_LOGGER_LEVEL)
-                || properties.containsKey(LOGGING_FEATURE_VERBOSITY)
-                || properties.containsKey(LOGGING_FEATURE_MAX_ENTITY_SIZE);
+        return properties.containsKey(LoggingFeature.LOGGING_FEATURE_LOGGER_NAME)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_VERBOSITY)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_MAX_ENTITY_SIZE);
     }
 
     private boolean clientConfigured(Map properties)
     {
-        return properties.containsKey(LOGGING_FEATURE_LOGGER_NAME_CLIENT)
-                || properties.containsKey(LOGGING_FEATURE_LOGGER_LEVEL_CLIENT)
-                || properties.containsKey(LOGGING_FEATURE_VERBOSITY_CLIENT)
-                || properties.containsKey(LOGGING_FEATURE_MAX_ENTITY_SIZE_CLIENT);
+        return properties.containsKey(LoggingFeature.LOGGING_FEATURE_LOGGER_NAME_CLIENT)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL_CLIENT)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_VERBOSITY_CLIENT)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_MAX_ENTITY_SIZE_CLIENT);
     }
 
     private boolean serverConfigured(Map properties)
     {
-        return properties.containsKey(LOGGING_FEATURE_LOGGER_NAME_SERVER)
-                || properties.containsKey(LOGGING_FEATURE_LOGGER_LEVEL_SERVER)
-                || properties.containsKey(LOGGING_FEATURE_VERBOSITY_SERVER)
-                || properties.containsKey(LOGGING_FEATURE_MAX_ENTITY_SIZE_SERVER);
+        return properties.containsKey(LoggingFeature.LOGGING_FEATURE_LOGGER_NAME_SERVER)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL_SERVER)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_VERBOSITY_SERVER)
+                || properties.containsKey(LoggingFeature.LOGGING_FEATURE_MAX_ENTITY_SIZE_SERVER);
     }
 }
