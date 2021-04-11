@@ -254,7 +254,7 @@ public class LoggingFeature
 
         if (context.getConfiguration().getRuntimeType() == RuntimeType.CLIENT)
         {
-            ClientLoggingFilter clientLoggingFilter = (ClientLoggingFilter) createLoggingFilter(
+            ClientLoggingFilter clientLoggingFilter = (ClientLoggingFilter) this.createLoggingFilter(
                     context,
                     RuntimeType.CLIENT);
             context.register(clientLoggingFilter);
@@ -262,7 +262,7 @@ public class LoggingFeature
         }
         if (context.getConfiguration().getRuntimeType() == RuntimeType.SERVER)
         {
-            ServerLoggingFilter serverClientFilter = (ServerLoggingFilter) createLoggingFilter(
+            ServerLoggingFilter serverClientFilter = (ServerLoggingFilter) this.createLoggingFilter(
                     context,
                     RuntimeType.SERVER);
             context.register(serverClientFilter);
@@ -313,18 +313,18 @@ public class LoggingFeature
         if (runtimeType == RuntimeType.SERVER)
         {
             return new ServerLoggingFilter(
-                    filterLogger != null ? filterLogger : Logger.getLogger(filterLoggerName),
-                    level != null ? level : loggerLevel,
-                    verbosity != null ? verbosity : filterVerbosity,
-                    maxEntitySize != null ? maxEntitySize : filterMaxEntitySize);
+                    this.filterLogger != null ? this.filterLogger : Logger.getLogger(filterLoggerName),
+                    this.level != null ? this.level : loggerLevel,
+                    this.verbosity != null ? this.verbosity : filterVerbosity,
+                    this.maxEntitySize != null ? this.maxEntitySize : filterMaxEntitySize);
         }
         else
         {
             return new ClientLoggingFilter(
-                    filterLogger != null ? filterLogger : Logger.getLogger(filterLoggerName),
-                    level != null ? level : loggerLevel,
-                    verbosity != null ? verbosity : filterVerbosity,
-                    maxEntitySize != null ? maxEntitySize : filterMaxEntitySize);
+                    this.filterLogger != null ? this.filterLogger : Logger.getLogger(filterLoggerName),
+                    this.level != null ? this.level : loggerLevel,
+                    this.verbosity != null ? this.verbosity : filterVerbosity,
+                    this.maxEntitySize != null ? this.maxEntitySize : filterMaxEntitySize);
         }
     }
 

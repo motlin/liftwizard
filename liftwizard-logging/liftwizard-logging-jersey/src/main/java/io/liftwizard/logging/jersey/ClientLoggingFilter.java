@@ -90,64 +90,64 @@ public final class ClientLoggingFilter
      *                      and print "...more..." string at the end. Negative values are interpreted as zero.
      */
     public ClientLoggingFilter(
-            final Logger logger,
-            final Level level,
-            final Verbosity verbosity,
-            final int maxEntitySize)
+            Logger logger,
+            Level level,
+            Verbosity verbosity,
+            int maxEntitySize)
     {
         super(logger, level, verbosity, maxEntitySize);
     }
 
     @Override
-    public void filter(final ClientRequestContext context) throws IOException
+    public void filter(ClientRequestContext context) throws IOException
     {
-        if (!logger.isLoggable(level))
+        if (!this.logger.isLoggable(this.level))
         {
             return;
         }
-        final long id = this.idCounter.incrementAndGet();
+        long id = this.idCounter.incrementAndGet();
         context.setProperty(LOGGING_ID_PROPERTY, id);
 
-        final StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder();
 
-        printRequestLine(b, "Sending client request", id, context.getMethod(), context.getUri());
-        printPrefixedHeaders(b, id, REQUEST_PREFIX, context.getStringHeaders());
+        this.printRequestLine(b, "Sending client request", id, context.getMethod(), context.getUri());
+        this.printPrefixedHeaders(b, id, REQUEST_PREFIX, context.getStringHeaders());
 
-        if (context.hasEntity() && printEntity(verbosity, context.getMediaType()))
+        if (context.hasEntity() && AbstractLoggingInterceptor.printEntity(this.verbosity, context.getMediaType()))
         {
-            final OutputStream stream = new LoggingStream(b, context.getEntityStream());
+            OutputStream stream = new LoggingStream(b, context.getEntityStream());
             context.setEntityStream(stream);
             context.setProperty(ENTITY_LOGGER_PROPERTY, stream);
             // not calling log(b) here - it will be called by the interceptor
         }
         else
         {
-            log(b);
+            this.log(b);
         }
     }
 
     @Override
-    public void filter(final ClientRequestContext requestContext, final ClientResponseContext responseContext)
+    public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext)
             throws IOException
     {
-        if (!logger.isLoggable(level))
+        if (!this.logger.isLoggable(this.level))
         {
             return;
         }
-        final Object requestId = requestContext.getProperty(LOGGING_ID_PROPERTY);
-        final long   id        = requestId != null ? (Long) requestId : this.idCounter.incrementAndGet();
+        Object requestId = requestContext.getProperty(LOGGING_ID_PROPERTY);
+        long   id        = requestId != null ? (Long) requestId : this.idCounter.incrementAndGet();
 
-        final StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder();
 
-        printResponseLine(b, "Client response received", id, responseContext.getStatus());
-        printPrefixedHeaders(b, id, RESPONSE_PREFIX, responseContext.getHeaders());
+        this.printResponseLine(b, "Client response received", id, responseContext.getStatus());
+        this.printPrefixedHeaders(b, id, RESPONSE_PREFIX, responseContext.getHeaders());
 
-        if (responseContext.hasEntity() && printEntity(verbosity, responseContext.getMediaType()))
+        if (responseContext.hasEntity() && AbstractLoggingInterceptor.printEntity(this.verbosity, responseContext.getMediaType()))
         {
-            responseContext.setEntityStream(logInboundEntity(b, responseContext.getEntityStream(),
+            responseContext.setEntityStream(this.logInboundEntity(b, responseContext.getEntityStream(),
                     MessageUtils.getCharset(responseContext.getMediaType())));
         }
 
-        log(b);
+        this.log(b);
     }
 }

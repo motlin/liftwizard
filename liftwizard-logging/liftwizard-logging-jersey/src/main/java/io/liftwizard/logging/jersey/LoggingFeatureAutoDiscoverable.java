@@ -73,7 +73,7 @@ public final class LoggingFeatureAutoDiscoverable
         {
             Map properties = context.getConfiguration().getProperties();
 
-            if (commonPropertyConfigured(properties)
+            if (this.commonPropertyConfigured(properties)
                     || context.getConfiguration().getRuntimeType() == RuntimeType.CLIENT && this.clientConfigured(properties)
                     || context.getConfiguration().getRuntimeType() == RuntimeType.SERVER && this.serverConfigured(properties))
             {

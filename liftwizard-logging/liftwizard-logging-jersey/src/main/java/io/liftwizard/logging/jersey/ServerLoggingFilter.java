@@ -90,69 +90,69 @@ public final class ServerLoggingFilter
      *                      and print "...more..." string at the end. Negative values are interpreted as zero.
      */
     public ServerLoggingFilter(
-            final Logger logger,
-            final Level level,
-            final Verbosity verbosity,
-            final int maxEntitySize)
+            Logger logger,
+            Level level,
+            Verbosity verbosity,
+            int maxEntitySize)
     {
         super(logger, level, verbosity, maxEntitySize);
     }
 
     @Override
-    public void filter(final ContainerRequestContext context) throws IOException
+    public void filter(ContainerRequestContext context) throws IOException
     {
-        if (!logger.isLoggable(level))
+        if (!this.logger.isLoggable(this.level))
         {
             return;
         }
-        final long id = this.idCounter.incrementAndGet();
+        long id = this.idCounter.incrementAndGet();
         context.setProperty(LOGGING_ID_PROPERTY, id);
 
-        final StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder();
 
-        printRequestLine(
+        this.printRequestLine(
                 b,
                 "Server has received a request",
                 id,
                 context.getMethod(),
                 context.getUriInfo().getRequestUri());
-        printPrefixedHeaders(b, id, REQUEST_PREFIX, context.getHeaders());
+        this.printPrefixedHeaders(b, id, REQUEST_PREFIX, context.getHeaders());
 
-        if (context.hasEntity() && printEntity(verbosity, context.getMediaType()))
+        if (context.hasEntity() && AbstractLoggingInterceptor.printEntity(this.verbosity, context.getMediaType()))
         {
             context.setEntityStream(
-                    logInboundEntity(b, context.getEntityStream(), MessageUtils.getCharset(context.getMediaType())));
+                    this.logInboundEntity(b, context.getEntityStream(), MessageUtils.getCharset(context.getMediaType())));
         }
 
-        log(b);
+        this.log(b);
     }
 
     @Override
-    public void filter(final ContainerRequestContext requestContext, final ContainerResponseContext responseContext)
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
             throws IOException
     {
-        if (!logger.isLoggable(level))
+        if (!this.logger.isLoggable(this.level))
         {
             return;
         }
-        final Object requestId = requestContext.getProperty(LOGGING_ID_PROPERTY);
-        final long   id        = requestId != null ? (Long) requestId : this.idCounter.incrementAndGet();
+        Object requestId = requestContext.getProperty(LOGGING_ID_PROPERTY);
+        long   id        = requestId != null ? (Long) requestId : this.idCounter.incrementAndGet();
 
-        final StringBuilder b = new StringBuilder();
+        StringBuilder b = new StringBuilder();
 
-        printResponseLine(b, "Server responded with a response", id, responseContext.getStatus());
-        printPrefixedHeaders(b, id, RESPONSE_PREFIX, responseContext.getStringHeaders());
+        this.printResponseLine(b, "Server responded with a response", id, responseContext.getStatus());
+        this.printPrefixedHeaders(b, id, RESPONSE_PREFIX, responseContext.getStringHeaders());
 
-        if (responseContext.hasEntity() && printEntity(verbosity, responseContext.getMediaType()))
+        if (responseContext.hasEntity() && AbstractLoggingInterceptor.printEntity(this.verbosity, responseContext.getMediaType()))
         {
-            final OutputStream stream = new LoggingStream(b, responseContext.getEntityStream());
+            OutputStream stream = new LoggingStream(b, responseContext.getEntityStream());
             responseContext.setEntityStream(stream);
             requestContext.setProperty(ENTITY_LOGGER_PROPERTY, stream);
             // not calling log(b) here - it will be called by the interceptor
         }
         else
         {
-            log(b);
+            this.log(b);
         }
     }
 }

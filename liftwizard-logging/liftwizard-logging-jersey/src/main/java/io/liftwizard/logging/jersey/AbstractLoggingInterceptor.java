@@ -98,13 +98,13 @@ abstract class AbstractLoggingInterceptor
     private static final Set<MediaType> READABLE_APP_MEDIA_TYPES = new HashSet<MediaType>()
     {
         {
-            add(TEXT_MEDIA_TYPE);
-            add(MediaType.APPLICATION_ATOM_XML_TYPE);
-            add(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
-            add(MediaType.APPLICATION_JSON_TYPE);
-            add(MediaType.APPLICATION_SVG_XML_TYPE);
-            add(MediaType.APPLICATION_XHTML_XML_TYPE);
-            add(MediaType.APPLICATION_XML_TYPE);
+            this.add(TEXT_MEDIA_TYPE);
+            this.add(MediaType.APPLICATION_ATOM_XML_TYPE);
+            this.add(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
+            this.add(MediaType.APPLICATION_JSON_TYPE);
+            this.add(MediaType.APPLICATION_SVG_XML_TYPE);
+            this.add(MediaType.APPLICATION_XHTML_XML_TYPE);
+            this.add(MediaType.APPLICATION_XML_TYPE);
         }
     };
 
@@ -112,7 +112,7 @@ abstract class AbstractLoggingInterceptor
             new Comparator<Map.Entry<String, List<String>>>()
             {
                 @Override
-                public int compare(final Map.Entry<String, List<String>> o1, final Map.Entry<String, List<String>> o2)
+                public int compare(Map.Entry<String, List<String>> o1, Map.Entry<String, List<String>> o2)
                 {
                     return o1.getKey().compareToIgnoreCase(o2.getKey());
                 }
@@ -137,10 +137,10 @@ abstract class AbstractLoggingInterceptor
      *                      and print "...more..." string at the end. Negative values are interpreted as zero.
      */
     AbstractLoggingInterceptor(
-            final Logger logger,
-            final Level level,
-            final Verbosity verbosity,
-            final int maxEntitySize)
+            Logger logger,
+            Level level,
+            Verbosity verbosity,
+            int maxEntitySize)
     {
         this.logger        = logger;
         this.level         = level;
@@ -153,60 +153,60 @@ abstract class AbstractLoggingInterceptor
      *
      * @param b message to log
      */
-    void log(final StringBuilder b)
+    void log(StringBuilder b)
     {
-        if (logger != null && logger.isLoggable(level))
+        if (this.logger != null && this.logger.isLoggable(this.level))
         {
-            logger.log(level, b.toString());
+            this.logger.log(this.level, b.toString());
         }
     }
 
-    private StringBuilder prefixId(final StringBuilder b, final long id)
+    private StringBuilder prefixId(StringBuilder b, long id)
     {
-        b.append(Long.toString(id)).append(" ");
+        b.append(id).append(" ");
         return b;
     }
 
-    void printRequestLine(final StringBuilder b, final String note, final long id, final String method, final URI uri)
+    void printRequestLine(StringBuilder b, String note, long id, String method, URI uri)
     {
-        prefixId(b, id).append(NOTIFICATION_PREFIX)
+        this.prefixId(b, id).append(NOTIFICATION_PREFIX)
                 .append(note)
                 .append(" on thread ").append(Thread.currentThread().getName())
                 .append("\n");
-        prefixId(b, id).append(REQUEST_PREFIX).append(method).append(" ")
+        this.prefixId(b, id).append(REQUEST_PREFIX).append(method).append(" ")
                 .append(uri.toASCIIString()).append("\n");
     }
 
-    void printResponseLine(final StringBuilder b, final String note, final long id, final int status)
+    void printResponseLine(StringBuilder b, String note, long id, int status)
     {
-        prefixId(b, id).append(NOTIFICATION_PREFIX)
+        this.prefixId(b, id).append(NOTIFICATION_PREFIX)
                 .append(note)
                 .append(" on thread ").append(Thread.currentThread().getName()).append("\n");
-        prefixId(b, id).append(RESPONSE_PREFIX)
-                .append(Integer.toString(status))
+        this.prefixId(b, id).append(RESPONSE_PREFIX)
+                .append(status)
                 .append("\n");
     }
 
     void printPrefixedHeaders(
-            final StringBuilder b,
-            final long id,
-            final String prefix,
-            final MultivaluedMap<String, String> headers)
+            StringBuilder b,
+            long id,
+            String prefix,
+            MultivaluedMap<String, String> headers)
     {
-        for (final Map.Entry<String, List<String>> headerEntry : getSortedHeaders(headers.entrySet()))
+        for (Map.Entry<String, List<String>> headerEntry : this.getSortedHeaders(headers.entrySet()))
         {
-            final List<?> val    = headerEntry.getValue();
-            final String  header = headerEntry.getKey();
+            List<?> val    = headerEntry.getValue();
+            String  header = headerEntry.getKey();
 
             if (val.size() == 1)
             {
-                prefixId(b, id).append(prefix).append(header).append(": ").append(val.get(0)).append("\n");
+                this.prefixId(b, id).append(prefix).append(header).append(": ").append(val.get(0)).append("\n");
             }
             else
             {
-                final StringBuilder sb  = new StringBuilder();
+                StringBuilder sb  = new StringBuilder();
                 boolean             add = false;
-                for (final Object s : val)
+                for (Object s : val)
                 {
                     if (add)
                     {
@@ -215,31 +215,31 @@ abstract class AbstractLoggingInterceptor
                     add = true;
                     sb.append(s);
                 }
-                prefixId(b, id).append(prefix).append(header).append(": ").append(sb.toString()).append("\n");
+                this.prefixId(b, id).append(prefix).append(header).append(": ").append(sb).append("\n");
             }
         }
     }
 
-    Set<Map.Entry<String, List<String>>> getSortedHeaders(final Set<Map.Entry<String, List<String>>> headers)
+    Set<Map.Entry<String, List<String>>> getSortedHeaders(Set<Map.Entry<String, List<String>>> headers)
     {
-        final Set<Map.Entry<String, List<String>>> sortedHeaders = new TreeSet<Map.Entry<String, List<String>>>(
+        Set<Map.Entry<String, List<String>>> sortedHeaders = new TreeSet<Map.Entry<String, List<String>>>(
                 COMPARATOR);
         sortedHeaders.addAll(headers);
         return sortedHeaders;
     }
 
-    InputStream logInboundEntity(final StringBuilder b, InputStream stream, final Charset charset) throws IOException
+    InputStream logInboundEntity(StringBuilder b, InputStream stream, Charset charset) throws IOException
     {
         InputStream inputStream = stream;
         if (!inputStream.markSupported())
         {
             inputStream = new BufferedInputStream(inputStream);
         }
-        inputStream.mark(maxEntitySize + 1);
-        final byte[] entity     = new byte[maxEntitySize + 1];
-        final int    entitySize = inputStream.read(entity);
-        b.append(new String(entity, 0, Math.min(entitySize, maxEntitySize), charset));
-        if (entitySize > maxEntitySize)
+        inputStream.mark(this.maxEntitySize + 1);
+        byte[] entity     = new byte[this.maxEntitySize + 1];
+        int    entitySize = inputStream.read(entity);
+        b.append(new String(entity, 0, Math.min(entitySize, this.maxEntitySize), charset));
+        if (entitySize > this.maxEntitySize)
         {
             b.append("...more...");
         }
@@ -249,16 +249,16 @@ abstract class AbstractLoggingInterceptor
     }
 
     @Override
-    public void aroundWriteTo(final WriterInterceptorContext writerInterceptorContext)
+    public void aroundWriteTo(WriterInterceptorContext writerInterceptorContext)
             throws IOException, WebApplicationException
     {
-        final LoggingStream stream = (LoggingStream) writerInterceptorContext.getProperty(ENTITY_LOGGER_PROPERTY);
+        LoggingStream stream = (LoggingStream) writerInterceptorContext.getProperty(ENTITY_LOGGER_PROPERTY);
         writerInterceptorContext.proceed();
-        if (logger.isLoggable(level) && printEntity(verbosity, writerInterceptorContext.getMediaType()))
+        if (this.logger.isLoggable(this.level) && AbstractLoggingInterceptor.printEntity(this.verbosity, writerInterceptorContext.getMediaType()))
         {
             if (stream != null)
             {
-                log(stream.getStringBuilder(MessageUtils.getCharset(writerInterceptorContext.getMediaType())));
+                this.log(stream.getStringBuilder(MessageUtils.getCharset(writerInterceptorContext.getMediaType())));
             }
         }
     }
@@ -296,7 +296,7 @@ abstract class AbstractLoggingInterceptor
      */
     static boolean printEntity(Verbosity verbosity, MediaType mediaType)
     {
-        return verbosity == Verbosity.PAYLOAD_ANY || verbosity == Verbosity.PAYLOAD_TEXT && isReadable(mediaType);
+        return verbosity == Verbosity.PAYLOAD_ANY || verbosity == Verbosity.PAYLOAD_TEXT && AbstractLoggingInterceptor.isReadable(mediaType);
     }
 
     /**
@@ -314,36 +314,36 @@ abstract class AbstractLoggingInterceptor
          * @param b     contains the entity to log.
          * @param inner the underlying output stream.
          */
-        LoggingStream(final StringBuilder b, final OutputStream inner)
+        LoggingStream(StringBuilder b, OutputStream inner)
         {
             super(inner);
 
             this.b = b;
         }
 
-        StringBuilder getStringBuilder(final Charset charset)
+        StringBuilder getStringBuilder(Charset charset)
         {
             // write entity to the builder
-            final byte[] entity = baos.toByteArray();
+            byte[] entity = this.baos.toByteArray();
 
-            b.append(new String(entity, 0, Math.min(entity.length, maxEntitySize), charset));
-            if (entity.length > maxEntitySize)
+            this.b.append(new String(entity, 0, Math.min(entity.length, AbstractLoggingInterceptor.this.maxEntitySize), charset));
+            if (entity.length > AbstractLoggingInterceptor.this.maxEntitySize)
             {
-                b.append("...more...");
+                this.b.append("...more...");
             }
-            b.append('\n');
+            this.b.append('\n');
 
-            return b;
+            return this.b;
         }
 
         @Override
-        public void write(final int i) throws IOException
+        public void write(int i) throws IOException
         {
-            if (baos.size() <= maxEntitySize)
+            if (this.baos.size() <= AbstractLoggingInterceptor.this.maxEntitySize)
             {
-                baos.write(i);
+                this.baos.write(i);
             }
-            out.write(i);
+            this.out.write(i);
         }
     }
 }
