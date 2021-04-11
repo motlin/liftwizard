@@ -58,6 +58,7 @@
         <module>liftwizard-config-metrics-reporter-logback</module>
         <module>liftwizard-config-metrics-reporter-slf4j</module>
         <module>liftwizard-logging-buffered-appender</module>
+        <module>liftwizard-logging-jersey</module>
         <module>liftwizard-logging-mdc-closeable</module>
         <module>liftwizard-logging-p6spy</module>
         <module>liftwizard-metrics-reporter-log4j</module>
