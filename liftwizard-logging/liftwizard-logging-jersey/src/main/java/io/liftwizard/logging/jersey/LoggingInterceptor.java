@@ -72,28 +72,31 @@ import org.glassfish.jersey.message.MessageUtils;
  *
  * @author Ondrej Kosatka (ondrej.kosatka at oracle.com)
  */
-abstract class LoggingInterceptor implements WriterInterceptor {
+abstract class LoggingInterceptor
+        implements WriterInterceptor
+{
 
     /**
      * Prefix will be printed before requests
      */
-    static final String REQUEST_PREFIX = "> ";
+    static final         String    REQUEST_PREFIX         = "> ";
     /**
      * Prefix will be printed before response
      */
-    static final String RESPONSE_PREFIX = "< ";
+    static final         String    RESPONSE_PREFIX        = "< ";
     /**
      * The entity stream property
      */
-    static final String ENTITY_LOGGER_PROPERTY = LoggingFeature.class.getName() + ".entityLogger";
+    static final         String    ENTITY_LOGGER_PROPERTY = LoggingFeature.class.getName() + ".entityLogger";
     /**
      * Logging record id property
      */
-    static final String LOGGING_ID_PROPERTY = LoggingFeature.class.getName() + ".id";
-    private static final String NOTIFICATION_PREFIX = "* ";
-    private static final MediaType TEXT_MEDIA_TYPE = new MediaType("text", "*");
+    static final         String    LOGGING_ID_PROPERTY    = LoggingFeature.class.getName() + ".id";
+    private static final String    NOTIFICATION_PREFIX    = "* ";
+    private static final MediaType TEXT_MEDIA_TYPE        = new MediaType("text", "*");
 
-    private static final Set<MediaType> READABLE_APP_MEDIA_TYPES = new HashSet<MediaType>() {{
+    private static final Set<MediaType> READABLE_APP_MEDIA_TYPES = new HashSet<MediaType>()
+    {{
         add(TEXT_MEDIA_TYPE);
         add(MediaType.APPLICATION_ATOM_XML_TYPE);
         add(MediaType.APPLICATION_FORM_URLENCODED_TYPE);
@@ -104,20 +107,21 @@ abstract class LoggingInterceptor implements WriterInterceptor {
     }};
 
     private static final Comparator<Map.Entry<String, List<String>>> COMPARATOR =
-            new Comparator<Map.Entry<String, List<String>>>() {
+            new Comparator<Map.Entry<String, List<String>>>()
+            {
 
                 @Override
-                public int compare(final Map.Entry<String, List<String>> o1, final Map.Entry<String, List<String>> o2) {
+                public int compare(final Map.Entry<String, List<String>> o1, final Map.Entry<String, List<String>> o2)
+                {
                     return o1.getKey().compareToIgnoreCase(o2.getKey());
                 }
             };
 
-    @SuppressWarnings("NonConstantLogger")
-    final Logger logger;
-    final Level level;
-    final AtomicLong _id = new AtomicLong(0);
-    final Verbosity  verbosity;
-    final int        maxEntitySize;
+    @SuppressWarnings("NonConstantLogger") final Logger     logger;
+    final                                        Level      level;
+    final                                        AtomicLong _id = new AtomicLong(0);
+    final                                        Verbosity  verbosity;
+    final                                        int        maxEntitySize;
 
     /**
      * Creates a logging filter with custom logger and entity logging turned on, but potentially limiting the size
@@ -130,10 +134,11 @@ abstract class LoggingInterceptor implements WriterInterceptor {
      *                      logging filter will print (and buffer in memory) only the specified number of bytes
      *                      and print "...more..." string at the end. Negative values are interpreted as zero.
      */
-    LoggingInterceptor(final Logger logger, final Level level, final Verbosity verbosity, final int maxEntitySize) {
-        this.logger = logger;
-        this.level = level;
-        this.verbosity = verbosity;
+    LoggingInterceptor(final Logger logger, final Level level, final Verbosity verbosity, final int maxEntitySize)
+    {
+        this.logger        = logger;
+        this.level         = level;
+        this.verbosity     = verbosity;
         this.maxEntitySize = Math.max(0, maxEntitySize);
     }
 
@@ -142,18 +147,22 @@ abstract class LoggingInterceptor implements WriterInterceptor {
      *
      * @param b message to log
      */
-    void log(final StringBuilder b) {
-        if (logger != null && logger.isLoggable(level)) {
+    void log(final StringBuilder b)
+    {
+        if (logger != null && logger.isLoggable(level))
+        {
             logger.log(level, b.toString());
         }
     }
 
-    private StringBuilder prefixId(final StringBuilder b, final long id) {
+    private StringBuilder prefixId(final StringBuilder b, final long id)
+    {
         b.append(Long.toString(id)).append(" ");
         return b;
     }
 
-    void printRequestLine(final StringBuilder b, final String note, final long id, final String method, final URI uri) {
+    void printRequestLine(final StringBuilder b, final String note, final long id, final String method, final URI uri)
+    {
         prefixId(b, id).append(NOTIFICATION_PREFIX)
                 .append(note)
                 .append(" on thread ").append(Thread.currentThread().getName())
@@ -162,7 +171,8 @@ abstract class LoggingInterceptor implements WriterInterceptor {
                 .append(uri.toASCIIString()).append("\n");
     }
 
-    void printResponseLine(final StringBuilder b, final String note, final long id, final int status) {
+    void printResponseLine(final StringBuilder b, final String note, final long id, final int status)
+    {
         prefixId(b, id).append(NOTIFICATION_PREFIX)
                 .append(note)
                 .append(" on thread ").append(Thread.currentThread().getName()).append("\n");
@@ -171,21 +181,29 @@ abstract class LoggingInterceptor implements WriterInterceptor {
                 .append("\n");
     }
 
-    void printPrefixedHeaders(final StringBuilder b,
+    void printPrefixedHeaders(
+            final StringBuilder b,
             final long id,
             final String prefix,
-            final MultivaluedMap<String, String> headers) {
-        for (final Map.Entry<String, List<String>> headerEntry : getSortedHeaders(headers.entrySet())) {
-            final List<?> val = headerEntry.getValue();
-            final String header = headerEntry.getKey();
+            final MultivaluedMap<String, String> headers)
+    {
+        for (final Map.Entry<String, List<String>> headerEntry : getSortedHeaders(headers.entrySet()))
+        {
+            final List<?> val    = headerEntry.getValue();
+            final String  header = headerEntry.getKey();
 
-            if (val.size() == 1) {
+            if (val.size() == 1)
+            {
                 prefixId(b, id).append(prefix).append(header).append(": ").append(val.get(0)).append("\n");
-            } else {
-                final StringBuilder sb = new StringBuilder();
-                boolean add = false;
-                for (final Object s : val) {
-                    if (add) {
+            }
+            else
+            {
+                final StringBuilder sb  = new StringBuilder();
+                boolean             add = false;
+                for (final Object s : val)
+                {
+                    if (add)
+                    {
                         sb.append(',');
                     }
                     add = true;
@@ -196,21 +214,26 @@ abstract class LoggingInterceptor implements WriterInterceptor {
         }
     }
 
-    Set<Map.Entry<String, List<String>>> getSortedHeaders(final Set<Map.Entry<String, List<String>>> headers) {
-        final TreeSet<Map.Entry<String, List<String>>> sortedHeaders = new TreeSet<Map.Entry<String, List<String>>>(COMPARATOR);
+    Set<Map.Entry<String, List<String>>> getSortedHeaders(final Set<Map.Entry<String, List<String>>> headers)
+    {
+        final TreeSet<Map.Entry<String, List<String>>> sortedHeaders = new TreeSet<Map.Entry<String, List<String>>>(
+                COMPARATOR);
         sortedHeaders.addAll(headers);
         return sortedHeaders;
     }
 
-    InputStream logInboundEntity(final StringBuilder b, InputStream stream, final Charset charset) throws IOException {
-        if (!stream.markSupported()) {
+    InputStream logInboundEntity(final StringBuilder b, InputStream stream, final Charset charset) throws IOException
+    {
+        if (!stream.markSupported())
+        {
             stream = new BufferedInputStream(stream);
         }
         stream.mark(maxEntitySize + 1);
-        final byte[] entity = new byte[maxEntitySize + 1];
-        final int entitySize = stream.read(entity);
+        final byte[] entity     = new byte[maxEntitySize + 1];
+        final int    entitySize = stream.read(entity);
         b.append(new String(entity, 0, Math.min(entitySize, maxEntitySize), charset));
-        if (entitySize > maxEntitySize) {
+        if (entitySize > maxEntitySize)
+        {
             b.append("...more...");
         }
         b.append('\n');
@@ -220,11 +243,14 @@ abstract class LoggingInterceptor implements WriterInterceptor {
 
     @Override
     public void aroundWriteTo(final WriterInterceptorContext writerInterceptorContext)
-            throws IOException, WebApplicationException {
+            throws IOException, WebApplicationException
+    {
         final LoggingStream stream = (LoggingStream) writerInterceptorContext.getProperty(ENTITY_LOGGER_PROPERTY);
         writerInterceptorContext.proceed();
-        if (logger.isLoggable(level) && printEntity(verbosity, writerInterceptorContext.getMediaType())) {
-            if (stream != null) {
+        if (logger.isLoggable(level) && printEntity(verbosity, writerInterceptorContext.getMediaType()))
+        {
+            if (stream != null)
+            {
                 log(stream.getStringBuilder(MessageUtils.getCharset(writerInterceptorContext.getMediaType())));
             }
         }
@@ -238,10 +264,14 @@ abstract class LoggingInterceptor implements WriterInterceptor {
      * @param mediaType the media type of the entity
      * @return {@code true} if specified {@link MediaType} is considered textual.
      */
-    static boolean isReadable(MediaType mediaType) {
-        if (mediaType != null) {
-            for (MediaType readableMediaType : READABLE_APP_MEDIA_TYPES) {
-                if (readableMediaType.isCompatible(mediaType)) {
+    static boolean isReadable(MediaType mediaType)
+    {
+        if (mediaType != null)
+        {
+            for (MediaType readableMediaType : READABLE_APP_MEDIA_TYPES)
+            {
+                if (readableMediaType.isCompatible(mediaType))
+                {
                     return true;
                 }
             }
@@ -256,16 +286,19 @@ abstract class LoggingInterceptor implements WriterInterceptor {
      * @param mediaType the media type of the payload.
      * @return {@code true} if entity has to be printed.
      */
-    static boolean printEntity(Verbosity verbosity, MediaType mediaType) {
+    static boolean printEntity(Verbosity verbosity, MediaType mediaType)
+    {
         return verbosity == Verbosity.PAYLOAD_ANY || (verbosity == Verbosity.PAYLOAD_TEXT && isReadable(mediaType));
     }
 
     /**
      * Helper class used to log an entity to the output stream up to the specified maximum number of bytes.
      */
-    class LoggingStream extends FilterOutputStream {
+    class LoggingStream
+            extends FilterOutputStream
+    {
 
-        private final StringBuilder b;
+        private final StringBuilder         b;
         private final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         /**
@@ -274,18 +307,21 @@ abstract class LoggingInterceptor implements WriterInterceptor {
          * @param b     contains the entity to log.
          * @param inner the underlying output stream.
          */
-        LoggingStream(final StringBuilder b, final OutputStream inner) {
+        LoggingStream(final StringBuilder b, final OutputStream inner)
+        {
             super(inner);
 
             this.b = b;
         }
 
-        StringBuilder getStringBuilder(final Charset charset) {
+        StringBuilder getStringBuilder(final Charset charset)
+        {
             // write entity to the builder
             final byte[] entity = baos.toByteArray();
 
             b.append(new String(entity, 0, Math.min(entity.length, maxEntitySize), charset));
-            if (entity.length > maxEntitySize) {
+            if (entity.length > maxEntitySize)
+            {
                 b.append("...more...");
             }
             b.append('\n');
@@ -294,12 +330,13 @@ abstract class LoggingInterceptor implements WriterInterceptor {
         }
 
         @Override
-        public void write(final int i) throws IOException {
-            if (baos.size() <= maxEntitySize) {
+        public void write(final int i) throws IOException
+        {
+            if (baos.size() <= maxEntitySize)
+            {
                 baos.write(i);
             }
             out.write(i);
         }
     }
-
 }

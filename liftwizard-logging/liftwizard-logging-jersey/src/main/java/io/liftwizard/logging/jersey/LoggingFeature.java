@@ -91,92 +91,103 @@ import org.glassfish.jersey.CommonProperties;
  * @author Ondrej Kosatka (ondrej.kosatka at oracle.com)
  * @since 2.23
  */
-public class LoggingFeature implements Feature {
+public class LoggingFeature
+        implements Feature
+{
 
     /**
      * Default logger name to log request and response messages.
      */
-    public static final String DEFAULT_LOGGER_NAME = LoggingFeature.class.getName();
+    public static final String    DEFAULT_LOGGER_NAME     = LoggingFeature.class.getName();
     /**
      * Default logger level which will be used for logging request and response messages.
      */
-    public static final String DEFAULT_LOGGER_LEVEL = Level.FINE.getName();
+    public static final String    DEFAULT_LOGGER_LEVEL    = Level.FINE.getName();
     /**
      * Default maximum entity bytes to be logged.
      */
-    public static final int DEFAULT_MAX_ENTITY_SIZE = 8 * 1024;
+    public static final int       DEFAULT_MAX_ENTITY_SIZE = 8 * 1024;
     /**
      * Default verbosity for entity logging. See {@link Verbosity}.
      */
-    public static final Verbosity DEFAULT_VERBOSITY = Verbosity.PAYLOAD_TEXT;
+    public static final Verbosity DEFAULT_VERBOSITY       = Verbosity.PAYLOAD_TEXT;
 
-    private static final String LOGGER_NAME_POSTFIX = ".logger.name";
-    private static final String LOGGER_LEVEL_POSTFIX = ".logger.level";
-    private static final String VERBOSITY_POSTFIX = ".verbosity";
-    private static final String MAX_ENTITY_POSTFIX = ".entity.maxSize";
-    private static final String LOGGING_FEATURE_COMMON_PREFIX = "jersey.config.logging";
+    private static final String LOGGER_NAME_POSTFIX             = ".logger.name";
+    private static final String LOGGER_LEVEL_POSTFIX            = ".logger.level";
+    private static final String VERBOSITY_POSTFIX               = ".verbosity";
+    private static final String MAX_ENTITY_POSTFIX              = ".entity.maxSize";
+    private static final String LOGGING_FEATURE_COMMON_PREFIX   = "jersey.config.logging";
     /**
      * Common logger name property.
      */
-    public static final String LOGGING_FEATURE_LOGGER_NAME = LOGGING_FEATURE_COMMON_PREFIX + LOGGER_NAME_POSTFIX;
+    public static final  String LOGGING_FEATURE_LOGGER_NAME     = LOGGING_FEATURE_COMMON_PREFIX + LOGGER_NAME_POSTFIX;
     /**
      * Common logger level property.
      */
-    public static final String LOGGING_FEATURE_LOGGER_LEVEL = LOGGING_FEATURE_COMMON_PREFIX + LOGGER_LEVEL_POSTFIX;
+    public static final  String LOGGING_FEATURE_LOGGER_LEVEL    = LOGGING_FEATURE_COMMON_PREFIX + LOGGER_LEVEL_POSTFIX;
     /**
      * Common property for configuring a verbosity of entity.
      */
-    public static final String LOGGING_FEATURE_VERBOSITY = LOGGING_FEATURE_COMMON_PREFIX + VERBOSITY_POSTFIX;
+    public static final  String LOGGING_FEATURE_VERBOSITY       = LOGGING_FEATURE_COMMON_PREFIX + VERBOSITY_POSTFIX;
     /**
      * Common property for configuring a maximum number of bytes of entity to be logged.
      */
-    public static final String LOGGING_FEATURE_MAX_ENTITY_SIZE = LOGGING_FEATURE_COMMON_PREFIX + MAX_ENTITY_POSTFIX;
+    public static final  String LOGGING_FEATURE_MAX_ENTITY_SIZE = LOGGING_FEATURE_COMMON_PREFIX + MAX_ENTITY_POSTFIX;
 
-    private static final String LOGGING_FEATURE_SERVER_PREFIX = "jersey.config.server.logging";
+    private static final String LOGGING_FEATURE_SERVER_PREFIX          = "jersey.config.server.logging";
     /**
      * Server logger name property.
      */
-    public static final String LOGGING_FEATURE_LOGGER_NAME_SERVER = LOGGING_FEATURE_SERVER_PREFIX + LOGGER_NAME_POSTFIX;
+    public static final  String LOGGING_FEATURE_LOGGER_NAME_SERVER     = LOGGING_FEATURE_SERVER_PREFIX
+            + LOGGER_NAME_POSTFIX;
     /**
      * Server logger level property.
      */
-    public static final String LOGGING_FEATURE_LOGGER_LEVEL_SERVER = LOGGING_FEATURE_SERVER_PREFIX + LOGGER_LEVEL_POSTFIX;
+    public static final  String LOGGING_FEATURE_LOGGER_LEVEL_SERVER    = LOGGING_FEATURE_SERVER_PREFIX
+            + LOGGER_LEVEL_POSTFIX;
     /**
      * Server property for configuring a verbosity of entity.
      */
-    public static final String LOGGING_FEATURE_VERBOSITY_SERVER = LOGGING_FEATURE_SERVER_PREFIX + VERBOSITY_POSTFIX;
+    public static final  String LOGGING_FEATURE_VERBOSITY_SERVER       = LOGGING_FEATURE_SERVER_PREFIX
+            + VERBOSITY_POSTFIX;
     /**
      * Server property for configuring a maximum number of bytes of entity to be logged.
      */
-    public static final String LOGGING_FEATURE_MAX_ENTITY_SIZE_SERVER = LOGGING_FEATURE_SERVER_PREFIX + MAX_ENTITY_POSTFIX;
+    public static final  String LOGGING_FEATURE_MAX_ENTITY_SIZE_SERVER = LOGGING_FEATURE_SERVER_PREFIX
+            + MAX_ENTITY_POSTFIX;
 
-    private static final String LOGGING_FEATURE_CLIENT_PREFIX = "jersey.config.client.logging";
+    private static final String LOGGING_FEATURE_CLIENT_PREFIX          = "jersey.config.client.logging";
     /**
      * Client logger name property.
      */
-    public static final String LOGGING_FEATURE_LOGGER_NAME_CLIENT = LOGGING_FEATURE_CLIENT_PREFIX + LOGGER_NAME_POSTFIX;
+    public static final  String LOGGING_FEATURE_LOGGER_NAME_CLIENT     = LOGGING_FEATURE_CLIENT_PREFIX
+            + LOGGER_NAME_POSTFIX;
     /**
      * Client logger level property.
      */
-    public static final String LOGGING_FEATURE_LOGGER_LEVEL_CLIENT = LOGGING_FEATURE_CLIENT_PREFIX + LOGGER_LEVEL_POSTFIX;
+    public static final  String LOGGING_FEATURE_LOGGER_LEVEL_CLIENT    = LOGGING_FEATURE_CLIENT_PREFIX
+            + LOGGER_LEVEL_POSTFIX;
     /**
      * Client property for configuring a verbosity of entity.
      */
-    public static final String LOGGING_FEATURE_VERBOSITY_CLIENT = LOGGING_FEATURE_CLIENT_PREFIX + VERBOSITY_POSTFIX;
+    public static final  String LOGGING_FEATURE_VERBOSITY_CLIENT       = LOGGING_FEATURE_CLIENT_PREFIX
+            + VERBOSITY_POSTFIX;
     /**
      * Client property for configuring a maximum number of bytes of entity to be logged.
      */
-    public static final String LOGGING_FEATURE_MAX_ENTITY_SIZE_CLIENT = LOGGING_FEATURE_CLIENT_PREFIX + MAX_ENTITY_POSTFIX;
+    public static final  String LOGGING_FEATURE_MAX_ENTITY_SIZE_CLIENT = LOGGING_FEATURE_CLIENT_PREFIX
+            + MAX_ENTITY_POSTFIX;
 
-    private final Logger filterLogger;
+    private final Logger    filterLogger;
     private final Verbosity verbosity;
-    private final Integer maxEntitySize;
-    private final Level level;
+    private final Integer   maxEntitySize;
+    private final Level     level;
 
     /**
      * Creates the feature with default values.
      */
-    public LoggingFeature() {
+    public LoggingFeature()
+    {
         this(null, null, null, null);
     }
 
@@ -185,7 +196,8 @@ public class LoggingFeature implements Feature {
      *
      * @param logger the logger to log requests and responses.
      */
-    public LoggingFeature(Logger logger) {
+    public LoggingFeature(Logger logger)
+    {
         this(logger, null, null, null);
     }
 
@@ -195,7 +207,8 @@ public class LoggingFeature implements Feature {
      * @param logger    the logger to log requests and responses.
      * @param verbosity verbosity of logged messages. See {@link Verbosity}.
      */
-    public LoggingFeature(Logger logger, Verbosity verbosity) {
+    public LoggingFeature(Logger logger, Verbosity verbosity)
+    {
         this(logger, null, verbosity, null);
     }
 
@@ -207,7 +220,8 @@ public class LoggingFeature implements Feature {
      *                      logging filter will print (and buffer in memory) only the specified number of bytes
      *                      and print "...more..." string at the end. Negative values are interpreted as zero.
      */
-    public LoggingFeature(Logger logger, Integer maxEntitySize) {
+    public LoggingFeature(Logger logger, Integer maxEntitySize)
+    {
         this(logger, null, DEFAULT_VERBOSITY, maxEntitySize);
     }
 
@@ -221,35 +235,46 @@ public class LoggingFeature implements Feature {
      *                      logging filter will print (and buffer in memory) only the specified number of bytes
      *                      and print "...more..." string at the end. Negative values are interpreted as zero.
      */
-    public LoggingFeature(Logger logger, Level level, Verbosity verbosity, Integer maxEntitySize) {
-        this.filterLogger = logger;
-        this.level = level;
-        this.verbosity = verbosity;
+    public LoggingFeature(Logger logger, Level level, Verbosity verbosity, Integer maxEntitySize)
+    {
+        this.filterLogger  = logger;
+        this.level         = level;
+        this.verbosity     = verbosity;
         this.maxEntitySize = maxEntitySize;
     }
 
     @Override
-    public boolean configure(FeatureContext context) {
+    public boolean configure(FeatureContext context)
+    {
         boolean enabled = false;
 
-        if (context.getConfiguration().getRuntimeType() == RuntimeType.CLIENT) {
-            ClientLoggingFilter clientLoggingFilter = (ClientLoggingFilter) createLoggingFilter(context, RuntimeType.CLIENT);
+        if (context.getConfiguration().getRuntimeType() == RuntimeType.CLIENT)
+        {
+            ClientLoggingFilter clientLoggingFilter = (ClientLoggingFilter) createLoggingFilter(
+                    context,
+                    RuntimeType.CLIENT);
             context.register(clientLoggingFilter);
             enabled = true;
         }
-        if (context.getConfiguration().getRuntimeType() == RuntimeType.SERVER) {
-            ServerLoggingFilter serverClientFilter = (ServerLoggingFilter) createLoggingFilter(context, RuntimeType.SERVER);
+        if (context.getConfiguration().getRuntimeType() == RuntimeType.SERVER)
+        {
+            ServerLoggingFilter serverClientFilter = (ServerLoggingFilter) createLoggingFilter(
+                    context,
+                    RuntimeType.SERVER);
             context.register(serverClientFilter);
             enabled = true;
         }
         return enabled;
     }
 
-    private LoggingInterceptor createLoggingFilter(FeatureContext context, RuntimeType runtimeType) {
+    private LoggingInterceptor createLoggingFilter(FeatureContext context, RuntimeType runtimeType)
+    {
         Map properties = context.getConfiguration().getProperties();
         String filterLoggerName = CommonProperties.getValue(
                 properties,
-                runtimeType == RuntimeType.SERVER ? LOGGING_FEATURE_LOGGER_NAME_SERVER : LOGGING_FEATURE_LOGGER_NAME_CLIENT,
+                runtimeType == RuntimeType.SERVER
+                        ? LOGGING_FEATURE_LOGGER_NAME_SERVER
+                        : LOGGING_FEATURE_LOGGER_NAME_CLIENT,
                 CommonProperties.getValue(
                         properties,
                         LOGGING_FEATURE_LOGGER_NAME,
@@ -257,7 +282,9 @@ public class LoggingFeature implements Feature {
                 ));
         String filterLevel = CommonProperties.getValue(
                 properties,
-                runtimeType == RuntimeType.SERVER ? LOGGING_FEATURE_LOGGER_LEVEL_SERVER : LOGGING_FEATURE_LOGGER_LEVEL_CLIENT,
+                runtimeType == RuntimeType.SERVER
+                        ? LOGGING_FEATURE_LOGGER_LEVEL_SERVER
+                        : LOGGING_FEATURE_LOGGER_LEVEL_CLIENT,
                 CommonProperties.getValue(
                         context.getConfiguration().getProperties(),
                         LOGGING_FEATURE_LOGGER_LEVEL,
@@ -282,13 +309,18 @@ public class LoggingFeature implements Feature {
 
         Level loggerLevel = Level.parse(filterLevel);
 
-        if (runtimeType == RuntimeType.SERVER) {
-            return new ServerLoggingFilter(filterLogger != null ? filterLogger : Logger.getLogger(filterLoggerName),
+        if (runtimeType == RuntimeType.SERVER)
+        {
+            return new ServerLoggingFilter(
+                    filterLogger != null ? filterLogger : Logger.getLogger(filterLoggerName),
                     level != null ? level : loggerLevel,
                     verbosity != null ? verbosity : filterVerbosity,
                     maxEntitySize != null ? maxEntitySize : filterMaxEntitySize);
-        } else {
-            return new ClientLoggingFilter(filterLogger != null ? filterLogger : Logger.getLogger(filterLoggerName),
+        }
+        else
+        {
+            return new ClientLoggingFilter(
+                    filterLogger != null ? filterLogger : Logger.getLogger(filterLoggerName),
                     level != null ? level : loggerLevel,
                     verbosity != null ? verbosity : filterVerbosity,
                     maxEntitySize != null ? maxEntitySize : filterMaxEntitySize);
@@ -312,7 +344,8 @@ public class LoggingFeature implements Feature {
      * or by some of the feature's properties (see {@link #LOGGING_FEATURE_MAX_ENTITY_SIZE}, {@link
      * #LOGGING_FEATURE_MAX_ENTITY_SIZE_CLIENT}, {@link #LOGGING_FEATURE_MAX_ENTITY_SIZE_SERVER}.
      */
-    public enum Verbosity {
+    public enum Verbosity
+    {
         /**
          * Only content of HTTP headers is logged. No message payload data are logged.
          */

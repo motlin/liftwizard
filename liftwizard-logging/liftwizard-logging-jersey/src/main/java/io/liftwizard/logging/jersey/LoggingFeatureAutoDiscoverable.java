@@ -73,37 +73,47 @@ import static io.liftwizard.logging.jersey.LoggingFeature.LOGGING_FEATURE_VERBOS
  * @since 2.23
  */
 @Priority(AutoDiscoverable.DEFAULT_PRIORITY)
-public final class LoggingFeatureAutoDiscoverable implements AutoDiscoverable {
+public final class LoggingFeatureAutoDiscoverable
+        implements AutoDiscoverable
+{
 
     @Override
-    public void configure(FeatureContext context) {
-        if (!context.getConfiguration().isRegistered(LoggingFeature.class)) {
+    public void configure(FeatureContext context)
+    {
+        if (!context.getConfiguration().isRegistered(LoggingFeature.class))
+        {
 
             Map properties = context.getConfiguration().getProperties();
 
             if (commonPropertyConfigured(properties)
-                    || (context.getConfiguration().getRuntimeType() == RuntimeType.CLIENT && clientConfigured(properties))
-                    || (context.getConfiguration().getRuntimeType() == RuntimeType.SERVER && serverConfigured(properties))) {
+                    || (context.getConfiguration().getRuntimeType() == RuntimeType.CLIENT
+                    && clientConfigured(properties))
+                    || (context.getConfiguration().getRuntimeType() == RuntimeType.SERVER
+                    && serverConfigured(properties)))
+            {
                 context.register(LoggingFeature.class);
             }
         }
     }
 
-    private boolean commonPropertyConfigured(Map properties) {
+    private boolean commonPropertyConfigured(Map properties)
+    {
         return properties.containsKey(LOGGING_FEATURE_LOGGER_NAME)
                 || properties.containsKey(LOGGING_FEATURE_LOGGER_LEVEL)
                 || properties.containsKey(LOGGING_FEATURE_VERBOSITY)
                 || properties.containsKey(LOGGING_FEATURE_MAX_ENTITY_SIZE);
     }
 
-    private boolean clientConfigured(Map properties) {
+    private boolean clientConfigured(Map properties)
+    {
         return properties.containsKey(LOGGING_FEATURE_LOGGER_NAME_CLIENT)
                 || properties.containsKey(LOGGING_FEATURE_LOGGER_LEVEL_CLIENT)
                 || properties.containsKey(LOGGING_FEATURE_VERBOSITY_CLIENT)
                 || properties.containsKey(LOGGING_FEATURE_MAX_ENTITY_SIZE_CLIENT);
     }
 
-    private boolean serverConfigured(Map properties) {
+    private boolean serverConfigured(Map properties)
+    {
         return properties.containsKey(LOGGING_FEATURE_LOGGER_NAME_SERVER)
                 || properties.containsKey(LOGGING_FEATURE_LOGGER_LEVEL_SERVER)
                 || properties.containsKey(LOGGING_FEATURE_VERBOSITY_SERVER)
