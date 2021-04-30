@@ -73,7 +73,6 @@ import org.glassfish.jersey.message.MessageUtils;
 @ConstrainedTo(RuntimeType.CLIENT)
 @PreMatching
 @Priority(Integer.MAX_VALUE)
-@SuppressWarnings("ClassWithMultipleLoggers")
 public final class ClientLoggingFilter
         extends AbstractLoggingInterceptor
         implements ClientRequestFilter, ClientResponseFilter
@@ -99,30 +98,30 @@ public final class ClientLoggingFilter
     }
 
     @Override
-    public void filter(ClientRequestContext context) throws IOException
+    public void filter(ClientRequestContext requestContext)
     {
         if (!this.logger.isLoggable(this.level))
         {
             return;
         }
         long id = this.idCounter.incrementAndGet();
-        context.setProperty(LOGGING_ID_PROPERTY, id);
+        requestContext.setProperty(LOGGING_ID_PROPERTY, id);
 
-        StringBuilder b = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
-        this.printRequestLine(b, "Sending client request", id, context.getMethod(), context.getUri());
-        this.printPrefixedHeaders(b, id, REQUEST_PREFIX, context.getStringHeaders());
+        this.printRequestLine(stringBuilder, "Sending client request", id, requestContext.getMethod(), requestContext.getUri());
+        this.printPrefixedHeaders(stringBuilder, id, REQUEST_PREFIX, requestContext.getStringHeaders());
 
-        if (context.hasEntity() && AbstractLoggingInterceptor.printEntity(this.verbosity, context.getMediaType()))
+        if (requestContext.hasEntity() && AbstractLoggingInterceptor.printEntity(this.verbosity, requestContext.getMediaType()))
         {
-            OutputStream stream = new LoggingStream(b, context.getEntityStream());
-            context.setEntityStream(stream);
-            context.setProperty(ENTITY_LOGGER_PROPERTY, stream);
-            // not calling log(b) here - it will be called by the interceptor
+            OutputStream stream = new LoggingStream(stringBuilder, requestContext.getEntityStream());
+            requestContext.setEntityStream(stream);
+            requestContext.setProperty(ENTITY_LOGGER_PROPERTY, stream);
+            // not calling log(stringBuilder) here - it will be called by the interceptor
         }
         else
         {
-            this.log(b);
+            this.log(stringBuilder);
         }
     }
 

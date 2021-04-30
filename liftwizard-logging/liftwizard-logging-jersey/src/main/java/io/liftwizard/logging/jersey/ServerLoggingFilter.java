@@ -73,7 +73,6 @@ import org.glassfish.jersey.message.MessageUtils;
 @ConstrainedTo(RuntimeType.SERVER)
 @PreMatching
 @Priority(Integer.MIN_VALUE)
-@SuppressWarnings("ClassWithMultipleLoggers")
 public final class ServerLoggingFilter
         extends AbstractLoggingInterceptor
         implements ContainerRequestFilter, ContainerResponseFilter
@@ -129,7 +128,6 @@ public final class ServerLoggingFilter
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
-            throws IOException
     {
         if (!this.logger.isLoggable(this.level))
         {
@@ -138,21 +136,21 @@ public final class ServerLoggingFilter
         Object requestId = requestContext.getProperty(LOGGING_ID_PROPERTY);
         long   id        = requestId != null ? (Long) requestId : this.idCounter.incrementAndGet();
 
-        StringBuilder b = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
-        this.printResponseLine(b, "Server responded with a response", id, responseContext.getStatus());
-        this.printPrefixedHeaders(b, id, RESPONSE_PREFIX, responseContext.getStringHeaders());
+        this.printResponseLine(stringBuilder, "Server responded with a response", id, responseContext.getStatus());
+        this.printPrefixedHeaders(stringBuilder, id, RESPONSE_PREFIX, responseContext.getStringHeaders());
 
         if (responseContext.hasEntity() && AbstractLoggingInterceptor.printEntity(this.verbosity, responseContext.getMediaType()))
         {
-            OutputStream stream = new LoggingStream(b, responseContext.getEntityStream());
+            OutputStream stream = new LoggingStream(stringBuilder, responseContext.getEntityStream());
             responseContext.setEntityStream(stream);
             requestContext.setProperty(ENTITY_LOGGER_PROPERTY, stream);
-            // not calling log(b) here - it will be called by the interceptor
+            // not calling log(stringBuilder) here - it will be called by the interceptor
         }
         else
         {
-            this.log(b);
+            this.log(stringBuilder);
         }
     }
 }

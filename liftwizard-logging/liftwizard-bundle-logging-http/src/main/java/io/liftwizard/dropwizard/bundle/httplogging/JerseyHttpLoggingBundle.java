@@ -26,8 +26,8 @@ import io.dropwizard.setup.Environment;
 import io.liftwizard.dropwizard.bundle.prioritized.PrioritizedBundle;
 import io.liftwizard.dropwizard.configuration.http.logging.JerseyHttpLoggingFactory;
 import io.liftwizard.dropwizard.configuration.http.logging.JerseyHttpLoggingFactoryProvider;
-import org.glassfish.jersey.logging.LoggingFeature;
-import org.glassfish.jersey.logging.LoggingFeature.Verbosity;
+import io.liftwizard.logging.jersey.LoggingFeature;
+import io.liftwizard.logging.jersey.LoggingFeature.Verbosity;
 import org.slf4j.LoggerFactory;
 
 /**
