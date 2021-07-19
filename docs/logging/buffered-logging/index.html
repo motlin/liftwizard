@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Buffered Logging</title>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>In unit tests, it can be useful to suppress all logging for successful tests, but still log everything when tests fail.In order to accomplish this, we need to buffer all logging before we know the result of the test, and then flush or clear the buffer once we know the outcome. BufferedAppender BufferedAppender is the logback appender that buffers all logging until it receives a CLEAR or FLUSH marker.You can use directly in logback configuration. It requires a delegate appender for flushing, declared using an appender-ref . BufferedAppender lives in the liftwizard-logging-buffered-appender module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-logging-buffered-appender&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; LogMarkerTestRule LogMarkerTestRule is a JUnit Rule that clears the buffer before all tests and flushes the buffer after failed tests. It does this by logging CLEAR and FLUSH markers. java @Rule public final TestRule logMarkerTestRule = new LogMarkerTestRule(); LogMarkerTestRule lives in the liftwizard-junit-rule-log-marker module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-junit-rule-log-marker&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; BufferedAppenderFactory The BufferedAppenderFactory allows you to use an appender with the type buffered where you would otherwise use console in your Dropwizard configuration. json5 logging: { level: &quot;INFO&quot;, appenders: [ { type: &quot;buffered&quot;, timeZone: &quot;system&quot;, logFormat: &quot;%highlight(%-5level) %cyan(%date{HH:mm:ss}) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%red(%rootException)&quot;, includeCallerData: true, } ] } This is primarily useful for tests that use DropwizardAppRule . java @Rule public final TestRule logMarkerTestRule = new LogMarkerTestRule(); @Rule public final DropwizardAppRule&lt;HelloWorldConfiguration&gt; dropwizardAppRule = new DropwizardAppRule&lt;&gt;( HelloWorldApplication.class, ResourceHelpers.resourceFilePath(&quot;test-example.json5&quot;)); BufferedAppenderFactory lives in the liftwizard-config-logging-buffered module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-config-logging-buffered&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/master/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In unit tests, it can be useful to suppress all logging for successful tests, but still log everything when tests fail.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In order to accomplish this, we need to buffer all logging before we know the result of the test, and then flush or clear the buffer once we know the outcome.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "level" : 2,
+      "title" : "BufferedAppender",
+      "id" : "bufferedappender",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "BufferedAppender",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is the logback appender that buffers all logging until it receives a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CLEAR",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " or ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "FLUSH",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " marker.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "You can use  directly in logback configuration. It requires a delegate appender for flushing, declared using an ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "appender-ref",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "title" : "logback-test.xml",
+      "xmlAsJson" : {
+        "tagName" : "configuration",
+        "attributes" : [ {
+          "name" : "packagingData",
+          "value" : "\"true\""
+        } ],
+        "children" : [ {
+          "tagName" : "appender",
+          "attributes" : [ {
+            "name" : "name",
+            "value" : "\"Console\""
+          }, {
+            "name" : "class",
+            "value" : "\"ch.qos.logback.core.ConsoleAppender\""
+          } ],
+          "children" : [ {
+            "tagName" : "encoder",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "pattern",
+              "attributes" : [ ],
+              "children" : [ {
+                "tagName" : "",
+                "text" : "%highlight(%-5level) %d{\"HH:mm:ss\", system} [%thread] \\(%file:%line\\) %logger{40} %msg%n"
+              } ]
+            } ]
+          } ]
+        }, {
+          "tagName" : "appender",
+          "attributes" : [ {
+            "name" : "name",
+            "value" : "\"Buffered\""
+          }, {
+            "name" : "class",
+            "value" : "\"io.liftwizard.logging.logback.appender.buffered.BufferedAppender\""
+          } ],
+          "children" : [ {
+            "tagName" : "appender-ref",
+            "attributes" : [ {
+              "name" : "ref",
+              "value" : "\"Console\""
+            } ],
+            "children" : [ ]
+          } ]
+        }, {
+          "tagName" : "root",
+          "attributes" : [ {
+            "name" : "level",
+            "value" : "\"INFO\""
+          } ],
+          "children" : [ {
+            "tagName" : "appender-ref",
+            "attributes" : [ {
+              "name" : "ref",
+              "value" : "\"Buffered\""
+            } ],
+            "children" : [ ]
+          } ]
+        } ]
+      },
+      "paths" : [ ],
+      "type" : "Xml"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "BufferedAppender",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-logging-buffered-appender",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-logging-buffered-appender</artifactId>\n    <scope>test</scope>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "level" : 2,
+      "title" : "LogMarkerTestRule",
+      "id" : "logmarkertestrule",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "LogMarkerTestRule",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is a JUnit ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "Rule",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " that clears the buffer before all tests and flushes the buffer after failed tests. It does this by logging ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CLEAR",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "FLUSH",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " markers.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@Rule\npublic final TestRule logMarkerTestRule = new LogMarkerTestRule();\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "LogMarkerTestRule",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-junit-rule-log-marker",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-junit-rule-log-marker</artifactId>\n    <scope>test</scope>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "level" : 2,
+      "title" : "BufferedAppenderFactory",
+      "id" : "bufferedappenderfactory",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "BufferedAppenderFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " allows you to use an appender with the type ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "buffered",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " where you would otherwise use ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "console",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " in your Dropwizard configuration.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "json5",
+      "snippet" : "  logging: {\n    level: \"INFO\",\n    appenders: [\n      {\n        type: \"buffered\",\n        timeZone: \"system\",\n        logFormat: \"%highlight(%-5level) %cyan(%date{HH:mm:ss}) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%red(%rootException)\",\n        includeCallerData: true,\n      }\n    ]\n  }\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "This is primarily useful for tests that use ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DropwizardAppRule",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@Rule\npublic final TestRule logMarkerTestRule = new LogMarkerTestRule();\n\n@Rule\npublic final DropwizardAppRule<HelloWorldConfiguration> dropwizardAppRule = new DropwizardAppRule<>(\n        HelloWorldApplication.class,\n        ResourceHelpers.resourceFilePath(\"test-example.json5\"));\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "BufferedAppenderFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-config-logging-buffered",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-config-logging-buffered</artifactId>\n    <scope>test</scope>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    } ],
+    "lastModifiedTime" : 1626701789213,
+    "tocItem" : {
+      "sectionTitle" : "Logging",
+      "pageTitle" : "Buffered Logging",
+      "pageMeta" : { },
+      "dirName" : "logging",
+      "fileName" : "buffered-logging",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

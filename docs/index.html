@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard</title>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Liftwizard</h1></header>
+<p>Liftwizard is a collection of bundles and add-ons for https://www.dropwizard.io/ Dropwizard, the Java framework for writing web services.There are very few dependencies between the bundles, so you can pick and choose the ones you want. Module groups The bundles can be loosely grouped into categories.Dropwizard configuration JSON serialization/deserialization Servlet client/server logging GraphQL utility https://github.com/goldmansachs/reladomo Reladomo ORM integration for Dropwizard Other Dropwizard utility Guide structure In this guide, we'll start with the application https://github.com/dropwizard/dropwizard/tree/master/dropwizard-example dropwizard-example which is a maven module that's part of the main Dropwizard repository. We'll gradually turn it into https://github.com/motlin/liftwizard/tree/master/liftwizard-example liftwizard-example , an application with an identical service api that uses as many Liftwizard features as possible.</p>
+</article>
+</section>
+<section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<a href="/index/">Liftwizard</a>
+<a href="/index/#liftwizard">Liftwizard Liftwizard</a>
+</article>
+
+<article>
+<a href="configuration/environment-variables/">Environment Variables</a>
+</article>
+
+<article>
+<a href="configuration/json5-configuration/">Json5 Configuration</a>
+<a href="configuration/json5-configuration/#configuration-through-json5-instead-of-yaml">Json5 Configuration Configuration through json5 instead of yaml</a>
+</article>
+
+<article>
+<a href="configuration/ConfigLoggingBundle/">ConfigLoggingBundle</a>
+</article>
+
+<article>
+<a href="jackson/ObjectMapperBundle/">ObjectMapperBundle</a>
+</article>
+
+<article>
+<a href="logging/logging-modules/">Logging Modules</a>
+</article>
+
+<article>
+<a href="logging/JerseyHttpLoggingBundle/">JerseyHttpLoggingBundle</a>
+</article>
+
+<article>
+<a href="logging/buffered-logging/">Buffered Logging</a>
+</article>
+
+<article>
+<a href="logging/filter-factories/">Filter Factories</a>
+</article>
+
+<article>
+<a href="graphql/bundle/">Bundle</a>
+</article>
+
+<article>
+<a href="graphql/instrumentation-logging/">Instrumentation Logging</a>
+</article>
+
+<article>
+<a href="graphql/instrumentation-metrics/">Instrumentation Metrics</a>
+</article>
+
+<article>
+<a href="graphql/data-fetcher-async/">Data Fetcher Async</a>
+</article>
+
+<article>
+<a href="reladomo/reladomo-operation-compiler/">Reladomo Operation Compiler</a>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/master/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Liftwizard",
+      "id" : "liftwizard",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Liftwizard is a collection of bundles and add-ons for ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.dropwizard.io/",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Dropwizard",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ", the Java framework for writing web services.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "There are very few dependencies between the bundles, so you can pick and choose the ones you want.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "level" : 2,
+        "title" : "Module groups",
+        "id" : "liftwizard-module-groups",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The bundles can be loosely grouped into categories.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Dropwizard configuration",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "JSON serialization/deserialization",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Servlet client/server logging",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "GraphQL utility",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "url" : "https://github.com/goldmansachs/reladomo",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Reladomo",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ORM integration for Dropwizard",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Other Dropwizard utility",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "level" : 2,
+        "title" : "Guide structure",
+        "id" : "liftwizard-guide-structure",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In this guide, we'll start with the application ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://github.com/dropwizard/dropwizard/tree/master/dropwizard-example",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "code" : "dropwizard-example",
+            "type" : "InlinedCode"
+          } ]
+        }, {
+          "text" : " which is a maven module that's part of the main Dropwizard repository. We'll gradually turn it into ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://github.com/motlin/liftwizard/tree/master/liftwizard-example",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "code" : "liftwizard-example",
+            "type" : "InlinedCode"
+          } ]
+        }, {
+          "text" : ", an application with an identical service api that uses as many Liftwizard features as possible.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1626701789213,
+    "tocItem" : {
+      "sectionTitle" : "",
+      "pageTitle" : "Liftwizard",
+      "pageMeta" : { },
+      "dirName" : "",
+      "fileName" : "index",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Liftwizard",
+        "id" : "liftwizard"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

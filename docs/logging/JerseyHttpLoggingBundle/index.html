@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: JerseyHttpLoggingBundle</title>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>The JerseyHttpLoggingBundle logs all requests and responses to slf4j. The verbosity and maxEntitySize are configurable.To turn it on, add JerseyHttpLoggingBundle to the list of registered bundles. java @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory&lt;&gt;()); bootstrap.addBundle(new EnvironmentConfigBundle()); bootstrap.addBundle(new ObjectMapperBundle()); bootstrap.addBundle(new ConfigLoggingBundle()); bootstrap.addBundle(new JerseyHttpLoggingBundle()); // ... } If ObjectMapperBundle is also registered, the json bodies will be pretty-printed. INFO 21:01:18 [dw-26 - POST /people] {} com.liftwizard.dropwizard.bundle.httplogging.JerseyHttpLoggingBundle: 1 * Server has received a request on thread dw-26 - POST /people 1 &gt; POST http://localhost:59980/people 1 &gt; Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2 1 &gt; Connection: keep-alive 1 &gt; Content-Length: 83 1 &gt; Content-Type: application/json 1 &gt; Host: localhost:59980 1 &gt; User-Agent: Jersey/2.25.1 (HttpUrlConnection 11.0.7) { &quot;id&quot; : 0, &quot;fullName&quot; : &quot;Dr. IntegrationTest&quot;, &quot;jobTitle&quot; : &quot;Chief Wizard&quot; } INFO 21:01:18 [dw-26 - POST /people] {liftwizard.request.resourceMethodName=createPerson, liftwizard.request.resourceClassName=com.example.helloworld.resources.PeopleResource, liftwizard.request.httpPath=people, liftwizard.request.correlationId=4bb909d0-4c29-3f81-957f-aab6d7f73c9f, liftwizard.request.httpMethod=POST, liftwizard.request.httpPathTemplate=/people} com.liftwizard.dropwizard.bundle.httplogging.JerseyHttpLoggingBundle: 1 * Server responded with a response on thread dw-26 - POST /people 1 &lt; 200 1 &lt; Content-Type: application/json 1 &lt; liftwizard.request.correlationId: 4bb909d0-4c29-3f81-957f-aab6d7f73c9f { &quot;id&quot; : 1, &quot;fullName&quot; : &quot;Dr. IntegrationTest&quot;, &quot;jobTitle&quot; : &quot;Chief Wizard&quot; } JerseyHttpLoggingBundle lives in the liftwizard-bundle-logging-http module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-bundle-logging-http&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/master/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "JerseyHttpLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " logs all requests and responses to slf4j. The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "verbosity",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "maxEntitySize",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " are configurable.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To turn it on, add ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "JerseyHttpLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to the list of registered bundles.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {\n    bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory<>());\n    bootstrap.addBundle(new EnvironmentConfigBundle());\n \n    bootstrap.addBundle(new ObjectMapperBundle());\n    bootstrap.addBundle(new ConfigLoggingBundle());\n \n    bootstrap.addBundle(new JerseyHttpLoggingBundle());\n \n    // ...\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ObjectMapperBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is also registered, the json bodies will be pretty-printed.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "",
+      "snippet" : "INFO  21:01:18 [dw-26 - POST /people]  {} com.liftwizard.dropwizard.bundle.httplogging.JerseyHttpLoggingBundle: 1 * Server has received a request on thread dw-26 - POST /people\n1 > POST http://localhost:59980/people\n1 > Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2\n1 > Connection: keep-alive\n1 > Content-Length: 83\n1 > Content-Type: application/json\n1 > Host: localhost:59980\n1 > User-Agent: Jersey/2.25.1 (HttpUrlConnection 11.0.7)\n{\n  \"id\" : 0,\n  \"fullName\" : \"Dr. IntegrationTest\",\n  \"jobTitle\" : \"Chief Wizard\"\n}\n \nINFO  21:01:18 [dw-26 - POST /people]  {liftwizard.request.resourceMethodName=createPerson, liftwizard.request.resourceClassName=com.example.helloworld.resources.PeopleResource, liftwizard.request.httpPath=people, liftwizard.request.correlationId=4bb909d0-4c29-3f81-957f-aab6d7f73c9f, liftwizard.request.httpMethod=POST, liftwizard.request.httpPathTemplate=/people} com.liftwizard.dropwizard.bundle.httplogging.JerseyHttpLoggingBundle: 1 * Server responded with a response on thread dw-26 - POST /people\n1 < 200\n1 < Content-Type: application/json\n1 < liftwizard.request.correlationId: 4bb909d0-4c29-3f81-957f-aab6d7f73c9f\n{\n  \"id\" : 1,\n  \"fullName\" : \"Dr. IntegrationTest\",\n  \"jobTitle\" : \"Chief Wizard\"\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "JerseyHttpLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-bundle-logging-http",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-bundle-logging-http</artifactId>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    } ],
+    "lastModifiedTime" : 1626701789213,
+    "tocItem" : {
+      "sectionTitle" : "Logging",
+      "pageTitle" : "JerseyHttpLoggingBundle",
+      "pageMeta" : { },
+      "dirName" : "logging",
+      "fileName" : "JerseyHttpLoggingBundle",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

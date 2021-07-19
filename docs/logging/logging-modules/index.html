@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Logging Modules</title>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>The Liftwizard logging modules add context to slf4j logging through MDC and through &quot;structured logging&quot;. There are several bundles and servlet filters to choose from. You can use all of them or cherry-pick the ones that are useful to you.In order to see the logging in action, we'll need to configure a log format that includes mdc and markers. test-example.json5 src/test/resources/test-example.json5 json5 { &quot;type&quot; : &quot;console&quot;, &quot;timeZone&quot; : &quot;system&quot;, &quot;logFormat&quot; : &quot;%highlight(%-5level) %cyan(%date{HH:mm:ss}) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%red(%rootException)&quot;, &quot;includeCallerData&quot;: true } Next, lets turn on all the basic filters and see how they change what gets logged. HelloWorldApplication.java src/main/java/com/example/helloworld/HelloWorldApplication.java java @Override public void run(HelloWorldConfiguration configuration, Environment environment) { // ... environment.getApplicationContext().addFilter( StructuredLoggingServletFilter.class, &quot;/*&quot;, EnumSet.of(DispatcherType.REQUEST)); environment.getApplicationContext().addFilter( new FilterHolder(new DurationStructuredLoggingFilter(configuration.getClockFactory().createClock())), &quot;/*&quot;, EnumSet.of(DispatcherType.REQUEST)); environment.jersey().register(CorrelationIdFilter.class); environment.jersey().register(ResourceInfoLoggingFilter.class); environment.jersey().register(StatusInfoStructuredLoggingFilter.class); // ... register other stuff, including jersey resources } Logging output With the logFormat and the filters in place, we can rerun IntegrationTest and see the new logs in action. console INFO 15:03:56 [dw-22] { \ liftwizard.response.http.statusCode=200, \ liftwizard.response.http.statusEnum=OK, \ liftwizard.response.http.statusPhrase=OK, \ liftwizard.response.http.statusFamily=SUCCESSFUL, \ liftwizard.response.http.entityType=com.example.helloworld.api.Saying, \ liftwizard.time.startTime=1999-12-31T23:59:59.000000Z, \ liftwizard.time.endTime=2000-01-01T00:00:00.000000Z, \ liftwizard.time.duration.ms=1000, \ liftwizard.time.duration.ns=1000000000 \ liftwizard.time.duration.pretty=1.000000s, \ } \ { \ liftwizard.request.correlationId=82681aab-1a69-4fc0-b425-a5cbcbf98411, \ liftwizard.request.httpMethod=GET, \ liftwizard.request.httpPath=hello-world, \ liftwizard.request.httpPathTemplate=/hello-world \ liftwizard.request.parameter.query.name=Dr. IntegrationTest, \ liftwizard.request.resourceClassName=com.example.helloworld.resources.HelloWorldResource, \ liftwizard.request.resourceMethodName=sayHello, \ } com.liftwizard.servlet.logging.structured.argument.StructuredLoggingServletFilter: structured logging Let's take a look at each filter individually. StructuredLoggingServletFilter The StructuredLoggingServletFilter is a pre-requisite for structured logging. For the most part, you can pick and choose which dependencies you want to include, but liftwizard-servlet-logging-structured-argument is usually required. StructuredLoggingServletFilter is a servlet filter that puts a &quot;structured-logging&quot; LinkedHashMap into the ServletRequest at the beginning of each request. Next, all other structured logging filters put their context into the same map. Finally, StructuredLoggingServletFilter logs the text &quot;structured logging&quot; together with all context at the end of each servlet request. CorrelationIdFilter The CorrelationIdFilter gets the correlation id from a request header, adds it to the ContainerResponseContext , and adds it to MDC. If there is no correlation id, CorrelationIdFilter creates one first. The default header name and MDC key are both &quot;liftwizard.request.correlationId&quot; . ResourceInfoLoggingFilter The ResourceInfoLoggingFilter gets information from the jax-rs UriInfo and adds it to MDC.This includes:liftwizard.request.httpPath liftwizard.request.httpMethod liftwizard.request.resourceClassName liftwizard.request.resourceMethodName liftwizard.request.httpPathTemplate In addition, for every query and path parameter, it adds a key of the form:liftwizard.request.parameter.query. liftwizard.request.parameter.path. StatusInfoStructuredLoggingFilter The StatusInfoStructuredLoggingFilter gets information from the jax-rs StatusType and adds it to the structured argument map.This includes:liftwizard.response.http.statusEnum liftwizard.response.http.statusCode liftwizard.response.http.statusFamily liftwizard.response.http.statusPhrase liftwizard.response.http.entityType DurationStructuredLoggingFilter DurationStructuredLoggingFilter is a servlet filter that adds request/response timing information to the structured argument map.This includes:liftwizard.time.endTime liftwizard.time.duration.pretty liftwizard.time.duration.ms liftwizard.time.duration.ns Sources of randomness Since the CorrelationIdFilter may need to generate ids if none are passed in, it needs a factory of UUIDs.Since the DurationStructuredLoggingFilter generates timing information, it needs a clock. java @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory&lt;&gt;()); bootstrap.addBundle(new EnvironmentConfigBundle()); bootstrap.addBundle(new ClockBundle()); bootstrap.addBundle(new UUIDBundle()); // ... }); } For more information on configuring sources of randomness, see the documentation for liftwizard-clock and liftwizard-uuid. Logstash encoder liftwizard-config-logging-logstash-file is a Dropwizard AppenderFactory . It sets up a file appender that logs one json object per log statement. The json is formatted by https://github.com/logstash/logstash-logback-encoder logstash-logback-encoder and is ready to be parsed by logstash.Let's add the logstash-file appender to the list of configured appenders. test-example.json5 src/test/resources/test-example.json5 json5 { // ... &quot;logging&quot;: { &quot;level&quot;: &quot;INFO&quot;, &quot;appenders&quot;: [ { &quot;type&quot;: &quot;console&quot;, &quot;logFormat&quot;: &quot;%highlight(%-5level) %cyan(%date{HH:mm:ss}) [%white(%thread)] %green(%logger): %message &lt;%blue(%marker)&gt; &lt;%magenta(%mdc)&gt;%n%red(%rootException)&quot;, &quot;timeZone&quot;: &quot;UTC&quot;, &quot;includeCallerData&quot;: true, }, { &quot;type&quot;: &quot;file-logstash&quot;, &quot;threshold&quot;: &quot;ALL&quot;, &quot;timeZone&quot;: &quot;UTC&quot;, &quot;includeCallerData&quot;: true, &quot;currentLogFilename&quot;: &quot;./logs/logstash.json&quot;, &quot;archivedLogFilenamePattern&quot;: &quot;./logs/logstash-%d.json&quot;, &quot;encoder&quot;: { &quot;includeContext&quot;: true, &quot;includeMdc&quot;: true, &quot;includeStructuredArguments&quot;: true, &quot;includedNonStructuredArguments&quot;: false, &quot;includeTags&quot;: true, &quot;prettyPrint&quot;: true, &quot;serializationInclusion&quot;: &quot;NON_ABSENT&quot; } } ] }, // ... } logstash.json logs/logstash.json snippet json { &quot;@timestamp&quot;: &quot;1999-12-31T23:59:59.000-00:00&quot;, &quot;@version&quot;: &quot;1&quot;, &quot;message&quot;: &quot;structured logging&quot;, &quot;logger_name&quot;: &quot;com.liftwizard.servlet.logging.structured.argument.StructuredLoggingServletFilter&quot;, &quot;thread_name&quot;: &quot;dw-22&quot;, &quot;level&quot;: &quot;INFO&quot;, &quot;level_value&quot;: 20000, &quot;liftwizard.request.resourceMethodName&quot;: &quot;sayHello&quot;, &quot;liftwizard.request.parameter.query.name&quot;: &quot;Dr. IntegrationTest&quot;, &quot;liftwizard.request.resourceClassName&quot;: &quot;com.example.helloworld.resources.HelloWorldResource&quot;, &quot;liftwizard.request.httpPath&quot;: &quot;hello-world&quot;, &quot;liftwizard.request.correlationId&quot;: &quot;82681aab-1a69-4fc0-b425-a5cbcbf98411&quot;, &quot;liftwizard.request.httpMethod&quot;: &quot;GET&quot;, &quot;liftwizard.request.httpPathTemplate&quot;: &quot;/hello-world&quot;, &quot;liftwizard.time.startTime&quot;: &quot;1999-12-31T23:59:59.000000Z&quot;, &quot;liftwizard.response.http.statusEnum&quot;: &quot;OK&quot;, &quot;liftwizard.response.http.statusCode&quot;: 200, &quot;liftwizard.response.http.statusFamily&quot;: &quot;SUCCESSFUL&quot;, &quot;liftwizard.response.http.statusPhrase&quot;: &quot;OK&quot;, &quot;liftwizard.response.http.entityType&quot;: &quot;com.example.helloworld.api.Saying&quot;, &quot;liftwizard.time.endTime&quot;: &quot;2000-01-01T00:00:00.000000Z&quot;, &quot;liftwizard.time.duration.pretty&quot;: &quot;1.000000s&quot;, &quot;liftwizard.time.duration.ms&quot;: 1000, &quot;liftwizard.time.duration.ns&quot;: 1000000000, &quot;caller_class_name&quot;: &quot;com.liftwizard.servlet.logging.structured.argument.StructuredLoggingServletFilter&quot;, &quot;caller_method_name&quot;: &quot;log&quot;, &quot;caller_file_name&quot;: &quot;StructuredLoggingServletFilter.java&quot;, &quot;caller_line_number&quot;: 86 } StructuredLoggingServletFilter , CorrelationIdFilter , ResourceInfoLoggingFilter , StatusInfoStructuredLoggingFilter , and DurationStructuredLoggingFilter live in the following modules. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-servlet-logging-structured-argument&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-servlet-logging-structured-duration&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-servlet-logging-structured-status-info&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-servlet-logging-correlation-id&lt;/artifactId&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-servlet-logging-resource-info&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/master/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The Liftwizard logging modules add context to slf4j logging through MDC and through \"structured logging\". There are several bundles and servlet filters to choose from. You can use all of them or cherry-pick the ones that are useful to you.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In order to see the logging in action, we'll need to configure a log format that includes mdc and markers.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "level" : 3,
+      "title" : "test-example.json5",
+      "id" : "test-examplejson5",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "src/test/resources/test-example.json5",
+        "type" : "InlinedCode"
+      } ]
+    }, {
+      "lang" : "json5",
+      "snippet" : "{\n  \"type\"             : \"console\",\n  \"timeZone\"         : \"system\",\n\"logFormat\"        : \"%highlight(%-5level) %cyan(%date{HH:mm:ss}) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%red(%rootException)\",\n\"includeCallerData\": true\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Next, lets turn on all the basic filters and see how they change what gets logged.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "level" : 3,
+      "title" : "HelloWorldApplication.java",
+      "id" : "helloworldapplicationjava",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "src/main/java/com/example/helloworld/HelloWorldApplication.java",
+        "type" : "InlinedCode"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@Override\npublic void run(HelloWorldConfiguration configuration, Environment environment) {\n    // ...\n    environment.getApplicationContext().addFilter(\n            StructuredLoggingServletFilter.class,\n            \"/*\",\n            EnumSet.of(DispatcherType.REQUEST));\n    environment.getApplicationContext().addFilter(\n            new FilterHolder(new DurationStructuredLoggingFilter(configuration.getClockFactory().createClock())),\n            \"/*\",\n            EnumSet.of(DispatcherType.REQUEST));\n \n    environment.jersey().register(CorrelationIdFilter.class);\n    environment.jersey().register(ResourceInfoLoggingFilter.class);\n    environment.jersey().register(StatusInfoStructuredLoggingFilter.class);\n    // ... register other stuff, including jersey resources\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "level" : 2,
+      "title" : "Logging output",
+      "id" : "logging-output",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "With the logFormat and the filters in place, we can rerun ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "IntegrationTest",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and see the new logs in action.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "console",
+      "snippet" : "INFO  15:03:56 [dw-22] { \\\n    liftwizard.response.http.statusCode=200, \\\n    liftwizard.response.http.statusEnum=OK, \\\n    liftwizard.response.http.statusPhrase=OK, \\\n    liftwizard.response.http.statusFamily=SUCCESSFUL, \\\n    liftwizard.response.http.entityType=com.example.helloworld.api.Saying, \\\n    liftwizard.time.startTime=1999-12-31T23:59:59.000000Z, \\\n    liftwizard.time.endTime=2000-01-01T00:00:00.000000Z, \\\n    liftwizard.time.duration.ms=1000, \\\n    liftwizard.time.duration.ns=1000000000 \\\n    liftwizard.time.duration.pretty=1.000000s, \\\n} \\\n{ \\\n    liftwizard.request.correlationId=82681aab-1a69-4fc0-b425-a5cbcbf98411, \\\n    liftwizard.request.httpMethod=GET, \\\n    liftwizard.request.httpPath=hello-world, \\\n    liftwizard.request.httpPathTemplate=/hello-world \\\n    liftwizard.request.parameter.query.name=Dr. IntegrationTest, \\\n    liftwizard.request.resourceClassName=com.example.helloworld.resources.HelloWorldResource, \\\n    liftwizard.request.resourceMethodName=sayHello, \\\n} com.liftwizard.servlet.logging.structured.argument.StructuredLoggingServletFilter: structured logging\n",
+      "lineNumber" : "",
+      "title" : "Logging output (newlines added for clarity)",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Let's take a look at each filter individually.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "level" : 2,
+      "title" : "StructuredLoggingServletFilter",
+      "id" : "structuredloggingservletfilter",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "StructuredLoggingServletFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is a pre-requisite for structured logging. For the most part, you can pick and choose which dependencies you want to include, but ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-servlet-logging-structured-argument",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is usually required.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "StructuredLoggingServletFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is a servlet filter that puts a \"structured-logging\" ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LinkedHashMap",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " into the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ServletRequest",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " at the beginning of each request. Next, all other structured logging filters put their context into the same map. Finally, ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "StructuredLoggingServletFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " logs the text ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "\"structured logging\"",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " together with all context at the end of each servlet request.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "level" : 2,
+      "title" : "CorrelationIdFilter",
+      "id" : "correlationidfilter",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CorrelationIdFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " gets the correlation id from a request header, adds it to the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ContainerResponseContext",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", and adds it to MDC. If there is no correlation id, ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CorrelationIdFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " creates one first. The default header name and MDC key are both ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "\"liftwizard.request.correlationId\"",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "level" : 2,
+      "title" : "ResourceInfoLoggingFilter",
+      "id" : "resourceinfologgingfilter",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ResourceInfoLoggingFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " gets information from the jax-rs ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "UriInfo",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and adds it to MDC.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "This includes:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.request.httpPath",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.request.httpMethod",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.request.resourceClassName",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.request.resourceMethodName",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.request.httpPathTemplate",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In addition, for every query and path parameter, it adds a key of the form:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.request.parameter.query.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.request.parameter.path.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "level" : 2,
+      "title" : "StatusInfoStructuredLoggingFilter",
+      "id" : "statusinfostructuredloggingfilter",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "StatusInfoStructuredLoggingFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " gets information from the jax-rs ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "StatusType",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and adds it to the structured argument map.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "This includes:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.response.http.statusEnum",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.response.http.statusCode",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.response.http.statusFamily",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.response.http.statusPhrase",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.response.http.entityType",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "level" : 2,
+      "title" : "DurationStructuredLoggingFilter",
+      "id" : "durationstructuredloggingfilter",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "DurationStructuredLoggingFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is a servlet filter that adds request/response timing information to the structured argument map.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "This includes:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.time.endTime",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.time.duration.pretty",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.time.duration.ms",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.time.duration.ns",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "level" : 2,
+      "title" : "Sources of randomness",
+      "id" : "sources-of-randomness",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Since the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CorrelationIdFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " may need to generate ids if none are passed in, it needs a factory of UUIDs.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Since the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DurationStructuredLoggingFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " generates timing information, it needs a clock.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {\n    bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory<>());\n    bootstrap.addBundle(new EnvironmentConfigBundle());\n \n    bootstrap.addBundle(new ClockBundle());\n    bootstrap.addBundle(new UUIDBundle());\n \n    // ...\n    });\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "For more information on configuring sources of randomness, see the documentation for liftwizard-clock and liftwizard-uuid.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "level" : 2,
+      "title" : "Logstash encoder",
+      "id" : "logstash-encoder",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "liftwizard-config-logging-logstash-file",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is a Dropwizard ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "AppenderFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". It sets up a file appender that logs one json object per log statement. The json is formatted by ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/logstash/logstash-logback-encoder",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "logstash-logback-encoder",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " and is ready to be parsed by logstash.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Let's add the logstash-file appender to the list of configured appenders.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "level" : 3,
+      "title" : "test-example.json5",
+      "id" : "logstash-encoder-test-examplejson5",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "src/test/resources/test-example.json5",
+        "type" : "InlinedCode"
+      } ]
+    }, {
+      "lang" : "json5",
+      "snippet" : "{\n  // ...\n  \"logging\": {\n    \"level\": \"INFO\",\n    \"appenders\": [\n      {\n        \"type\": \"console\",\n        \"logFormat\": \"%highlight(%-5level) %cyan(%date{HH:mm:ss}) [%white(%thread)] %green(%logger): %message <%blue(%marker)> <%magenta(%mdc)>%n%red(%rootException)\",\n        \"timeZone\": \"UTC\",\n        \"includeCallerData\": true,\n      },\n      {\n        \"type\": \"file-logstash\",\n        \"threshold\": \"ALL\",\n        \"timeZone\": \"UTC\",\n        \"includeCallerData\": true,\n        \"currentLogFilename\": \"./logs/logstash.json\",\n        \"archivedLogFilenamePattern\": \"./logs/logstash-%d.json\",\n        \"encoder\": {\n          \"includeContext\": true,\n          \"includeMdc\": true,\n          \"includeStructuredArguments\": true,\n          \"includedNonStructuredArguments\": false,\n          \"includeTags\": true,\n          \"prettyPrint\": true,\n          \"serializationInclusion\": \"NON_ABSENT\"\n        }\n      }\n    ]\n  },\n  // ...\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "level" : 3,
+      "title" : "logstash.json",
+      "id" : "logstash-encoder-logstashjson",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "logs/logstash.json",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " snippet",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "json",
+      "snippet" : "{\n  \"@timestamp\": \"1999-12-31T23:59:59.000-00:00\",\n  \"@version\": \"1\",\n  \"message\": \"structured logging\",\n  \"logger_name\": \"com.liftwizard.servlet.logging.structured.argument.StructuredLoggingServletFilter\",\n  \"thread_name\": \"dw-22\",\n  \"level\": \"INFO\",\n  \"level_value\": 20000,\n  \"liftwizard.request.resourceMethodName\": \"sayHello\",\n  \"liftwizard.request.parameter.query.name\": \"Dr. IntegrationTest\",\n  \"liftwizard.request.resourceClassName\": \"com.example.helloworld.resources.HelloWorldResource\",\n  \"liftwizard.request.httpPath\": \"hello-world\",\n  \"liftwizard.request.correlationId\": \"82681aab-1a69-4fc0-b425-a5cbcbf98411\",\n  \"liftwizard.request.httpMethod\": \"GET\",\n  \"liftwizard.request.httpPathTemplate\": \"/hello-world\",\n  \"liftwizard.time.startTime\": \"1999-12-31T23:59:59.000000Z\",\n  \"liftwizard.response.http.statusEnum\": \"OK\",\n  \"liftwizard.response.http.statusCode\": 200,\n  \"liftwizard.response.http.statusFamily\": \"SUCCESSFUL\",\n  \"liftwizard.response.http.statusPhrase\": \"OK\",\n  \"liftwizard.response.http.entityType\": \"com.example.helloworld.api.Saying\",\n  \"liftwizard.time.endTime\": \"2000-01-01T00:00:00.000000Z\",\n  \"liftwizard.time.duration.pretty\": \"1.000000s\",\n  \"liftwizard.time.duration.ms\": 1000,\n  \"liftwizard.time.duration.ns\": 1000000000,\n  \"caller_class_name\": \"com.liftwizard.servlet.logging.structured.argument.StructuredLoggingServletFilter\",\n  \"caller_method_name\": \"log\",\n  \"caller_file_name\": \"StructuredLoggingServletFilter.java\",\n  \"caller_line_number\": 86\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "StructuredLoggingServletFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CorrelationIdFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ResourceInfoLoggingFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "StatusInfoStructuredLoggingFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", and ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DurationStructuredLoggingFilter",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " live in the following modules.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-servlet-logging-structured-argument</artifactId>\n</dependency>\n\n<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-servlet-logging-structured-duration</artifactId>\n</dependency>\n\n<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-servlet-logging-structured-status-info</artifactId>\n</dependency>\n\n<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-servlet-logging-correlation-id</artifactId>\n</dependency>\n\n<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-servlet-logging-resource-info</artifactId>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    } ],
+    "lastModifiedTime" : 1626701789213,
+    "tocItem" : {
+      "sectionTitle" : "Logging",
+      "pageTitle" : "Logging Modules",
+      "pageMeta" : { },
+      "dirName" : "logging",
+      "fileName" : "logging-modules",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>
