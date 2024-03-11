@@ -21,7 +21,6 @@ import java.util.Objects;
 import com.gs.fw.common.mithra.databasetype.DatabaseType;
 import com.gs.fw.common.mithra.databasetype.DerbyDatabaseType;
 import com.gs.fw.common.mithra.databasetype.GenericDatabaseType;
-import com.gs.fw.common.mithra.databasetype.H2DatabaseType;
 import com.gs.fw.common.mithra.databasetype.MariaDatabaseType;
 import com.gs.fw.common.mithra.databasetype.MsSqlDatabaseType;
 import com.gs.fw.common.mithra.databasetype.OracleDatabaseType;
@@ -29,12 +28,13 @@ import com.gs.fw.common.mithra.databasetype.PostgresDatabaseType;
 import com.gs.fw.common.mithra.databasetype.SybaseDatabaseType;
 import com.gs.fw.common.mithra.databasetype.SybaseIqDatabaseType;
 import com.gs.fw.common.mithra.databasetype.Udb82DatabaseType;
+import io.liftwizard.reladomo.databasetype.LiftwizardH2DatabaseType;
 
 public enum DatabaseTypeEnum
 {
     DERBY(DerbyDatabaseType.getInstance()),
     GENERIC(GenericDatabaseType.getInstance()),
-    H2(H2DatabaseType.getInstance()),
+    H2(LiftwizardH2DatabaseType.getInstance()),
     MARIA(MariaDatabaseType.getInstance()),
     MSSQL(MsSqlDatabaseType.getInstance()),
     ORACLE(OracleDatabaseType.getInstance()),
