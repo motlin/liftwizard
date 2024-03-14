@@ -146,31 +146,31 @@
             <dependency>
                 <groupId>com.goldmansachs.reladomo</groupId>
                 <artifactId>reladomo</artifactId>
-                <version>18.0.0</version>
+                <version>18.1.0</version>
             </dependency>
 
             <dependency>
                 <groupId>com.goldmansachs.reladomo</groupId>
                 <artifactId>reladomogen</artifactId>
-                <version>18.0.0</version>
+                <version>18.1.0</version>
             </dependency>
 
             <dependency>
                 <groupId>com.goldmansachs.reladomo</groupId>
                 <artifactId>reladomo-serial</artifactId>
-                <version>18.0.0</version>
+                <version>18.1.0</version>
             </dependency>
 
             <dependency>
                 <groupId>com.goldmansachs.reladomo</groupId>
                 <artifactId>reladomo-gen-util</artifactId>
-                <version>18.0.0</version>
+                <version>18.1.0</version>
             </dependency>
 
             <dependency>
                 <groupId>com.goldmansachs.reladomo</groupId>
                 <artifactId>reladomo-test-util</artifactId>
-                <version>18.0.0</version>
+                <version>18.1.0</version>
             </dependency>
 
             <dependency>
