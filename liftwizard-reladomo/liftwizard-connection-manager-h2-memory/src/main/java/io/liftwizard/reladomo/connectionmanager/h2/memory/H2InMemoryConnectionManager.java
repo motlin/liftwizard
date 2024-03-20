@@ -25,7 +25,7 @@ import com.gs.fw.common.mithra.bulkloader.BulkLoader;
 import com.gs.fw.common.mithra.connectionmanager.SourcelessConnectionManager;
 import com.gs.fw.common.mithra.connectionmanager.XAConnectionManager;
 import com.gs.fw.common.mithra.databasetype.DatabaseType;
-import com.gs.fw.common.mithra.databasetype.H2DatabaseType;
+import io.liftwizard.reladomo.databasetype.LiftwizardH2DatabaseType;
 
 public final class H2InMemoryConnectionManager
         implements SourcelessConnectionManager
@@ -47,7 +47,7 @@ public final class H2InMemoryConnectionManager
     {
         // TODO: Consider using org.apache.tomcat.jdbc.pool.DataSourceProxy and org.apache.tomcat.jdbc.pool.PoolProperties instead
         XAConnectionManager connectionManager = new XAConnectionManager();
-        connectionManager.setDatabaseType(H2DatabaseType.getInstance());
+        connectionManager.setDatabaseType(LiftwizardH2DatabaseType.getInstance());
         connectionManager.setDriverClassName("com.p6spy.engine.spy.P6SpyDriver");
         connectionManager.setMaxWait(500);
         connectionManager.setJdbcConnectionString("jdbc:p6spy:h2:mem:");
@@ -83,7 +83,7 @@ public final class H2InMemoryConnectionManager
     @Override
     public DatabaseType getDatabaseType()
     {
-        return H2DatabaseType.getInstance();
+        return LiftwizardH2DatabaseType.getInstance();
     }
 
     @Override
