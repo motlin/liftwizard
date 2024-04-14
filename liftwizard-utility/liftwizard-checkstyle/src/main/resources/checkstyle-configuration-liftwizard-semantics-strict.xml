@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright 2024 Craig Motlin
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE module PUBLIC
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!-- Adapted from https://github.com/checkstyle/checkstyle/blob/master/config/checkstyle_checks.xml -->
+<module name="Checker">
+    <property name="severity" value="error" />
+
+    <!--region Filters-->
+    <module name="SeverityMatchFilter">
+        <!-- report all violations except ignore -->
+        <property name="severity" value="ignore" />
+        <property name="acceptOnMatch" value="false" />
+    </module>
+
+    <!--region Miscellaneous-->
+    <!--https://checkstyle.sourceforge.io/checks/misc/index.html-->
+    <!--endregion-->
+
+    <!--region Regexp-->
+    <!--https://checkstyle.sourceforge.io/checks/regexp/index.html-->
+    <!--endregion-->
+
+    <module name="TreeWalker">
+        <property name="tabWidth" value="4" />
+
+        <!--region Filters-->
+        <module name="SuppressionXpathSingleFilter">
+            <property name="files" value=".*[\\/]src[\\/](test|it|xdocs-examples)[\\/]" />
+            <property name="checks" value="AvoidStaticImport" />
+        </module>
+        <!--endregion-->
+
+        <!--region Annotations-->
+        <!--https://checkstyle.sourceforge.io/checks/annotation/index.html-->
+        <!--endregion-->
+
+        <!--region Blocks-->
+        <!--https://checkstyle.sourceforge.io/checks/blocks/index.html-->
+        <!--endregion-->
+
+        <!--region Class Design-->
+        <!--https://checkstyle.sourceforge.io/checks/design/index.html-->
+        <!--endregion-->
+
+        <!--region Coding-->
+        <!--https://checkstyle.sourceforge.io/checks/coding/index.html-->
+        <module name="VariableDeclarationUsageDistance" />
+        <!--endregion-->
+
+        <!--region Imports-->
+        <!--https://checkstyle.sourceforge.io/checks/imports/index.html-->
+        <module name="AvoidStaticImport">
+            <property name="excludes" value="org.hamcrest.CoreMatchers.*" />
+            <property name="excludes" value="org.hamcrest.MatcherAssert.*" />
+            <property name="excludes" value="org.hamcrest.Matchers.*" />
+            <property name="excludes" value="org.junit.Assert.*" />
+            <property name="excludes" value="org.junit.Assume.*" />
+            <property name="excludes" value="org.junit.jupiter.api.Assertions.*" />
+            <property name="excludes" value="org.assertj.core.api.Assertions.*" />
+        </module>
+        <!--endregion-->
+
+        <!--region Javadoc-->
+        <!--https://checkstyle.sourceforge.io/checks/javadoc/index.html-->
+        <!--endregion-->
+
+        <!--region Miscellaneous-->
+        <!--https://checkstyle.sourceforge.io/checks/misc/index.html-->
+        <module name="UncommentedMain">
+            <property name="excludedClasses" value="\.Main$" />
+        </module>
+        <!--endregion-->
+
+        <!--region Modifiers-->
+        <!--https://checkstyle.sourceforge.io/checks/modifier/index.html-->
+        <!--endregion-->
+
+        <!--region Naming Conventions-->
+        <!--https://checkstyle.sourceforge.io/checks/naming/index.html-->
+        <!--endregion-->
+
+        <!--region Regexp-->
+        <!--https://checkstyle.sourceforge.io/checks/regexp/index.html-->
+        <module name="RegexpSinglelineJava">
+            <property name="ignoreComments" value="true" />
+
+            <property
+                    name="format"
+                    value="System\.out\.println" />
+
+            <property
+                    name="message"
+                    value="System.out.println." />
+        </module>
+
+        <module name="RegexpSinglelineJava">
+            <property name="ignoreComments" value="true" />
+
+            <property
+                    name="format"
+                    value="System\.err\.println" />
+
+            <property
+                    name="message"
+                    value="System.err.println." />
+        </module>
+        <!--endregion-->
+    </module>
+
+</module>

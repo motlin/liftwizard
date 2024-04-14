@@ -22,5 +22,7 @@
 <suppressions>
 
     <suppress files="[\\/]generated-sources[\\/]" checks="[a-zA-Z0-9]*" />
+    <suppress files="Bundle.java$" checks="AbstractClassName" />
+    <suppress files=".*" id="singleLineCommentStartWithSpace" />
 
 </suppressions>

@@ -103,6 +103,7 @@
                 <version>3.3.1</version>
                 <configuration>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <suppressionsLocation>${maven.multiModuleProjectDirectory}/checkstyle-suppressions.xml</suppressionsLocation>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -399,10 +400,6 @@
                     <plugin>
                         <artifactId>maven-checkstyle-plugin</artifactId>
                         <version>3.3.1</version>
-                        <configuration>
-                            <configLocation>checkstyle-configuration-liftwizard-semantics.xml</configLocation>
-                            <suppressionsLocation>checkstyle-suppressions-liftwizard.xml</suppressionsLocation>
-                        </configuration>
                         <dependencies>
                             <dependency>
                                 <groupId>io.liftwizard</groupId>
@@ -410,6 +407,9 @@
                                 <version>2.1.7-SNAPSHOT</version>
                             </dependency>
                         </dependencies>
+                        <configuration>
+                            <configLocation>checkstyle-configuration-liftwizard-semantics.xml</configLocation>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>checkstyle:check semantics</id>
@@ -423,9 +423,39 @@
                 </plugins>
             </build>
         </profile>
-        <!--endregion-->
 
-        <!--region Phase 21: verify-->
+        <profile>
+            <id>checkstyle-semantics-strict</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.liftwizard</groupId>
+                                <artifactId>liftwizard-checkstyle</artifactId>
+                                <version>2.1.7-SNAPSHOT</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <configLocation>checkstyle-configuration-liftwizard-semantics-strict.xml</configLocation>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>checkstyle:check strict semantics</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>checkstyle-formatting</id>
 
@@ -434,10 +464,6 @@
                     <plugin>
                         <artifactId>maven-checkstyle-plugin</artifactId>
                         <version>3.3.1</version>
-                        <configuration>
-                            <configLocation>checkstyle-configuration-liftwizard-formatting.xml</configLocation>
-                            <suppressionsLocation>checkstyle-suppressions-liftwizard.xml</suppressionsLocation>
-                        </configuration>
                         <dependencies>
                             <dependency>
                                 <groupId>io.liftwizard</groupId>
@@ -445,9 +471,45 @@
                                 <version>2.1.7-SNAPSHOT</version>
                             </dependency>
                         </dependencies>
+                        <configuration>
+                            <configLocation>checkstyle-configuration-liftwizard-formatting.xml</configLocation>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>checkstyle:check formatting</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>checkstyle-formatting-strict</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.liftwizard</groupId>
+                                <artifactId>liftwizard-checkstyle</artifactId>
+                                <version>2.1.7-SNAPSHOT</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <configLocation>checkstyle-configuration-liftwizard-formatting-strict.xml</configLocation>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>checkstyle:check strict formatting</id>
                                 <goals>
                                     <goal>check</goal>
                                 </goals>
@@ -574,8 +636,8 @@
                             <artifactId>rewrite-maven-plugin</artifactId>
                             <configuration>
                                 <activeRecipes>
-                                    <recipe>org.openrewrite.java.testing.assertj.Assertj</recipe>
                                     <recipe>org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipe>
+                                    <recipe>org.openrewrite.java.testing.assertj.Assertj</recipe>
 
                                     <recipe>io.liftwizard.java.migrate.UpgradeToJava17</recipe>
                                 </activeRecipes>

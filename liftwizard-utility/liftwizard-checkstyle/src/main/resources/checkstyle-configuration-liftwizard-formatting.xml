@@ -21,14 +21,231 @@
 
 <!-- Adapted from https://github.com/checkstyle/checkstyle/blob/master/config/checkstyle_checks.xml -->
 <module name="Checker">
-    <property name="charset" value="UTF-8" />
-
     <property name="severity" value="error" />
 
-    <!-- Miscellaneous -->
+    <!--region Filters-->
+    <module name="SeverityMatchFilter">
+        <!-- report all violations except ignore -->
+        <property name="severity" value="ignore" />
+        <property name="acceptOnMatch" value="false" />
+    </module>
+    <!--endregion-->
+
+    <!--region Miscellaneous-->
+    <!--https://checkstyle.sourceforge.io/checks/misc/index.html-->
     <module name="NewlineAtEndOfFile" />
+    <!--endregion-->
+
+    <!--region Regexp-->
+    <!--https://checkstyle.sourceforge.io/checks/regexp/index.html-->
+    <module name="RegexpMultiline">
+        <property name="id" value="noConsecutiveLines" />
+        <property name="format" value="\r?\n[\t ]*\r?\n[\t ]*\r?\n" />
+        <property name="fileExtensions" value="java,xml,properties" />
+        <property name="message" value="Unnecessary consecutive blank lines" />
+    </module>
+    <module name="RegexpMultiline">
+        <property name="id" value="noEmptyFile" />
+        <property name="format" value="^\s*$" />
+        <property name="matchAcrossLines" value="true" />
+        <property name="message" value="Empty file is not allowed" />
+    </module>
+    <module name="RegexpSingleline">
+        <property name="id" value="noTrailingWhitespace" />
+        <property name="format" value="\s+$" />
+        <property name="minimum" value="0" />
+        <property name="maximum" value="0" />
+        <property name="message" value="Trailing whitespace is not allowed" />
+    </module>
+    <module name="RegexpSingleline">
+        <property name="id" value="assertThatShouldBeOnSeparateLine" />
+        <property name="format" value="assertWithMessage\(.*\).that\(" />
+        <property name="fileExtensions" value="java" />
+        <property name="message"
+                value="Truth''s ''that'' method call should be on separate line" />
+    </module>
+    <!--endregion-->
+
+    <!-- Whitespace -->
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="false" />
+    </module>
+    <!--endregion-->
 
     <module name="TreeWalker">
         <property name="tabWidth" value="4" />
+
+        <!--region Filters-->
+        <!--endregion-->
+
+        <!--region Annotations-->
+        <!--https://checkstyle.sourceforge.io/checks/annotation/index.html-->
+        <module name="AnnotationLocation">
+            <property name="id" value="AnnotationLocationMostCases" />
+            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF" />
+        </module>
+        <module name="AnnotationLocation">
+            <property name="id" value="AnnotationLocationVariables" />
+            <property name="tokens" value="VARIABLE_DEF" />
+            <property name="allowSamelineMultipleAnnotations" value="true" />
+        </module>
+        <module name="AnnotationLocation">
+            <property name="tokens" value="ANNOTATION_DEF" />
+            <property name="tokens" value="ANNOTATION_FIELD_DEF" />
+            <property name="tokens" value="PACKAGE_DEF" />
+            <property name="tokens" value="ENUM_CONSTANT_DEF" />
+            <property name="tokens" value="VARIABLE_DEF" />
+            <property name="allowSamelineSingleParameterlessAnnotation" value="false" />
+        </module>
+        <!--endregion-->
+
+        <!--region Whitespace-->
+        <!--https://checkstyle.sourceforge.io/checks/whitespace/index.html-->
+        <module name="EmptyForInitializerPad" />
+        <module name="EmptyForIteratorPad">
+            <property name="option" value="space" />
+        </module>
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="true" />
+            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false" />
+        </module>
+        <module name="GenericWhitespace" />
+        <module name="MethodParamPad" />
+        <module name="NoLineWrap" />
+        <module name="NoWhitespaceAfter">
+            <property name="tokens" value="ARRAY_INIT" />
+            <property name="tokens" value="AT" />
+            <property name="tokens" value="BNOT" />
+            <property name="tokens" value="DEC" />
+            <property name="tokens" value="DOT" />
+            <property name="tokens" value="INC" />
+            <property name="tokens" value="LNOT" />
+            <property name="tokens" value="UNARY_MINUS" />
+            <property name="tokens" value="UNARY_PLUS" />
+            <property name="tokens" value="ARRAY_DECLARATOR" />
+            <property name="tokens" value="INDEX_OP" />
+            <property name="tokens" value="METHOD_REF" />
+        </module>
+        <module name="NoWhitespaceBefore" />
+        <module name="NoWhitespaceBeforeCaseDefaultColon" />
+        <module name="NoWhitespaceBefore">
+            <property name="tokens" value="DOT" />
+            <property name="tokens" value="METHOD_REF" />
+            <property name="allowLineBreaks" value="true" />
+        </module>
+        <module name="OperatorWrap">
+            <property name="tokens" value="QUESTION" />
+            <property name="tokens" value="COLON" />
+            <property name="tokens" value="EQUAL" />
+            <property name="tokens" value="NOT_EQUAL" />
+            <property name="tokens" value="DIV" />
+            <property name="tokens" value="PLUS" />
+            <property name="tokens" value="MINUS" />
+            <property name="tokens" value="STAR" />
+            <property name="tokens" value="MOD" />
+            <property name="tokens" value="SR" />
+            <property name="tokens" value="BSR" />
+            <property name="tokens" value="GE" />
+            <property name="tokens" value="GT" />
+            <property name="tokens" value="SL" />
+            <property name="tokens" value="LE" />
+            <property name="tokens" value="LT" />
+            <property name="tokens" value="BXOR" />
+            <property name="tokens" value="BOR" />
+            <property name="tokens" value="LOR" />
+            <property name="tokens" value="BAND" />
+            <property name="tokens" value="LAND" />
+            <property name="tokens" value="TYPE_EXTENSION_AND" />
+            <property name="tokens" value="LITERAL_INSTANCEOF" />
+            <property name="tokens" value="METHOD_REF" />
+            <property name="option" value="nl" />
+        </module>
+        <module name="OperatorWrap">
+            <property name="tokens" value="ASSIGN" />
+            <property name="tokens" value="DIV_ASSIGN" />
+            <property name="tokens" value="PLUS_ASSIGN" />
+            <property name="tokens" value="MINUS_ASSIGN" />
+            <property name="tokens" value="STAR_ASSIGN" />
+            <property name="tokens" value="MOD_ASSIGN" />
+            <property name="tokens" value="SR_ASSIGN" />
+            <property name="tokens" value="BSR_ASSIGN" />
+            <property name="tokens" value="SL_ASSIGN" />
+            <property name="tokens" value="BXOR_ASSIGN" />
+            <property name="tokens" value="BOR_ASSIGN" />
+            <property name="tokens" value="BAND_ASSIGN" />
+            <property name="option" value="eol" />
+        </module>
+        <module name="ParenPad" />
+        <module name="SeparatorWrap">
+            <property name="id" value="SeparatorWrapNl" />
+            <property name="tokens" value="DOT" />
+            <property name="tokens" value="AT" />
+            <property name="tokens" value="METHOD_REF" />
+            <property name="option" value="nl" />
+        </module>
+        <module name="SeparatorWrap">
+            <property name="id" value="SeparatorWrapEol" />
+            <property name="tokens" value="COMMA" />
+            <property name="tokens" value="RPAREN" />
+            <property name="tokens" value="RBRACK" />
+            <property name="tokens" value="ARRAY_DECLARATOR" />
+            <property name="tokens" value="ELLIPSIS" />
+            <property name="tokens" value="SEMI" />
+            <property name="option" value="EOL" />
+        </module>
+        <!--Strict-->
+        <module name="TypecastParenPad" />
+        <module name="WhitespaceAfter" />
+        <module name="WhitespaceAround">
+            <property name="allowEmptyConstructors" value="true" />
+            <property name="allowEmptyMethods" value="true" />
+            <property name="allowEmptyTypes" value="true" />
+            <property name="allowEmptyLoops" value="true" />
+        </module>
+        <!--endregion-->
+
+        <!--region Indentation-->
+        <module name="CommentsIndentation" />
+        <module name="Indentation">
+            <property name="basicOffset" value="4" />
+            <property name="braceAdjustment" value="0" />
+            <property name="caseIndent" value="4" />
+            <property name="throwsIndent" value="8" />
+            <property name="arrayInitIndent" value="4" />
+            <property name="lineWrappingIndentation" value="8" />
+        </module>
+        <!--endregion-->
+
+        <!--region Blocks-->
+        <module name="LeftCurly">
+            <property name="option" value="nl" />
+        </module>
+        <module name="RightCurly">
+            <property name="tokens" value="METHOD_DEF" />
+            <property name="tokens" value="CTOR_DEF" />
+            <property name="tokens" value="CLASS_DEF" />
+            <property name="tokens" value="INSTANCE_INIT" />
+            <property name="tokens" value="LITERAL_FOR" />
+            <property name="tokens" value="STATIC_INIT" />
+            <property name="tokens" value="LITERAL_WHILE" />
+            <property name="tokens" value="LITERAL_CATCH" />
+            <property name="tokens" value="LITERAL_ELSE" />
+            <property name="tokens" value="LITERAL_FINALLY" />
+            <property name="tokens" value="LITERAL_IF" />
+            <property name="tokens" value="LITERAL_TRY" />
+            <property name="tokens" value="LITERAL_SWITCH" />
+            <property name="tokens" value="ANNOTATION_DEF" />
+            <property name="tokens" value="ENUM_DEF" />
+            <property name="tokens" value="RECORD_DEF" />
+            <property name="tokens" value="COMPACT_CTOR_DEF" />
+            <property name="option" value="alone" />
+        </module>
+        <module name="RightCurly">
+            <property name="tokens" value="LITERAL_DO" />
+            <property name="option" value="same" />
+        </module>
+        <!--endregion-->
+
     </module>
+
 </module>

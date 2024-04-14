@@ -133,6 +133,42 @@ jobs:
       - name: 'Clean Maven cache'
         run: rm -rf ~/.m2/repository/io/liftwizard
 
+  checkstyle-semantics-strict:
+    name: checkstyle xml (semantics strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: actions/cache@v4
+        with:
+          key: checkstyle-${{ hashFiles('**/pom.xml') }}
+          path: ~/.m2/repository
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version-file: .tool-versions
+          distribution: oracle
+
+      - name: 'Install liftwizard-checkstyle module'
+        run: ./mvnw install --projects liftwizard-utility/liftwizard-checkstyle
+
+
+      - name: 'Produce Checkstyle XML: Strict Semantics'
+        run: ./mvnw checkstyle:check --activate-profiles 'checkstyle-semantics-strict' -Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false -Dcheckstyle.output.format=xml
+
+      - name: 'Checkstyle GitHub Annotations: Strict Semantics'
+        uses: lcollins/checkstyle-github-action@v2.0.0
+        with:
+          name: 'checkstyle annotations (semantics strict)'
+          path: '**/checkstyle-result.xml'
+
+      - name: 'Clean Maven cache'
+        run: rm -rf ~/.m2/repository/io/liftwizard
+
   checkstyle-formatting:
     name: checkstyle xml (formatting)
     runs-on: ubuntu-latest
@@ -163,6 +199,41 @@ jobs:
         uses: lcollins/checkstyle-github-action@v2.0.0
         with:
           name: 'checkstyle annotations (formatting)'
+          path: '**/checkstyle-result.xml'
+
+      - name: 'Clean Maven cache'
+        run: rm -rf ~/.m2/repository/io/liftwizard
+
+  checkstyle-formatting-strict:
+    name: checkstyle xml (formatting strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: actions/cache@v4
+        with:
+          key: checkstyle-${{ hashFiles('**/pom.xml') }}
+          path: ~/.m2/repository
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version-file: .tool-versions
+          distribution: oracle
+
+      - name: 'Install liftwizard-checkstyle module'
+        run: ./mvnw install --projects liftwizard-utility/liftwizard-checkstyle
+
+      - name: 'Produce Checkstyle XML: Strict Formatting'
+        run: ./mvnw checkstyle:check --activate-profiles 'checkstyle-formatting-strict' -Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false -Dcheckstyle.output.format=xml
+
+      - name: 'Checkstyle GitHub Annotations: Strict Formatting'
+        uses: lcollins/checkstyle-github-action@v2.0.0
+        with:
+          name: 'checkstyle annotations (formatting strict)'
           path: '**/checkstyle-result.xml'
 
       - name: 'Clean Maven cache'
