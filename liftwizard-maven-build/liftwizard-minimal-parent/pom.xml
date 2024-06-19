@@ -133,7 +133,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
+                <version>3.3.0</version>
                 <!-- In maven 3.9.6 and 4.x, maven is able to auto-detect JUnit and these dependencies are not required -->
                 <!-- In maven 3.9.5, there is an internal exception inside surefire without these declared -->
                 <!-- Even with newer versions of maven, it is advantageous to keep these declarations -->
