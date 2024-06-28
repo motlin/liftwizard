@@ -124,7 +124,7 @@
             <dependency>
                 <groupId>io.grpc</groupId>
                 <artifactId>grpc-api</artifactId>
-                <version>1.64.0</version>
+                <version>1.65.0</version>
             </dependency>
 
             <dependency>
