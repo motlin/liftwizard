@@ -1,4 +1,4 @@
-When using [Reladomo](https://github.com/goldmansachs/reladomo), queries are usually expressed using its code-generated Finder language. 
+When using [Reladomo](https://github.com/goldmansachs/reladomo), queries are usually expressed using its code-generated Finder language.
 
 ```java
 Operation operation = MyTypeFinder.optionalString().eq("value")
@@ -7,7 +7,7 @@ Operation operation = MyTypeFinder.optionalString().eq("value")
 MyTypeList mithraList = MyTypeFinder.findMany(operation);
 ```
 
-In some situations, it can be useful to have a more dynamic way of expressing queries. 
+In some situations, it can be useful to have a more dynamic way of expressing queries.
 
 That's where `ReladomoOperationCompiler` comes in.  It can take a String and compile it into a Reladomo [Operation](https://www.mvndoc.com/c/com.goldmansachs.reladomo/reladomo/com/gs/fw/finder/Operation.html).
 
@@ -132,3 +132,4 @@ this.target { RelatedType.source.value = "value" } not exists
 # Edge points
 this.system equalsEdgePoint
 ```
+

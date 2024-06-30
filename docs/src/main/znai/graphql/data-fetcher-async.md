@@ -26,3 +26,4 @@ ExecutorService executorService = environment
     <artifactId>liftwizard-graphql-data-fetcher-async</artifactId>
 </dependency>
 ```
+

@@ -1,6 +1,6 @@
 There are a number of best practices that can be handled at once by inheriting from a parent pom that takes care of them all.
 
-Liftwizard ships with several parent poms that form an inheritance hierarchy. 
+Liftwizard ships with several parent poms that form an inheritance hierarchy.
 
 - [`liftwizard-minimal-parent`](minimal-parent.md) is the most minimal parent pom. It is meant to contain uncontroversial best practices that are applicable to all projects.
 - [`liftwizard-profile-parent`](profile-parent.md) is a parent pom that inherits from `liftwizard-minimal-parent` and enables several linters and validators in profiles that are off by default.
