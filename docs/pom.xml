@@ -14,14 +14,13 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.liftwizard</groupId>
         <artifactId>liftwizard</artifactId>
         <version>2.1.14-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>docs</artifactId>
 
@@ -69,24 +68,24 @@
                         <executions>
                             <execution>
                                 <id>znai build</id>
-                                <phase>prepare-package</phase>
                                 <goals>
                                     <goal>build</goal>
                                 </goals>
+                                <phase>prepare-package</phase>
                             </execution>
                             <execution>
                                 <id>znai export</id>
-                                <phase>prepare-package</phase>
                                 <goals>
                                     <goal>export</goal>
                                 </goals>
+                                <phase>prepare-package</phase>
                             </execution>
                             <execution>
                                 <id>znai validate-export</id>
-                                <phase>prepare-package</phase>
                                 <goals>
                                     <goal>build</goal>
                                 </goals>
+                                <phase>prepare-package</phase>
                             </execution>
                         </executions>
                     </plugin>
