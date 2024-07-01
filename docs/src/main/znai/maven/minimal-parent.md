@@ -33,7 +33,6 @@ This will become unnecessary starting with maven 4.x.
 
 > [Reproducible builds](https://reproducible-builds.org/)  are a set of software development practices that create an independently-verifiable path from source to binary code. A build is  **reproducible**  if given the same source code, build environment and build instructions, any party can recreate  **bit-by-bit**  identical copies of all specified artifacts.
 
-
 You can [enable Reproducible Builds mode for plugins](https://maven.apache.org/guides/mini/guide-reproducible-builds.html#how-do-i-configure-my-maven-build) by specifying locking down the outputTimestamp property.
 
 :include-file: liftwizard-minimal-parent/pom.xml {

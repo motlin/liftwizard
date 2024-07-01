@@ -169,6 +169,10 @@
         <profile>
             <id>spotless-check</id>
 
+            <properties>
+                <spotless.check.skip>false</spotless.check.skip>
+            </properties>
+
             <build>
                 <plugins>
                     <plugin>
@@ -189,6 +193,10 @@
 
         <profile>
             <id>spotless-write</id>
+
+            <properties>
+                <spotless.check.skip>false</spotless.check.skip>
+            </properties>
 
             <build>
                 <plugins>
@@ -449,7 +457,6 @@
                                     <jsonFeatures>
                                         <QUOTE_FIELD_NAMES>false</QUOTE_FIELD_NAMES>
                                         <ALLOW_YAML_COMMENTS>true</ALLOW_YAML_COMMENTS>
-                                        <ALLOW_UNQUOTED_CONTROL_CHARS>true</ALLOW_UNQUOTED_CONTROL_CHARS>
                                         <ALLOW_UNQUOTED_FIELD_NAMES>true</ALLOW_UNQUOTED_FIELD_NAMES>
                                     </jsonFeatures>
                                 </jackson>
@@ -476,9 +483,11 @@
                                     <include>**/*.yml</include>
                                 </includes>
 
-                                <jackson>
-                                    <version>2.14.2</version>
-                                </jackson>
+                                <prettier>
+                                    <config>
+                                        <singleQuote>true</singleQuote>
+                                    </config>
+                                </prettier>
                             </yaml>
                         </configuration>
                     </plugin>

@@ -28,8 +28,8 @@ tags:
 recipeList:
   - org.openrewrite.java.migrate.Java8toJava11
   - org.openrewrite.java.migrate.JavaVersion17
-# Disabled in Liftwizard
-#  - org.openrewrite.java.migrate.lang.StringFormatted
+  # Disabled in Liftwizard
+  #  - org.openrewrite.java.migrate.lang.StringFormatted
   - org.openrewrite.github.SetupJavaUpgradeJavaVersion:
       minimumJavaMajorVersion: 17
   - org.openrewrite.staticanalysis.InstanceOfPatternMatch
@@ -37,8 +37,8 @@ recipeList:
       methodPattern: java.lang.Runtime traceInstructions(boolean)
   - org.openrewrite.java.migrate.RemoveMethodInvocation:
       methodPattern: java.lang.System traceMethodCalls(boolean)
-# Disabled in Liftwizard
-#  - org.openrewrite.java.migrate.lang.UseTextBlocks
+  # Disabled in Liftwizard
+  #  - org.openrewrite.java.migrate.lang.UseTextBlocks
   - org.openrewrite.java.migrate.DeprecatedJavaxSecurityCert
   - org.openrewrite.java.migrate.DeprecatedLogRecordThreadID
   - org.openrewrite.java.migrate.RemovedLegacySunJSSEProviderName
@@ -115,16 +115,16 @@ tags:
   - java17
 recipeList:
   - org.openrewrite.java.ChangeMethodAccessLevel:
-      methodPattern: "*..* agentmain(java.lang.String)"
+      methodPattern: '*..* agentmain(java.lang.String)'
       newAccessLevel: public
   - org.openrewrite.java.ChangeMethodAccessLevel:
-      methodPattern: "*..* agentmain(java.lang.String, java.lang.instrument.Instrumentation)"
+      methodPattern: '*..* agentmain(java.lang.String, java.lang.instrument.Instrumentation)'
       newAccessLevel: public
   - org.openrewrite.java.ChangeMethodAccessLevel:
-      methodPattern: "*..* premain(java.lang.String)"
+      methodPattern: '*..* premain(java.lang.String)'
       newAccessLevel: public
   - org.openrewrite.java.ChangeMethodAccessLevel:
-      methodPattern: "*..* premain(java.lang.String, java.lang.instrument.Instrumentation)"
+      methodPattern: '*..* premain(java.lang.String, java.lang.instrument.Instrumentation)'
       newAccessLevel: public
 ---
 type: specs.openrewrite.org/v1beta/recipe
@@ -137,15 +137,15 @@ tags:
   - java17
 recipeList:
   - org.openrewrite.java.ChangeMethodName:
-      methodPattern: "java.util.zip.Inflater finalize()"
+      methodPattern: 'java.util.zip.Inflater finalize()'
       newMethodName: end
       ignoreDefinition: true
   - org.openrewrite.java.ChangeMethodName:
-      methodPattern: "java.util.zip.Deflater finalize()"
+      methodPattern: 'java.util.zip.Deflater finalize()'
       newMethodName: end
       ignoreDefinition: true
   - org.openrewrite.java.ChangeMethodName:
-      methodPattern: "java.util.zip.ZipFile finalize()"
+      methodPattern: 'java.util.zip.ZipFile finalize()'
       newMethodName: close
       ignoreDefinition: true
 ---
@@ -160,7 +160,7 @@ tags:
   - java17
 recipeList:
   - org.openrewrite.java.ChangeMethodName:
-      methodPattern: "javax.net.ssl.SSLSession getPeerCertificateChain()"
+      methodPattern: 'javax.net.ssl.SSLSession getPeerCertificateChain()'
       newMethodName: getPeerCertificates
       ignoreDefinition: true
 ---
@@ -186,7 +186,7 @@ tags:
 recipeList:
   - org.openrewrite.java.ReplaceConstantWithAnotherConstant:
       existingFullyQualifiedConstantName: javax.management.remote.rmi.RMIConnectorServer.CREDENTIAL_TYPES
-      fullyQualifiedConstantName:  javax.management.remote.rmi.RMIConnectorServer.CREDENTIALS_FILTER_PATTERN
+      fullyQualifiedConstantName: javax.management.remote.rmi.RMIConnectorServer.CREDENTIALS_FILTER_PATTERN
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.migrate.RemovedFileIOFinalizeMethods
@@ -197,10 +197,10 @@ tags:
   - java17
 recipeList:
   - org.openrewrite.java.ChangeMethodName:
-      methodPattern: "java.io.FileInputStream finalize()"
+      methodPattern: 'java.io.FileInputStream finalize()'
       newMethodName: close
       ignoreDefinition: true
   - org.openrewrite.java.ChangeMethodName:
-      methodPattern: "java.io.FileOutputStream finalize()"
+      methodPattern: 'java.io.FileOutputStream finalize()'
       newMethodName: close
       ignoreDefinition: true

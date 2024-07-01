@@ -26,37 +26,37 @@ name: io.liftwizard.staticanalysis.CommonStaticAnalysis
 displayName: Common static analysis issues
 description: Resolve common static analysis issues discovered through 3rd party tools.
 recipeList:
-#  - org.openrewrite.staticanalysis.AddSerialVersionUidToSerializable
+  #  - org.openrewrite.staticanalysis.AddSerialVersionUidToSerializable
   - org.openrewrite.staticanalysis.AtomicPrimitiveEqualsUsesGet
   - org.openrewrite.staticanalysis.BigDecimalDoubleConstructorRecipe
   - org.openrewrite.staticanalysis.BigDecimalRoundingConstantsToEnums
   - org.openrewrite.staticanalysis.BooleanChecksNotInverted
   - org.openrewrite.staticanalysis.CaseInsensitiveComparisonsDoNotChangeCase
   - org.openrewrite.staticanalysis.CatchClauseOnlyRethrows
-# Disabled in Liftwizard
-#  - org.openrewrite.staticanalysis.ChainStringBuilderAppendCalls
+  # Disabled in Liftwizard
+  #  - org.openrewrite.staticanalysis.ChainStringBuilderAppendCalls
   - org.openrewrite.staticanalysis.CovariantEquals
   - org.openrewrite.staticanalysis.DefaultComesLast
   - org.openrewrite.staticanalysis.EmptyBlock
-# Disabled in Liftwizard
-#  - org.openrewrite.staticanalysis.EqualsAvoidsNull
+  # Disabled in Liftwizard
+  #  - org.openrewrite.staticanalysis.EqualsAvoidsNull
   - org.openrewrite.staticanalysis.ExplicitInitialization
   - org.openrewrite.staticanalysis.ExternalizableHasNoArgsConstructor
   - org.openrewrite.staticanalysis.FinalizePrivateFields
   - org.openrewrite.staticanalysis.FallThrough
   - org.openrewrite.staticanalysis.FinalClass
-# Disabled in Liftwizard
-#  - org.openrewrite.staticanalysis.FixStringFormatExpressions
+  # Disabled in Liftwizard
+  #  - org.openrewrite.staticanalysis.FixStringFormatExpressions
   - org.openrewrite.staticanalysis.ForLoopIncrementInUpdate
-#  - org.openrewrite.staticanalysis.HideUtilityClassConstructor
+  #  - org.openrewrite.staticanalysis.HideUtilityClassConstructor
   - org.openrewrite.staticanalysis.IndexOfChecksShouldUseAStartPosition
   - org.openrewrite.staticanalysis.IndexOfReplaceableByContains
   - org.openrewrite.staticanalysis.IndexOfShouldNotCompareGreaterThanZero
-# Disabled in Liftwizard
-#  - org.openrewrite.staticanalysis.InlineVariable
+  # Disabled in Liftwizard
+  #  - org.openrewrite.staticanalysis.InlineVariable
   - org.openrewrite.staticanalysis.IsEmptyCallOnCollections
   - org.openrewrite.staticanalysis.LambdaBlockToExpression
-#  - org.openrewrite.staticanalysis.LowercasePackage
+  #  - org.openrewrite.staticanalysis.LowercasePackage
   - org.openrewrite.staticanalysis.MethodNameCasing
   - org.openrewrite.staticanalysis.MinimumSwitchCases
   - org.openrewrite.staticanalysis.ModifierOrder
@@ -76,35 +76,35 @@ recipeList:
   - org.openrewrite.staticanalysis.PrimitiveWrapperClassConstructorToValueOf
   - org.openrewrite.staticanalysis.RedundantFileCreation
   - org.openrewrite.staticanalysis.RemoveExtraSemicolons
-#  - org.openrewrite.staticanalysis.RemoveRedundantTypeCast
-#  - org.openrewrite.java.RemoveUnusedImports
-#  - org.openrewrite.staticanalysis.RemoveUnusedLocalVariables
-#  - org.openrewrite.staticanalysis.RemoveUnusedPrivateMethods
+  #  - org.openrewrite.staticanalysis.RemoveRedundantTypeCast
+  #  - org.openrewrite.java.RemoveUnusedImports
+  #  - org.openrewrite.staticanalysis.RemoveUnusedLocalVariables
+  #  - org.openrewrite.staticanalysis.RemoveUnusedPrivateMethods
   - org.openrewrite.staticanalysis.RenameLocalVariablesToCamelCase
   - org.openrewrite.staticanalysis.RenameMethodsNamedHashcodeEqualOrTostring
   - org.openrewrite.staticanalysis.RenamePrivateFieldsToCamelCase
-# Disabled in Liftwizard
-#  - org.openrewrite.staticanalysis.ReplaceLambdaWithMethodReference
+  # Disabled in Liftwizard
+  #  - org.openrewrite.staticanalysis.ReplaceLambdaWithMethodReference
   - org.openrewrite.staticanalysis.ReplaceStringBuilderWithString
   - org.openrewrite.staticanalysis.SimplifyBooleanExpression
-# Disabled in Liftwizard
-#  - org.openrewrite.staticanalysis.SimplifyBooleanReturn
-#  - org.openrewrite.staticanalysis.SimplifyTernaryRecipes
+  # Disabled in Liftwizard
+  #  - org.openrewrite.staticanalysis.SimplifyBooleanReturn
+  #  - org.openrewrite.staticanalysis.SimplifyTernaryRecipes
   - org.openrewrite.staticanalysis.StaticMethodNotFinal
-# Disabled in Liftwizard
-#  - org.openrewrite.staticanalysis.StringLiteralEquality
+  # Disabled in Liftwizard
+  #  - org.openrewrite.staticanalysis.StringLiteralEquality
   - org.openrewrite.staticanalysis.UnnecessaryCloseInTryWithResources
   - org.openrewrite.staticanalysis.UnnecessaryExplicitTypeArguments
   - org.openrewrite.staticanalysis.UnnecessaryParentheses
   - org.openrewrite.staticanalysis.UnnecessaryPrimitiveAnnotations
   - org.openrewrite.staticanalysis.UpperCaseLiteralSuffixes
-#  - org.openrewrite.staticanalysis.UnnecessaryThrows
-#  - org.openrewrite.staticanalysis.UseCollectionInterfaces
+  #  - org.openrewrite.staticanalysis.UnnecessaryThrows
+  #  - org.openrewrite.staticanalysis.UseCollectionInterfaces
   - org.openrewrite.staticanalysis.UseDiamondOperator
   - org.openrewrite.staticanalysis.UseJavaStyleArrayDeclarations
-# https://github.com/openrewrite/rewrite-static-analysis/issues/10
-#  - org.openrewrite.staticanalysis.UseLambdaForFunctionalInterface
-#  - org.openrewrite.staticanalysis.UseStringReplace
+  # https://github.com/openrewrite/rewrite-static-analysis/issues/10
+  #  - org.openrewrite.staticanalysis.UseLambdaForFunctionalInterface
+  #  - org.openrewrite.staticanalysis.UseStringReplace
   - org.openrewrite.staticanalysis.WhileInsteadOfFor
   - org.openrewrite.staticanalysis.WriteOctalValuesAsDecimal
   - org.openrewrite.kotlin.cleanup.EqualsMethodUsage

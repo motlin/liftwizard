@@ -9,9 +9,9 @@ The bundle can be configured:
 * the max body size before truncation
 
 Through code, the bundle can be configured to log using different combinations of slf4j/log4j/logback with context in MDC or OpenTracing or a Map.
- 
+
 To turn it on, add `JerseyHttpLoggingBundle` to the list of registered bundles.
- 
+
 ```java
 @Override
 public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
@@ -42,7 +42,7 @@ Consumer<StructuredArguments> structuredLogger = structuredArguments ->
 
 bootstrap.addBundle(new JerseyHttpLoggingBundle(structuredLogger));
 ```
- 
+
 `JerseyHttpLoggingBundle` lives in the `liftwizard-bundle-logging-http` module.
 
 ```xml
@@ -55,7 +55,9 @@ bootstrap.addBundle(new JerseyHttpLoggingBundle(structuredLogger));
 In order to see the logging in action, we'll need to configure a log format that includes mdc and markers.
 
 ### test-example.json5
+
 `src/test/resources/test-example.json5`
+
 ```json5
 {
   "type": "console",
@@ -66,7 +68,6 @@ In order to see the logging in action, we'll need to configure a log format that
 ```
 
 Next, lets turn on all the basic filters and see how they change what gets logged.
-
 
 ## Logging output
 
@@ -111,7 +112,9 @@ response.http.status.family=SUCCESSFUL>
 Let's add the logstash-file appender to the list of configured appenders.
 
 ### test-example.json5
+
 `src/test/resources/test-example.json5`
+
 ```json5
 {
   // ...
@@ -145,7 +148,9 @@ Let's add the logstash-file appender to the list of configured appenders.
 ```
 
 ### logstash.jsonl
+
 `logs/logstash.jsonl` snippet
+
 ```json
 {
   "@timestamp": "1999-12-31T23:59:59.000-00:00",
@@ -186,3 +191,4 @@ Let's add the logstash-file appender to the list of configured appenders.
   "caller_line_number": 56
 }
 ```
+

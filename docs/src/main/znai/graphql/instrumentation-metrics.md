@@ -52,3 +52,4 @@ If you annotate your DataFetcher with `@Metered`, the Intrumentation will add me
     <artifactId>liftwizard-graphql-instrumentation-metrics</artifactId>
 </dependency>
 ```
+

@@ -10,3 +10,4 @@ highlightValue: ["root.version.createdOn", "root.version.createdBy", "root.versi
 The version table includes column createdById and lastUpdatedById that point to a user table.
 
 ## Deletes
+
