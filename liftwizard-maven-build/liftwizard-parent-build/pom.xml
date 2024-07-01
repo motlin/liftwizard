@@ -175,9 +175,15 @@
                                 <artifactId>liftwizard-checkstyle</artifactId>
                                 <version>2.1.14-SNAPSHOT</version>
                             </dependency>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>9.3</version>
+                            </dependency>
                         </dependencies>
                         <configuration>
                             <configLocation>checkstyle-configuration-liftwizard-semantics.xml</configLocation>
+                            <outputFileFormat>sarif</outputFileFormat>
                         </configuration>
                         <executions>
                             <execution>
@@ -207,9 +213,15 @@
                                 <artifactId>liftwizard-checkstyle</artifactId>
                                 <version>2.1.14-SNAPSHOT</version>
                             </dependency>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>9.3</version>
+                            </dependency>
                         </dependencies>
                         <configuration>
                             <configLocation>checkstyle-configuration-liftwizard-semantics-strict.xml</configLocation>
+                            <outputFileFormat>sarif</outputFileFormat>
                         </configuration>
                         <executions>
                             <execution>
@@ -239,9 +251,15 @@
                                 <artifactId>liftwizard-checkstyle</artifactId>
                                 <version>2.1.14-SNAPSHOT</version>
                             </dependency>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>9.3</version>
+                            </dependency>
                         </dependencies>
                         <configuration>
                             <configLocation>checkstyle-configuration-liftwizard-formatting.xml</configLocation>
+                            <outputFileFormat>sarif</outputFileFormat>
                         </configuration>
                         <executions>
                             <execution>
@@ -272,9 +290,15 @@
                                 <artifactId>liftwizard-checkstyle</artifactId>
                                 <version>2.1.14-SNAPSHOT</version>
                             </dependency>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>9.3</version>
+                            </dependency>
                         </dependencies>
                         <configuration>
                             <configLocation>checkstyle-configuration-liftwizard-formatting-strict.xml</configLocation>
+                            <outputFileFormat>sarif</outputFileFormat>
                         </configuration>
                         <executions>
                             <execution>

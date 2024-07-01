@@ -112,6 +112,8 @@ jobs:
   checkstyle-semantics:
     name: checkstyle xml (semantics)
     runs-on: ubuntu-latest
+    permissions:
+      security-events: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -134,7 +136,14 @@ jobs:
         run: ./mvnw install --projects liftwizard-utility/liftwizard-checkstyle
 
       - name: 'Produce Checkstyle XML: Semantics'
-        run: ./mvnw checkstyle:check --activate-profiles 'checkstyle-semantics' -Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false -Dcheckstyle.output.format=xml
+        run: ./mvnw checkstyle:check --activate-profiles 'checkstyle-semantics' -Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false -Dcheckstyle.output.format=sarif
+
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
+          # Optional category for the results
+          # Used to differentiate multiple results for one commit
+          category: Checkstyle Semantics
 
       - name: 'Checkstyle GitHub Annotations: Semantics'
         uses: lcollins/checkstyle-github-action@v3.0.0
@@ -170,7 +179,7 @@ jobs:
         run: ./mvnw install --projects liftwizard-utility/liftwizard-checkstyle
 
       - name: 'Produce Checkstyle XML: Strict Semantics'
-        run: ./mvnw checkstyle:check --activate-profiles 'checkstyle-semantics-strict' -Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false -Dcheckstyle.output.format=xml
+        run: ./mvnw checkstyle:check --activate-profiles 'checkstyle-semantics-strict' -Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false -Dcheckstyle.output.format=sarif
 
       - name: 'Checkstyle GitHub Annotations: Strict Semantics'
         uses: lcollins/checkstyle-github-action@v3.0.0
@@ -206,7 +215,7 @@ jobs:
         run: ./mvnw install --projects liftwizard-utility/liftwizard-checkstyle
 
       - name: 'Produce Checkstyle XML: Formatting'
-        run: ./mvnw checkstyle:check --activate-profiles 'checkstyle-formatting' -Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false -Dcheckstyle.output.format=xml
+        run: ./mvnw checkstyle:check --activate-profiles 'checkstyle-formatting' -Dcheckstyle.failOnViolation=false -Dcheckstyle.failsOnError=false -Dcheckstyle.output.format=sarif
 
       - name: 'Checkstyle GitHub Annotations: Formatting'
         uses: lcollins/checkstyle-github-action@v3.0.0
