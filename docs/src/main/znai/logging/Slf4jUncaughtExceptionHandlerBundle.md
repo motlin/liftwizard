@@ -65,3 +65,5 @@ And add the dependency:
     <groupId>io.liftwizard</groupId>
     <artifactId>liftwizard-logging-uncaught-exception-handler</artifactId>
 </dependency>
+```
+

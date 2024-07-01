@@ -80,3 +80,4 @@ Composites are subtle, so let's walk through a few examples.
 * BlueprintTag mappings don't have any mutable properties. If they did, editing those properties would create a new version. For example, if we persisted their relative ordering with an ordinal property, then reordering the Blueprint's tags would create a new version.
 * When the Blueprint author changes their display name, this does not create a new version. The User object is not part of the composite.
 * We don't allow reassigning Blueprints to another author. If we did, repointing the author would create a new version. This works well with a temporal schema, because Blueprint.createdById would be swapped.
+
