@@ -23,3 +23,4 @@ public class ExampleTest
     <scope>test</scope>
 </dependency>
 ```
+

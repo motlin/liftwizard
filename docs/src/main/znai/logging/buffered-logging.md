@@ -20,7 +20,6 @@ You can use  directly in logback configuration. It requires a delegate appender 
 </dependency>
 ```
 
-
 ## Log Markers
 
 We must log `CLEAR` and `FLUSH` markers to instruct `BufferedAppender` to clear or flush its logs. If you are using JUnit 4 or 5, you can use the included Rule or Extension to log these markers automatically.
@@ -35,17 +34,17 @@ We must log `CLEAR` and `FLUSH` markers to instruct `BufferedAppender` to clear 
 The `BufferedAppenderFactory` allows you to use an appender with the type `buffered` where you would otherwise use `console` in your Dropwizard configuration.
 
 ```json5
-  "logging": {
-    "level": "DEBUG",
-    "appenders": [
-      {
-        "type": "buffered",
-        "timeZone": "${LOGGING_TIMEZONE:-system}",
-        "logFormat": "%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\(%file:%line\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException",
-        "includeCallerData": true,
-      },
-    ]
-  }
+"logging": {
+  "level": "DEBUG",
+  "appenders": [
+    {
+      "type": "buffered",
+      "timeZone": "${LOGGING_TIMEZONE:-system}",
+      "logFormat": "%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\(%file:%line\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException",
+      "includeCallerData": true,
+    },
+  ]
+}
 ```
 
 `BufferedAppenderFactory` lives in the `liftwizard-config-logging-buffered` module.
@@ -59,7 +58,7 @@ The `BufferedAppenderFactory` allows you to use an appender with the type `buffe
 ```
 
 Note: `BufferedAppenderFactory` is primarily useful for tests that use [Dropwizard's JUnit 4 Rule](https://www.dropwizard.io/en/release-2.1.x/manual/testing.html#junit-4) `DropwizardAppRule` or [Dropwizard's JUnit 5 Extension](https://www.dropwizard.io/en/release-2.1.x/manual/testing.html#junit-5) `DropwizardAppExtension`.
- 
+
 ```java
 private final TestRule logMarkerTestRule = new LogMarkerTestRule();
 

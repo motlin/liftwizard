@@ -16,3 +16,4 @@ If `LIFTWIZARD_FILE_MATCH_RULE_RERECORD` is set to `true`, `assertFileContents` 
 "JUnit 4": :include-markdown: snippets/FileMatchRule.md
 "JUnit 5": :include-markdown: snippets/FileMatchExtension.md
 ```
+

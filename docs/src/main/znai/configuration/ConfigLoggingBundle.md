@@ -10,6 +10,7 @@ Now `HelloWorldApplication` will log something like this on startup:
 INFO  12:53:29 [main]  {liftwizard.priority=-8, liftwizard.bundle=ConfigLoggingBundle} io.liftwizard.dropwizard.bundle.config.logging.ConfigLoggingBundle: Inferred Dropwizard configuration:
 
 ```
+
 ```json5 {title: "Output configuration"}
 {
   "template": "Hello, %s!",
@@ -45,3 +46,4 @@ The `ConfigLoggingBundle` also logs the "default" configuration at the `DEBUG` l
     <artifactId>liftwizard-bundle-logging-config</artifactId>
 </dependency>
 ```
+
