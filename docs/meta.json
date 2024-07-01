@@ -1,0 +1,10 @@
+{
+  "viewOn" : {
+    "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+    "title" : "View On GitHub"
+  },
+  "id" : "docs",
+  "title" : "Liftwizard",
+  "type" : "Guide",
+  "previewEnabled" : false
+}
