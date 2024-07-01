@@ -484,7 +484,9 @@
                                 </includes>
 
                                 <prettier>
-                                    <singleQuote>true</singleQuote>
+                                    <config>
+                                        <singleQuote>true</singleQuote>
+                                    </config>
                                 </prettier>
                             </yaml>
                         </configuration>
