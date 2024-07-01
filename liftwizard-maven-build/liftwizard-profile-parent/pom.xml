@@ -169,6 +169,10 @@
         <profile>
             <id>spotless-check</id>
 
+            <properties>
+                <spotless.check.skip>false</spotless.check.skip>
+            </properties>
+
             <build>
                 <plugins>
                     <plugin>
@@ -189,6 +193,10 @@
 
         <profile>
             <id>spotless-write</id>
+
+            <properties>
+                <spotless.check.skip>false</spotless.check.skip>
+            </properties>
 
             <build>
                 <plugins>
