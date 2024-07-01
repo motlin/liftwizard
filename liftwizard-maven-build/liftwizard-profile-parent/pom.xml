@@ -457,7 +457,6 @@
                                     <jsonFeatures>
                                         <QUOTE_FIELD_NAMES>false</QUOTE_FIELD_NAMES>
                                         <ALLOW_YAML_COMMENTS>true</ALLOW_YAML_COMMENTS>
-                                        <ALLOW_UNQUOTED_CONTROL_CHARS>true</ALLOW_UNQUOTED_CONTROL_CHARS>
                                         <ALLOW_UNQUOTED_FIELD_NAMES>true</ALLOW_UNQUOTED_FIELD_NAMES>
                                     </jsonFeatures>
                                 </jackson>
@@ -484,9 +483,9 @@
                                     <include>**/*.yml</include>
                                 </includes>
 
-                                <jackson>
-                                    <version>2.14.2</version>
-                                </jackson>
+                                <prettier>
+                                    <singleQuote>true</singleQuote>
+                                </prettier>
                             </yaml>
                         </configuration>
                     </plugin>
