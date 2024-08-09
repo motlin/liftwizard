@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Minimal Parent</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Usage</h1></header>
+<p>The most minimal parent pom is liftwizard-minimal-parent . If you are able to accept more opinionated defaults, continue to profile-parent liftwizard-profile-parent . The minimal parent is meant to contain uncontroversial best practices that are applicable to all projects.Inherit from liftwizard-minimal-parent in your project's pom.xml: xml &lt;parent&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-minimal-parent&lt;/artifactId&gt; &lt;version&gt;${liftwizard.version}&lt;/version&gt; &lt;/parent&gt;</p>
+</article>
+
+<article>
+<header><h1>What you will get</h1></header>
+<p>The following sections describe the best practices that are enforced by liftwizard-minimal-parent . You will not need to configure these in your project's pom.xml if you inherit from liftwizard-minimal-parent .</p>
+</article>
+
+<article>
+<header><h1>Resource encodings</h1></header>
+<p>If you encounter a warning like: [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent! this is because the project does not https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html#specifying-a-character-encoding-scheme specify a character encoding scheme to configure maven-resources-plugin . liftwizard-minimal-parent specifies the character encoding scheme in the properties section of the pom.xml. &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt; This will become unnecessary starting with maven 4.x.</p>
+</article>
+
+<article>
+<header><h1>Reproducible builds</h1></header>
+<p>https://reproducible-builds.org/ Reproducible builds are a set of software development practices that create an independently-verifiable path from source to binary code. A build is reproducible if given the same source code, build environment and build instructions, any party can recreate bit-by-bit identical copies of all specified artifacts.You can https://maven.apache.org/guides/mini/guide-reproducible-builds.html#how-do-i-configure-my-maven-build enable Reproducible Builds mode for plugins by specifying locking down the outputTimestamp property. &lt;project.build.outputTimestamp&gt;2024-07-27T17:28:12Z&lt;/project.build.outputTimestamp&gt; You will also need to run mvn artifact:check-buildplan and mvn verify artifact:compare as described in the guide to validate that builds are truly reproducible.</p>
+</article>
+
+<article>
+<header><h1>Default Goal</h1></header>
+<p>You can specify the default goal to run when you run mvn without any arguments. &lt;defaultGoal&gt;verify&lt;/defaultGoal&gt; verify is a better choice than install in the presence of concurrent builds that may write to .m2/repository simultaneously. verify is a better choice than clean verify because developers may build up state like test files and test databases under target/ and may not expect them to be deleted by default. It's easy to run mvn clean when you need it.</p>
+</article>
+
+<article>
+<header><h1>Plugins which are bound and enabled by default</h1></header>
+<p>Maven builds are configured by binding plugins to https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#default-lifecycle lifecycle phases. Even if you don't declare any plugins in your pom.xml, maven will still bind https://maven.apache.org/ref/3.9.6/maven-core/default-bindings.html#plugin-bindings-for-jar-packaging some plugins to the https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#packaging &quot;main&quot; phases.All versions of maven bind the https://maven.apache.org/ref/3.9.6/maven-core/default-bindings.html#plugin-bindings-for-jar-packaging same plugins, but newer versions of maven bind newer versions of the plugins. If you don't specify the versions of the plugins, different members of the team could be using different versions, leading to different build results on different machines.It's becoming more common to lock down the version of maven itself, but this wasn't always the case. If you haven't specified the versions of these plugins, https://maven.apache.org/enforcer/enforcer-rules/requirePluginVersions.html maven-enforcer-plugin will log an error like: [ERROR] Rule 3: org.apache.maven.enforcer.rules.RequirePluginVersions failed with message: Some plugins are missing valid versions or depend on Maven 3.9.5 defaults (LATEST, RELEASE as plugin version are not allowed) org.apache.maven.plugins:maven-compiler-plugin. The version currently in use is 3.11.0 via default lifecycle bindings org.apache.maven.plugins:maven-surefire-plugin. The version currently in use is 3.1.2 via default lifecycle bindings org.apache.maven.plugins:maven-jar-plugin. The version currently in use is 3.3.0 via default lifecycle bindings org.apache.maven.plugins:maven-clean-plugin. The version currently in use is 3.2.0 via default lifecycle bindings org.apache.maven.plugins:maven-install-plugin. The version currently in use is 3.1.1 via default lifecycle bindings org.apache.maven.plugins:maven-site-plugin. The version currently in use is 3.12.1 via default lifecycle bindings org.apache.maven.plugins:maven-resources-plugin. The version currently in use is 3.3.1 via default lifecycle bindings org.apache.maven.plugins:maven-deploy-plugin. The version currently in use is 3.1.1 via default lifecycle bindings To avoid this, we specify versions of the plugins in the parent pom. &lt;!-- These plugins are bound and enabled by default --&gt; &lt;!-- But the default version of these plugins changes with the version of maven running --&gt; &lt;!--region Phase 0: clean--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-clean-plugin&lt;/artifactId&gt; &lt;version&gt;3.4.0&lt;/version&gt; &lt;/plugin&gt; &lt;!--endregion Phase 0: clean--&gt; &lt;!--region Phase 6: process-resources--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt; &lt;version&gt;3.3.1&lt;/version&gt; &lt;/plugin&gt; &lt;!--endregion Phase 6: process-resources--&gt; &lt;!--region Phase 7: compile--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt; &lt;version&gt;3.13.0&lt;/version&gt; &lt;configuration&gt; &lt;!-- https://maven.apache.org/plugins-archives/maven-compiler-plugin-3.8.1/compile-mojo.html#parameters --&gt; &lt;!-- https://stackoverflow.com/a/44075684/ --&gt; &lt;!-- https://docs.oracle.com/javase/9/tools/javac.htm --&gt; &lt;!-- Generates metadata for reflection on method parameters. Stores formal parameter names of constructors and methods in the generated class file so that the method java.lang.reflect.Executable.getParameters from the Reflection API can retrieve them. --&gt; &lt;parameters&gt;true&lt;/parameters&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;!--endregion Phase 7: compile--&gt; &lt;!--region Phase 15: test--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt; &lt;version&gt;3.3.1&lt;/version&gt; &lt;!-- In maven 3.9.6 and 4.x, maven is able to auto-detect JUnit and these dependencies are not required --&gt; &lt;!-- In maven 3.9.5, there is an internal exception inside surefire without these declared --&gt; &lt;!-- Even with newer versions of maven, it is advantageous to keep these declarations --&gt; &lt;!-- Without them, maven may only run JUnit 5 tests, in a project with both JUnit 4 and 5 --&gt; &lt;dependencies&gt; &lt;dependency&gt; &lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt; &lt;artifactId&gt;junit-jupiter-engine&lt;/artifactId&gt; &lt;version&gt;5.10.3&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.junit.platform&lt;/groupId&gt; &lt;artifactId&gt;junit-platform-engine&lt;/artifactId&gt; &lt;version&gt;1.10.3&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.junit.vintage&lt;/groupId&gt; &lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt; &lt;version&gt;5.10.3&lt;/version&gt; &lt;/dependency&gt; &lt;/dependencies&gt; &lt;configuration&gt; &lt;!-- The compiler in the server VM now provides correct stack backtraces for all &quot;cold&quot; built-in exceptions. For performance purposes, when such an exception is thrown a few times, the method may be recompiled. After recompilation, the compiler may choose a faster tactic using preallocated exceptions that do not provide a stack trace. To disable completely the use of preallocated exceptions, use this new flag: -XX:-OmitStackTraceInFastThrow. --&gt; &lt;!-- https://stackoverflow.com/a/4659279/ --&gt; &lt;!-- The compiler in the server VM now provides correct stack backtraces for all &quot;cold&quot; built-in exceptions. For performance purposes, when such an exception is thrown a few times, the method may be recompiled. After recompilation, the compiler may choose a faster tactic using preallocated exceptions that do not provide a stack trace. To disable completely the use of preallocated exceptions, use this new flag: -XX:-OmitStackTraceInFastThrow. --&gt; &lt;!-- https://stackoverflow.com/a/4659279/ --&gt; &lt;!-- Add argLine to allow the Jacoco plugin to append without overriding the setting --&gt; &lt;!-- https://stackoverflow.com/a/39818768/ --&gt; &lt;argLine&gt;-XX:-OmitStackTraceInFastThrow @{argLine}&lt;/argLine&gt; &lt;runOrder&gt;random&lt;/runOrder&gt; &lt;trimStackTrace&gt;false&lt;/trimStackTrace&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;!--endregion Phase 15: test--&gt; &lt;!--region Phase 17: package--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt; &lt;version&gt;3.4.2&lt;/version&gt; &lt;/plugin&gt; &lt;!--endregion Phase 17: package--&gt; &lt;!--region Phase 22: install--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-install-plugin&lt;/artifactId&gt; &lt;version&gt;3.1.2&lt;/version&gt; &lt;/plugin&gt; &lt;!--endregion Phase 22: install--&gt; &lt;!--region Phase 23: deploy--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-deploy-plugin&lt;/artifactId&gt; &lt;version&gt;3.1.2&lt;/version&gt; &lt;/plugin&gt; &lt;!--endregion Phase 23: deploy--&gt;</p>
+</article>
+
+<article>
+<header><h1>No phase</h1></header>
+<p>The are a number of maven plugins with goals that are designed to be run interactively, rather than being bound to a phase in the pom.xml. For example, mvn dependency:tree prints a visual representation of the dependencies of the project, and mvn versions:set updates the versions of dependencies in the pom.xml.Any maven plugin can be run from the command line with mvn groupId:artifactId:version:goal , and configured using command line arguments, without it appearing in the pom.xml. For example, we can run the https://www.mojohaus.org/buildplan-maven-plugin/ buildplan-maven-plugin to list the plugins bound to each phase with this command: shell mvn org.codehaus.mojo:buildplan-maven-plugin:2.2.2:list If we configure the plugin in the pom.xml, we can run it with the syntax mvn phase:goal and add any configuration that would otherwise be specified with -D flags. shell mvn buildplan:list We configure several plugins in the parent pom.xml that are not bound to any phase. &lt;!--mvn versions:display-dependency-updates--&gt; &lt;!--mvn versions:display-plugin-updates--&gt; &lt;!--mvn versions:display-property-updates--&gt; &lt;plugin&gt; &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt; &lt;artifactId&gt;versions-maven-plugin&lt;/artifactId&gt; &lt;version&gt;2.17.1&lt;/version&gt; &lt;configuration&gt; &lt;!-- Don't create pom.xml.versionsBackup files --&gt; &lt;generateBackupPoms&gt;false&lt;/generateBackupPoms&gt; &lt;!-- Process all modules in a multi-module build, even aggregator modules without a parent-child relationship --&gt; &lt;!-- https://stackoverflow.com/a/49246337/23572 --&gt; &lt;processAllModules&gt;true&lt;/processAllModules&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;!--mvn dependency:tree--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-dependency-plugin&lt;/artifactId&gt; &lt;version&gt;3.7.1&lt;/version&gt; &lt;/plugin&gt; &lt;!--mvn buildplan:list--&gt; &lt;!--mvn buildplan:list-phase--&gt; &lt;!--mvn buildplan:list-plugin--&gt; &lt;plugin&gt; &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt; &lt;artifactId&gt;buildplan-maven-plugin&lt;/artifactId&gt; &lt;version&gt;2.2.2&lt;/version&gt; &lt;configuration&gt; &lt;!-- Default value is: deploy --&gt; &lt;tasks&gt; &lt;task&gt;clean&lt;/task&gt; &lt;task&gt;deploy&lt;/task&gt; &lt;/tasks&gt; &lt;!-- print all phases, even if no mapping to an execution is available --&gt; &lt;showAllPhases&gt;true&lt;/showAllPhases&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;!--mvnw wrapper:wrapper -Dmaven=4.0.0-alpha-7--&gt; &lt;plugin&gt; &lt;artifactId&gt;maven-wrapper-plugin&lt;/artifactId&gt; &lt;version&gt;3.3.2&lt;/version&gt; &lt;/plugin&gt; &lt;!--mvn clean release:clean release:prepare -DdevelopmentVersion=1.2.3-SNAPSHOT--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-release-plugin&lt;/artifactId&gt; &lt;version&gt;3.1.1&lt;/version&gt; &lt;configuration&gt; &lt;!-- Default value is: invoker --&gt; &lt;mavenExecutorId&gt;forked-path&lt;/mavenExecutorId&gt; &lt;!-- Automatically assign submodules the parent version --&gt; &lt;autoVersionSubmodules&gt;true&lt;/autoVersionSubmodules&gt; &lt;!-- Do not `git push` changes to the upstream repository --&gt; &lt;pushChanges&gt;false&lt;/pushChanges&gt; &lt;!-- Format to use when generating the tag name --&gt; &lt;!-- Default value is: @{project.artifactId}-@{project.version} --&gt; &lt;tagNameFormat&gt;@{project.version}&lt;/tagNameFormat&gt; &lt;/configuration&gt; &lt;/plugin&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The most minimal parent pom is ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-minimal-parent",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". If you are able to accept more opinionated defaults, continue to ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/maven/profile-parent",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "code" : "liftwizard-profile-parent",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "text" : ". The minimal parent is meant to contain uncontroversial best practices that are applicable to all projects.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "usage",
+      "title" : "Usage",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Inherit from ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "liftwizard-minimal-parent",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " in your project's pom.xml:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<parent>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-minimal-parent</artifactId>\n    <version>${liftwizard.version}</version>\n</parent>\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "what-you-will-get",
+      "title" : "What you will get",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The following sections describe the best practices that are enforced by ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "liftwizard-minimal-parent",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". You will not need to configure these in your project's pom.xml if you inherit from ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "liftwizard-minimal-parent",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "resource-encodings",
+      "title" : "Resource encodings",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If you encounter a warning like: ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " this is because the project does not ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html#specifying-a-character-encoding-scheme",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "specify a character encoding scheme",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " to configure ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "maven-resources-plugin",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "liftwizard-minimal-parent",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " specifies the character encoding scheme in the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "properties",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " section of the pom.xml.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>",
+        "title" : "liftwizard-minimal-parent/pom.xml",
+        "surroundedBy" : [ "region sourceEncoding" ],
+        "anchorId" : "resource-encodings-liftwizard-minimal-parent-pom-xml",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "This will become unnecessary starting with maven 4.x.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "reproducible-builds",
+      "title" : "Reproducible builds",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "BlockQuote",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "url" : "https://reproducible-builds.org/",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "Reproducible builds",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : "  are a set of software development practices that create an independently-verifiable path from source to binary code. A build is  ",
+            "type" : "SimpleText"
+          }, {
+            "type" : "StrongEmphasis",
+            "content" : [ {
+              "text" : "reproducible",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : "  if given the same source code, build environment and build instructions, any party can recreate  ",
+            "type" : "SimpleText"
+          }, {
+            "type" : "StrongEmphasis",
+            "content" : [ {
+              "text" : "bit-by-bit",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : "  identical copies of all specified artifacts.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://maven.apache.org/guides/mini/guide-reproducible-builds.html#how-do-i-configure-my-maven-build",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "enable Reproducible Builds mode for plugins",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " by specifying locking down the outputTimestamp property.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<project.build.outputTimestamp>2024-07-27T17:28:12Z</project.build.outputTimestamp>",
+        "title" : "liftwizard-minimal-parent/pom.xml",
+        "surroundedBy" : [ "region outputTimestamp" ],
+        "anchorId" : "reproducible-builds-liftwizard-minimal-parent-pom-xml",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You will also need to run ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "mvn artifact:check-buildplan",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "mvn verify artifact:compare",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as described in the guide to validate that builds are truly reproducible.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "default-goal",
+      "title" : "Default Goal",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can specify the default goal to run when you run ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "mvn",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " without any arguments.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<defaultGoal>verify</defaultGoal>",
+        "title" : "liftwizard-minimal-parent/pom.xml",
+        "surroundedBy" : [ "region defaultGoal" ],
+        "anchorId" : "default-goal-liftwizard-minimal-parent-pom-xml",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "verify",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is a better choice than ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "install",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " in the presence of concurrent builds that may write to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : ".m2/repository",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " simultaneously.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "verify",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is a better choice than ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "clean verify",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " because developers may build up state like test files and test databases under ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "target/",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and may not expect them to be deleted by default. It's easy to run ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "mvn clean",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " when you need it.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "plugins-which-are-bound-and-enabled-by-default",
+      "title" : "Plugins which are bound and enabled by default",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Maven builds are configured by binding plugins to ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#default-lifecycle",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "lifecycle phases",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ". Even if you don't declare any plugins in your pom.xml, maven will still bind ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://maven.apache.org/ref/3.9.6/maven-core/default-bindings.html#plugin-bindings-for-jar-packaging",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "some plugins",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " to the ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#packaging",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "\"main\" phases",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "All versions of maven bind the ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://maven.apache.org/ref/3.9.6/maven-core/default-bindings.html#plugin-bindings-for-jar-packaging",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "same plugins",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ", but newer versions of maven bind newer versions of the plugins. If you don't specify the versions of the plugins, different members of the team could be using different versions, leading to different build results on different machines.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "It's becoming more common to lock down the version of maven itself, but this wasn't always the case. If you haven't specified the versions of these plugins, ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://maven.apache.org/enforcer/enforcer-rules/requirePluginVersions.html",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "maven-enforcer-plugin",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " will log an error like:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "",
+        "snippet" : "[ERROR] Rule 3: org.apache.maven.enforcer.rules.RequirePluginVersions failed with message:\n\nSome plugins are missing valid versions or depend on Maven 3.9.5 defaults (LATEST, RELEASE as plugin version are not allowed)\n   org.apache.maven.plugins:maven-compiler-plugin. \tThe version currently in use is 3.11.0 via default lifecycle bindings\n   org.apache.maven.plugins:maven-surefire-plugin. \tThe version currently in use is 3.1.2 via default lifecycle bindings\n   org.apache.maven.plugins:maven-jar-plugin. \t\tThe version currently in use is 3.3.0 via default lifecycle bindings\n   org.apache.maven.plugins:maven-clean-plugin. \tThe version currently in use is 3.2.0 via default lifecycle bindings\n   org.apache.maven.plugins:maven-install-plugin. \tThe version currently in use is 3.1.1 via default lifecycle bindings\n   org.apache.maven.plugins:maven-site-plugin. \t\tThe version currently in use is 3.12.1 via default lifecycle bindings\n   org.apache.maven.plugins:maven-resources-plugin. \tThe version currently in use is 3.3.1 via default lifecycle bindings\n   org.apache.maven.plugins:maven-deploy-plugin. \tThe version currently in use is 3.1.1 via default lifecycle bindings\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To avoid this, we specify versions of the plugins in the parent pom.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<!-- These plugins are bound and enabled by default -->\n<!-- But the default version of these plugins changes with the version of maven running -->\n\n<!--region Phase 0: clean-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-clean-plugin</artifactId>\n    <version>3.4.0</version>\n</plugin>\n<!--endregion Phase 0: clean-->\n\n<!--region Phase 6: process-resources-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-resources-plugin</artifactId>\n    <version>3.3.1</version>\n</plugin>\n<!--endregion Phase 6: process-resources-->\n\n<!--region Phase 7: compile-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-compiler-plugin</artifactId>\n    <version>3.13.0</version>\n    <configuration>\n        <!-- https://maven.apache.org/plugins-archives/maven-compiler-plugin-3.8.1/compile-mojo.html#parameters -->\n        <!-- https://stackoverflow.com/a/44075684/ -->\n        <!-- https://docs.oracle.com/javase/9/tools/javac.htm -->\n        <!-- Generates metadata for reflection on method parameters. Stores formal parameter names of constructors and methods in the generated class file so that the method java.lang.reflect.Executable.getParameters from the Reflection API can retrieve them. -->\n        <parameters>true</parameters>\n    </configuration>\n</plugin>\n<!--endregion Phase 7: compile-->\n\n<!--region Phase 15: test-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-surefire-plugin</artifactId>\n    <version>3.3.1</version>\n    <!-- In maven 3.9.6 and 4.x, maven is able to auto-detect JUnit and these dependencies are not required -->\n    <!-- In maven 3.9.5, there is an internal exception inside surefire without these declared -->\n    <!-- Even with newer versions of maven, it is advantageous to keep these declarations -->\n    <!-- Without them, maven may only run JUnit 5 tests, in a project with both JUnit 4 and 5 -->\n    <dependencies>\n        <dependency>\n            <groupId>org.junit.jupiter</groupId>\n            <artifactId>junit-jupiter-engine</artifactId>\n            <version>5.10.3</version>\n        </dependency>\n        <dependency>\n            <groupId>org.junit.platform</groupId>\n            <artifactId>junit-platform-engine</artifactId>\n            <version>1.10.3</version>\n        </dependency>\n        <dependency>\n            <groupId>org.junit.vintage</groupId>\n            <artifactId>junit-vintage-engine</artifactId>\n            <version>5.10.3</version>\n        </dependency>\n    </dependencies>\n    <configuration>\n        <!-- The compiler in the server VM now provides correct stack backtraces for all \"cold\" built-in exceptions. For performance purposes, when such an exception is thrown a few times, the method may be recompiled. After recompilation, the compiler may choose a faster tactic using preallocated exceptions that do not provide a stack trace. To disable completely the use of preallocated exceptions, use this new flag: -XX:-OmitStackTraceInFastThrow. -->\n        <!-- https://stackoverflow.com/a/4659279/ -->\n        <!-- The compiler in the server VM now provides correct stack backtraces for all \"cold\" built-in exceptions. For performance purposes, when such an exception is thrown a few times, the method may be recompiled. After recompilation, the compiler may choose a faster tactic using preallocated exceptions that do not provide a stack trace. To disable completely the use of preallocated exceptions, use this new flag: -XX:-OmitStackTraceInFastThrow. -->\n        <!-- https://stackoverflow.com/a/4659279/ -->\n        <!-- Add argLine to allow the Jacoco plugin to append without overriding the setting -->\n        <!-- https://stackoverflow.com/a/39818768/ -->\n        <argLine>-XX:-OmitStackTraceInFastThrow @{argLine}</argLine>\n        <runOrder>random</runOrder>\n        <trimStackTrace>false</trimStackTrace>\n    </configuration>\n</plugin>\n<!--endregion Phase 15: test-->\n\n<!--region Phase 17: package-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-jar-plugin</artifactId>\n    <version>3.4.2</version>\n</plugin>\n<!--endregion Phase 17: package-->\n\n<!--region Phase 22: install-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-install-plugin</artifactId>\n    <version>3.1.2</version>\n</plugin>\n<!--endregion Phase 22: install-->\n\n<!--region Phase 23: deploy-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-deploy-plugin</artifactId>\n    <version>3.1.2</version>\n</plugin>\n<!--endregion Phase 23: deploy-->",
+        "title" : "liftwizard-minimal-parent/pom.xml",
+        "surroundedBy" : [ "region Plugins which are bound and enabled by default" ],
+        "anchorId" : "plugins-which-are-bound-and-enabled-by-default-liftwizard-minimal-parent-pom-xml",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "no-phase",
+      "title" : "No phase",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The are a number of maven plugins with goals that are designed to be run interactively, rather than being bound to a phase in the pom.xml. For example, ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "mvn dependency:tree",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " prints a visual representation of the dependencies of the project, and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "mvn versions:set",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " updates the versions of dependencies in the pom.xml.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Any maven plugin can be run from the command line with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "mvn groupId:artifactId:version:goal",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", and configured using command line arguments, without it appearing in the pom.xml. For example, we can run the ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.mojohaus.org/buildplan-maven-plugin/",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "code" : "buildplan-maven-plugin",
+            "type" : "InlinedCode"
+          } ]
+        }, {
+          "text" : " to list the plugins bound to each phase with this command:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "shell",
+        "snippet" : "mvn org.codehaus.mojo:buildplan-maven-plugin:2.2.2:list\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If we configure the plugin in the pom.xml, we can run it with the syntax ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "mvn phase:goal",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and add any configuration that would otherwise be specified with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "-D",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " flags.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "shell",
+        "snippet" : "mvn buildplan:list\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "We configure several plugins in the parent pom.xml that are not bound to any phase.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<!--mvn versions:display-dependency-updates-->\n<!--mvn versions:display-plugin-updates-->\n<!--mvn versions:display-property-updates-->\n<plugin>\n    <groupId>org.codehaus.mojo</groupId>\n    <artifactId>versions-maven-plugin</artifactId>\n    <version>2.17.1</version>\n    <configuration>\n        <!-- Don't create pom.xml.versionsBackup files -->\n        <generateBackupPoms>false</generateBackupPoms>\n        <!-- Process all modules in a multi-module build, even aggregator modules without a parent-child relationship -->\n        <!-- https://stackoverflow.com/a/49246337/23572 -->\n        <processAllModules>true</processAllModules>\n    </configuration>\n</plugin>\n\n<!--mvn dependency:tree-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-dependency-plugin</artifactId>\n    <version>3.7.1</version>\n</plugin>\n\n<!--mvn buildplan:list-->\n<!--mvn buildplan:list-phase-->\n<!--mvn buildplan:list-plugin-->\n<plugin>\n    <groupId>org.codehaus.mojo</groupId>\n    <artifactId>buildplan-maven-plugin</artifactId>\n    <version>2.2.2</version>\n    <configuration>\n        <!-- Default value is: deploy -->\n        <tasks>\n            <task>clean</task>\n            <task>deploy</task>\n        </tasks>\n        <!-- print all phases, even if no mapping to an execution is available -->\n        <showAllPhases>true</showAllPhases>\n    </configuration>\n</plugin>\n\n<!--mvnw wrapper:wrapper -Dmaven=4.0.0-alpha-7-->\n<plugin>\n    <artifactId>maven-wrapper-plugin</artifactId>\n    <version>3.3.2</version>\n</plugin>\n\n<!--mvn clean release:clean release:prepare -DdevelopmentVersion=1.2.3-SNAPSHOT-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-release-plugin</artifactId>\n    <version>3.1.1</version>\n    <configuration>\n        <!-- Default value is: invoker -->\n        <mavenExecutorId>forked-path</mavenExecutorId>\n        <!-- Automatically assign submodules the parent version -->\n        <autoVersionSubmodules>true</autoVersionSubmodules>\n        <!-- Do not `git push` changes to the upstream repository -->\n        <pushChanges>false</pushChanges>\n        <!-- Format to use when generating the tag name -->\n        <!-- Default value is: @{project.artifactId}-@{project.version} -->\n        <tagNameFormat>@{project.version}</tagNameFormat>\n    </configuration>\n</plugin>",
+        "title" : "liftwizard-minimal-parent/pom.xml",
+        "surroundedBy" : [ "region No phase" ],
+        "anchorId" : "no-phase-liftwizard-minimal-parent-pom-xml",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Maven",
+      "pageTitle" : "Minimal Parent",
+      "pageMeta" : { },
+      "dirName" : "maven",
+      "fileName" : "minimal-parent",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Usage",
+        "id" : "usage"
+      }, {
+        "title" : "What you will get",
+        "id" : "what-you-will-get"
+      }, {
+        "title" : "Resource encodings",
+        "id" : "resource-encodings"
+      }, {
+        "title" : "Reproducible builds",
+        "id" : "reproducible-builds"
+      }, {
+        "title" : "Default Goal",
+        "id" : "default-goal"
+      }, {
+        "title" : "Plugins which are bound and enabled by default",
+        "id" : "plugins-which-are-bound-and-enabled-by-default"
+      }, {
+        "title" : "No phase",
+        "id" : "no-phase"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Matching Json</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Liftwizard includes utilities for asserting that a JSON string equals the contents of a file, using JSON equality semantics. Liftwizard delegates to https://github.com/skyscreamer/JSONassert JSONassert for JSON comparison.The API is similar to the ./matching-files file matching API, and re-record mode is enabled with the same environment variable LIFTWIZARD_FILE_MATCH_RULE_RERECORD .The setup is different for the JUnit 4 Rule and JUnit 5 Extension. After setup, both have the same API. java this.jsonMatchExtension.assertFileContents(expectedJsonClassPathLocation, actualJson); If the file does not exist, or the contents do not match, an assertion error is added to an https://junit.org/junit4/javadoc/4.12/org/junit/rules/ErrorCollector.html ErrorCollector. If the ErrorCollector contains any errors, the test fails at the end with all expected/actual pairs reported together.If LIFTWIZARD_FILE_MATCH_RULE_RERECORD is set to true , assertJsonContents will not emit any AssertionErrors . JUnit 4 JsonMatchRule works well with Dropwizard's https://www.dropwizard.io/en/release-2.1.x/manual/testing.html#junit-4 DropwizardAppRule . java public class ExampleTest { @Rule private final DropwizardAppRule&lt;HelloWorldConfiguration&gt; dropwizardAppRule = new DropwizardAppRule&lt;&gt;( ExampleApplication.class, ResourceHelpers.resourceFilePath(&quot;config-test.json5&quot;)); @Rule public final JsonMatchRule jsonMatchRule = new JsonMatchRule(this.getClass()); @Test public void smokeTest() { Response actualResponse = this.dropwizardAppRule .client() .target(&quot;http://localhost:{port}/api/example&quot;) .resolveTemplate(&quot;port&quot;, this.dropwizardAppRule.getLocalPort()) .request() .get(); String actualJsonResponse = actualResponse.readEntity(String.class); String expectedResponseClassPathLocation = this.getClass().getSimpleName() + &quot;.&quot; + testName + &quot;.json&quot;; this.jsonMatchRule.assertFileContents(expectedResponseClassPathLocation, actualJsonResponse); } } JUnit 5 JsonMatchExtension works well with Dropwizard's https://www.dropwizard.io/en/stable/manual/testing.html#junit-5 DropwizardAppExtension or Liftwizard's LiftwizardAppExtension . java public class ExampleTest { @RegisterExtension private final LiftwizardAppExtension&lt;?&gt; appExtension = this.getLiftwizardAppExtension(); @RegisterExtension private final JsonMatchExtension jsonMatchExtension = new JsonMatchExtension(this.getClass()); @Nonnull @Override private LiftwizardAppExtension&lt;?&gt; getLiftwizardAppExtension() { return new LiftwizardAppExtension&lt;&gt;( ExampleApplication.class, ResourceHelpers.resourceFilePath(&quot;config-test.json5&quot;)); } @Test public void smokeTest() { Response actualResponse = this.appExtension .client() .target(&quot;http://localhost:{port}/api/example&quot;) .resolveTemplate(&quot;port&quot;, this.appExtension.getLocalPort()) .request() .get(); String actualJsonResponse = actualResponse.readEntity(String.class); String expectedResponseClassPathLocation = this.getClass().getSimpleName() + &quot;.&quot; + testName + &quot;.json&quot;; this.jsonMatchExtension.assertFileContents(expectedResponseClassPathLocation, actualJsonResponse); } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Liftwizard includes utilities for asserting that a JSON string equals the contents of a file, using JSON equality semantics. Liftwizard delegates to ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/skyscreamer/JSONassert",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "JSONassert",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " for JSON comparison.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The API is similar to the ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/testing/matching-files",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "file matching API",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ", and re-record mode is enabled with the same environment variable ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LIFTWIZARD_FILE_MATCH_RULE_RERECORD",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The setup is different for the JUnit 4 Rule and JUnit 5 Extension. After setup, both have the same API.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "this.jsonMatchExtension.assertFileContents(expectedJsonClassPathLocation, actualJson);\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If the file does not exist, or the contents do not match, an assertion error is added to an ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://junit.org/junit4/javadoc/4.12/org/junit/rules/ErrorCollector.html",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "ErrorCollector",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ". If the ErrorCollector contains any errors, the test fails at the end with all expected/actual pairs reported together.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LIFTWIZARD_FILE_MATCH_RULE_RERECORD",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is set to ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "true",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "assertJsonContents",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " will not emit any ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "AssertionErrors",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "tabsContent" : [ {
+        "name" : "JUnit 4",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "JsonMatchRule",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " works well with Dropwizard's ",
+            "type" : "SimpleText"
+          }, {
+            "url" : "https://www.dropwizard.io/en/release-2.1.x/manual/testing.html#junit-4",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "code" : "DropwizardAppRule",
+              "type" : "InlinedCode"
+            } ]
+          }, {
+            "text" : ".",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "lang" : "java",
+          "snippet" : "public class ExampleTest\n{\n    @Rule\n    private final DropwizardAppRule<HelloWorldConfiguration> dropwizardAppRule = new DropwizardAppRule<>(\n            ExampleApplication.class,\n            ResourceHelpers.resourceFilePath(\"config-test.json5\"));\n\n    @Rule\n    public final JsonMatchRule jsonMatchRule = new JsonMatchRule(this.getClass());\n\n    @Test\n    public void smokeTest()\n    {\n        Response actualResponse = this.dropwizardAppRule\n                .client()\n                .target(\"http://localhost:{port}/api/example\")\n                .resolveTemplate(\"port\", this.dropwizardAppRule.getLocalPort())\n                .request()\n                .get();\n\n        String actualJsonResponse = actualResponse.readEntity(String.class);\n        String expectedResponseClassPathLocation = this.getClass().getSimpleName() + \".\" + testName + \".json\";\n        this.jsonMatchRule.assertFileContents(expectedResponseClassPathLocation, actualJsonResponse);\n    }\n}\n",
+          "lineNumber" : "",
+          "type" : "Snippet"
+        } ]
+      }, {
+        "name" : "JUnit 5",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "JsonMatchExtension",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " works well with Dropwizard's ",
+            "type" : "SimpleText"
+          }, {
+            "url" : "https://www.dropwizard.io/en/stable/manual/testing.html#junit-5",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "code" : "DropwizardAppExtension",
+              "type" : "InlinedCode"
+            } ]
+          }, {
+            "text" : " or Liftwizard's ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "LiftwizardAppExtension",
+            "type" : "InlinedCode"
+          }, {
+            "text" : ".",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "lang" : "java",
+          "snippet" : "public class ExampleTest\n{\n    @RegisterExtension\n    private final LiftwizardAppExtension<?> appExtension = this.getLiftwizardAppExtension();\n\n    @RegisterExtension\n    private final JsonMatchExtension jsonMatchExtension = new JsonMatchExtension(this.getClass());\n\n    @Nonnull\n    @Override\n    private LiftwizardAppExtension<?> getLiftwizardAppExtension()\n    {\n        return new LiftwizardAppExtension<>(\n                ExampleApplication.class,\n                ResourceHelpers.resourceFilePath(\"config-test.json5\"));\n    }\n    \n    @Test\n    public void smokeTest()\n    {\n        Response actualResponse = this.appExtension\n                .client()\n                .target(\"http://localhost:{port}/api/example\")\n                .resolveTemplate(\"port\", this.appExtension.getLocalPort())\n                .request()\n                .get();\n\n        String actualJsonResponse = actualResponse.readEntity(String.class);\n        String expectedResponseClassPathLocation = this.getClass().getSimpleName() + \".\" + testName + \".json\";\n        this.jsonMatchExtension.assertFileContents(expectedResponseClassPathLocation, actualJsonResponse);\n    }\n}\n",
+          "lineNumber" : "",
+          "type" : "Snippet"
+        } ]
+      } ],
+      "type" : "Tabs"
+    } ],
+    "lastModifiedTime" : 1723206719984,
+    "tocItem" : {
+      "chapterTitle" : "Testing",
+      "pageTitle" : "Matching Json",
+      "pageMeta" : { },
+      "dirName" : "testing",
+      "fileName" : "matching-json",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

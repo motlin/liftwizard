@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Environment Variable Substitution</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>in example applications</h1></header>
+<p>The EnvironmentConfigBundle supports environment variable substitution inside Dropwizard configuration files.In the example applications, environment variable substitution is used for defaultName . yaml template: Hello, %s! defaultName: ${DW_DEFAULT_NAME:-Stranger} We can see this in action by running the render command, with and without the environment variable set. bash $ java -jar target/liftwizard-example-0.1.0.jar render example.yml --include-default INFO [2020-05-02 03:07:41,910] com.example.helloworld.cli.RenderCommand: DEFAULT =&gt; Hello, Stranger! $ DW_DEFAULT_NAME=EnvSubstitution java -jar target/liftwizard-example-0.1.0.jar render example.yml --include-default INFO [2020-05-02 03:08:05,685] com.example.helloworld.cli.RenderCommand: DEFAULT =&gt; Hello, EnvSubstitution!</p>
+</article>
+
+<article>
+<header><h1>in dropwizard-example</h1></header>
+<p>java @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { // Enable variable substitution with environment variables bootstrap.setConfigurationSourceProvider( new SubstitutingSourceProvider( bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false) ) ); // ... }</p>
+</article>
+
+<article>
+<header><h1>in liftwizard-example</h1></header>
+<p>java @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { bootstrap.addBundle(new EnvironmentConfigBundle()); // ... } EnvironmentConfigBundle lives in the liftwizard-bundle-environment-config module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-bundle-environment-config&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "EnvironmentConfigBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " supports environment variable substitution inside Dropwizard configuration files.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "in-example-applications",
+      "title" : "in example applications",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the example applications, environment variable substitution is used for ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "defaultName",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "yaml",
+        "snippet" : "template: Hello, %s!\ndefaultName: ${DW_DEFAULT_NAME:-Stranger}\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "We can see this in action by running the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "render",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " command, with and without the environment variable set.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "bash",
+        "snippet" : "$ java -jar target/liftwizard-example-0.1.0.jar render example.yml --include-default\nINFO  [2020-05-02 03:07:41,910] com.example.helloworld.cli.RenderCommand: DEFAULT => Hello, Stranger!\n$ DW_DEFAULT_NAME=EnvSubstitution java -jar target/liftwizard-example-0.1.0.jar render example.yml --include-default\nINFO  [2020-05-02 03:08:05,685] com.example.helloworld.cli.RenderCommand: DEFAULT => Hello, EnvSubstitution!\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "in-dropwizard-example",
+      "title" : "in dropwizard-example",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "java",
+        "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {\n    // Enable variable substitution with environment variables\n    bootstrap.setConfigurationSourceProvider(\n            new SubstitutingSourceProvider(\n                    bootstrap.getConfigurationSourceProvider(),\n                    new EnvironmentVariableSubstitutor(false)\n            )\n    );\n \n    // ...\n}\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "in-liftwizard-example",
+      "title" : "in liftwizard-example",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "java",
+        "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {\n    bootstrap.addBundle(new EnvironmentConfigBundle());\n    // ...\n}\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "EnvironmentConfigBundle",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " lives in the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "liftwizard-bundle-environment-config",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " module.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-bundle-environment-config</artifactId>\n</dependency>\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Configuration",
+      "pageTitle" : "Environment Variable Substitution",
+      "pageMeta" : { },
+      "dirName" : "configuration",
+      "fileName" : "environment-variable-substitution",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "in example applications",
+        "id" : "in-example-applications"
+      }, {
+        "title" : "in dropwizard-example",
+        "id" : "in-dropwizard-example"
+      }, {
+        "title" : "in liftwizard-example",
+        "id" : "in-liftwizard-example"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

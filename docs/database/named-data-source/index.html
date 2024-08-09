@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Named Data Source</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Dropwizard provides an interface called ManagedDataSource . public interface ManagedDataSource extends DataSource, Managed { } It's just a io.dropwizard.lifecycle.Managed and a javax.sql.DataSource . It's a DataSource with start/stop lifecycle methods. ManagedDataSource works well when you have one of them. When you have multiple data sources, it can be difficult to tie them together through configuration. For example, if you use Liquibase for migrations, https://www.dropwizard.io/en/latest/manual/migrations.html#support-for-adding-multiple-migration-bundles you'd need to write code to tie specific migrations to specific data sources; it cannot be done through configuration alone.Liftwizard provides NamedDataSource , which is a ManagedDataSource with a name. liquibase-migrations.md Other Liftwizard bundles expect NamedDataSource s to be configured, and refer to them by name in their own configuration. In the liquibase example, we could tie specific migrations to specific data sources through configuration alone.Different named data sources can refer to different databases, or the same database configured different ways. In the following example, we have one data source for Postgres, and three data sources to connect to h2; over the network, in-memory, and on disk.To use named data sources, start by changing the Configuration class to implement NamedDataSourceFactoryProvider . java public class HelloWorldConfiguration extends Configuration implements NamedDataSourceProvider // , ... other interfaces { // ... } Add a field with type NamedDataSourcesFactory . @JsonUnwrapped private @Valid @NotNull NamedDataSourcesFactory namedDataSourcesFactory = new NamedDataSourcesFactory(); Add the getter/setter required by the interface. @JsonProperty(&quot;dataSources&quot;) @JsonUnwrapped public NamedDataSourcesFactory getNamedDataSourcesFactory() { return this.namedDataSourcesFactory; } @JsonProperty(&quot;dataSources&quot;) @JsonUnwrapped public void setNamedDataSourcesFactory(NamedDataSourcesFactory namedDataSourcesFactory) { this.namedDataSourcesFactory = namedDataSourcesFactory; } Now we can use the named data sources in the configuration of other bundles. For example, we use the data source named h2-tcp in the liquibase configuration.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Dropwizard provides an interface called ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ManagedDataSource",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "public interface ManagedDataSource extends DataSource, Managed {\n\n}",
+      "title" : "io.dropwizard.db.ManagedDataSource",
+      "entry" : "ManagedDataSource",
+      "anchorId" : "io-dropwizard-db-manageddatasource",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "It's just a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "io.dropwizard.lifecycle.Managed",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "javax.sql.DataSource",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". It's a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DataSource",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " with start/stop lifecycle methods.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "ManagedDataSource",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " works well when you have one of them. When you have multiple data sources, it can be difficult to tie them together through configuration. For example, if you use Liquibase for migrations, ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.dropwizard.io/en/latest/manual/migrations.html#support-for-adding-multiple-migration-bundles",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "you'd need to write code",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " to tie specific migrations to specific data sources; it cannot be done through configuration alone.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Liftwizard provides ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "NamedDataSource",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", which is a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ManagedDataSource",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " with a name. ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/database/liquibase-migrations",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Other Liftwizard bundles",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " expect ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "NamedDataSource",
+        "type" : "InlinedCode"
+      }, {
+        "text" : "s to be configured, and refer to them by name in their own configuration. In the liquibase example, we could tie specific migrations to specific data sources through configuration alone.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Different named data sources can refer to different databases, or the same database configured different ways. In the following example, we have one data source for Postgres, and three data sources to connect to h2; over the network, in-memory, and on disk.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "title" : "example.json5",
+      "include" : "$['absent', 'dataSources']",
+      "data" : {
+        "dataSources" : [ {
+          "name" : "h2-mem",
+          "driverClass" : "com.p6spy.engine.spy.P6SpyDriver",
+          "user" : "sa",
+          "password" : "",
+          "url" : "jdbc:p6spy:h2:mem:"
+        }, {
+          "name" : "h2-tcp",
+          "driverClass" : "com.p6spy.engine.spy.P6SpyDriver",
+          "user" : "sa",
+          "password" : "",
+          "url" : "jdbc:p6spy:h2:tcp://localhost:9092/liftwizard-app-h2"
+        }, {
+          "name" : "h2-file",
+          "driverClass" : "com.p6spy.engine.spy.P6SpyDriver",
+          "user" : "sa",
+          "password" : "",
+          "url" : "jdbc:p6spy:h2:file:./target/h2db/liftwizard-app-h2"
+        }, {
+          "name" : "postgres",
+          "driverClass" : "org.postgresql.Driver",
+          "readOnlyByDefault" : false,
+          "user" : "${JDBC_DATABASE_USERNAME}",
+          "password" : "${JDBC_DATABASE_PASSWORD}",
+          "url" : "${JDBC_DATABASE_URL}"
+        } ]
+      },
+      "highlightValues" : [ "root.dataSources[0].name", "root.dataSources[1].name", "root.dataSources[2].name", "root.dataSources[3].name" ],
+      "highlightKeys" : [ ],
+      "anchorId" : "example-json5",
+      "type" : "Json"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To use named data sources, start by changing the Configuration class to implement ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "NamedDataSourceFactoryProvider",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "public class HelloWorldConfiguration\n        extends Configuration\n        implements NamedDataSourceProvider // , ... other interfaces\n{\n    // ...\n}\n",
+      "lineNumber" : "",
+      "title" : "HelloWorldConfiguration.java",
+      "anchorId" : "helloworldconfiguration-java",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Add a field with type ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "NamedDataSourcesFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@JsonUnwrapped\nprivate @Valid @NotNull NamedDataSourcesFactory   namedDataSourcesFactory   =\n        new NamedDataSourcesFactory();",
+      "title" : "HelloWorldConfiguration.java field",
+      "surroundedBy" : "// include-namedDataSourcesFactory",
+      "anchorId" : "helloworldconfiguration-java-field",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Add the getter/setter required by the interface.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@JsonProperty(\"dataSources\")\n@JsonUnwrapped\npublic NamedDataSourcesFactory getNamedDataSourcesFactory()\n{\n    return this.namedDataSourcesFactory;\n}\n@JsonProperty(\"dataSources\")\n@JsonUnwrapped\npublic void setNamedDataSourcesFactory(NamedDataSourcesFactory namedDataSourcesFactory)\n{\n    this.namedDataSourcesFactory = namedDataSourcesFactory;\n}",
+      "title" : "HelloWorldConfiguration.java methods",
+      "entry" : [ "getNamedDataSourcesFactory", "setNamedDataSourcesFactory" ],
+      "anchorId" : "helloworldconfiguration-java-methods",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Now we can use the named data sources in the configuration of other bundles. For example, we use the data source named ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "h2-tcp",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " in the liquibase configuration.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "title" : "example.json5",
+      "include" : "$['absent', 'liquibase']",
+      "data" : {
+        "liquibase" : {
+          "enabled" : true,
+          "dataSourceMigrations" : [ {
+            "dataSourceName" : "h2-tcp",
+            "migrationFileName" : "migrations.xml",
+            "migrationFileLocation" : "classpath",
+            "contexts" : [ ]
+          } ],
+          "dryRun" : false
+        }
+      },
+      "highlightValues" : [ "root.liquibase.dataSourceMigrations[0].dataSourceName" ],
+      "highlightKeys" : [ ],
+      "anchorId" : "example-json5-2",
+      "type" : "Json"
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Database",
+      "pageTitle" : "Named Data Source",
+      "pageMeta" : { },
+      "dirName" : "database",
+      "fileName" : "named-data-source",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

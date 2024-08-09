@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Instrumentation Metrics</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>LiftwizardGraphQLMetricsInstrumentation is an implementation of Instrumentation from https://www.graphql-java.com/ GraphQL Java that registers https://metrics.dropwizard.io/ performance metrics about data fetching with Dropwizard's MetricsRegistry.To turn it on, either run the entire graphql/bundle.md LiftwizardGraphQLBundle or just add LiftwizardGraphQLMetricsInstrumentation to the list of instrumentations on your GraphQLFactory . java GraphQLFactory factory = ...; Clock clock = Clock.systemUTC(); var metricsInstrumentation = new LiftwizardGraphQLMetricsInstrumentation(this.metricRegistry, clock); var loggingInstrumentation = new LiftwizardGraphQLLoggingInstrumentation(); List&lt;Instrumentation&gt; instrumentations = List.of(metricsInstrumentation, loggingInstrumentation); factory.setInstrumentations(instrumentations); Annotations Next, annotate the DataFetchers that you want to monitor with @Timed , @Metered , and/or @ExceptionMetered . You can annotate either the get() method, or the entire fetcher class. Timers @Timed adds three timers:{DataFetcher's fully-qualified class name}.get.sync liftwizard.graphql.field.{GraphQL Class}.{GraphQL field}.sync liftwizard.graphql.path.{path}.sync All three timers track the number of times each DataFetcher is called, and the amount of time spent in the get() method.Although the timers measure the same thing, they may not have identical values. This would happen if the same DataFetcher is wired to multiple fields, or is reached by multiple paths through the graph.If your DataFetcher returns https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CompletableFuture.html CompleteableFuture , you'll get three additional timers, with names ending in &quot;async&quot; instead of &quot;sync&quot;. Rather than track the amount of time spent in get() , these timers will track the amount of time until the CompleteableFutures complete. Meters Timers are meters, so if you want to know the number of times a fetcher is called, annotate them with @Timer.If you annotate your DataFetcher with @Metered , the Intrumentation will add meters that track the number of items returned by the DataFetcher. If the DataFetcher returns a Collection or CompleteableFuture&lt;Collection&gt; , the meter will increment by the size of the Collection. ExceptionMeters @ExceptionMetered adds meters that track the number of times the DataFetcher throws uncaught exceptions, plus the number of CompleteableFutures they return that complete exceptionally. The meters have the same names as the timers, but with the suffix &quot;exceptions&quot;:{DataFetcher's fully-qualified class name}.get.exceptions liftwizard.graphql.field.{GraphQL Class}.{GraphQL field}.exceptions liftwizard.graphql.path.{path}.exceptions LiftwizardGraphQLMetricsInstrumentation lives in the liftwizard-graphql-instrumentation-metrics module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-graphql-instrumentation-metrics&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "LiftwizardGraphQLMetricsInstrumentation",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is an implementation of ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "Instrumentation",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " from ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.graphql-java.com/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GraphQL Java",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " that registers ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://metrics.dropwizard.io/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "performance metrics",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " about data fetching with Dropwizard's MetricsRegistry.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To turn it on, either run the entire ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/graphql/bundle",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "code" : "LiftwizardGraphQLBundle",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "text" : " or just add ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LiftwizardGraphQLMetricsInstrumentation",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to the list of instrumentations on your ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "GraphQLFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "GraphQLFactory factory = ...;\n\nClock clock = Clock.systemUTC();\n\nvar metricsInstrumentation = new LiftwizardGraphQLMetricsInstrumentation(this.metricRegistry, clock);\nvar loggingInstrumentation = new LiftwizardGraphQLLoggingInstrumentation();\n\nList<Instrumentation> instrumentations = List.of(metricsInstrumentation, loggingInstrumentation);\nfactory.setInstrumentations(instrumentations);\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "id" : "annotations",
+      "level" : 2,
+      "title" : "Annotations",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Next, annotate the DataFetchers that you want to monitor with ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "@Timed",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "@Metered",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", and/or ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "@ExceptionMetered",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". You can annotate either the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "get()",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " method, or the entire fetcher class.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "timers",
+      "level" : 2,
+      "title" : "Timers",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "@Timed",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " adds three timers:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "{DataFetcher's fully-qualified class name}.get.sync",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.graphql.field.{GraphQL Class}.{GraphQL field}.sync",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.graphql.path.{path}.sync",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "All three timers track the number of times each DataFetcher is called, and the amount of time spent in the get() method.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Although the timers measure the same thing, they may not have identical values. This would happen if the same DataFetcher is wired to multiple fields, or is reached by multiple paths through the graph.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If your DataFetcher returns ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CompletableFuture.html",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "code" : "CompleteableFuture",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "text" : ", you'll get three additional timers, with names ending in \"async\" instead of \"sync\". Rather than track the amount of time spent in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "get()",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", these timers will track the amount of time until the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CompleteableFutures",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " complete.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "meters",
+      "level" : 2,
+      "title" : "Meters",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Timers ",
+        "type" : "SimpleText"
+      }, {
+        "type" : "Emphasis",
+        "content" : [ {
+          "text" : "are",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " meters, so if you want to know the number of times a fetcher is called, annotate them with ",
+        "type" : "SimpleText"
+      }, {
+        "type" : "Emphasis",
+        "content" : [ {
+          "text" : "@Timer",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you annotate your DataFetcher with ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "@Metered",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", the Intrumentation will add meters that track ",
+        "type" : "SimpleText"
+      }, {
+        "type" : "Emphasis",
+        "content" : [ {
+          "text" : "the number of items returned",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " by the DataFetcher. If the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DataFetcher",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " returns a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "Collection",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " or ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CompleteableFuture<Collection>",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", the meter will increment by the size of the Collection.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "exceptionmeters",
+      "level" : 2,
+      "title" : "ExceptionMeters",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "@ExceptionMetered",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " adds meters that track the number of times the DataFetcher throws uncaught exceptions, plus the number of CompleteableFutures they return that complete exceptionally. The meters have the same names as the timers, but with the suffix \"exceptions\":",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "{DataFetcher's fully-qualified class name}.get.exceptions",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.graphql.field.{GraphQL Class}.{GraphQL field}.exceptions",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "liftwizard.graphql.path.{path}.exceptions",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "LiftwizardGraphQLMetricsInstrumentation",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-graphql-instrumentation-metrics",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-graphql-instrumentation-metrics</artifactId>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Graphql",
+      "pageTitle" : "Instrumentation Metrics",
+      "pageMeta" : { },
+      "dirName" : "graphql",
+      "fileName" : "instrumentation-metrics",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

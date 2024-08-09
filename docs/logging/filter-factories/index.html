@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Filter Factories</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Dropwizard comes with support for dynamic configuration of https://www.dropwizard.io/en/latest/manual/core.html#logging-filters log filters. However, it ships with just a single filter, the https://www.dropwizard.io/en/latest/manual/core.html#filtering-request-logs-for-a-specific-uri UriFilterFactory.One can create logging filters that will intercept log statements before they are written and decide if they&rsquo;re allowed. Log filters can work on both regular statements and request log statements.Liftwizard provides an improved RequestUrlFilterFactory for request logs and JaninoFilterFactory for plain logs. RequestUrlFilterFactory RequestUrlFilterFactory is an improved version of UriFilterFactory . It can filter access logs that do or don't match a list of urls.To use it, add a dependency on liftwizard-config-logging-filter-requesturl . Then add a filter factory to your config with type url and a list of urls to include or exclude. The default value of onMatch is ch.qos.logback.core.spi.FilterReply.DENY . JaninoFilterFactory JaninoFilterFactory allows you to specify the filter condition in a snippet of Java code that gets compiled with https://janino-compiler.github.io/janino/ Janino.To use it, add a dependency on liftwizard-config-logging-filter-janino . Then add a filter factory to your config with type janino and a javaExpression that evaluates to a boolean. The default value of onMatch is ch.qos.logback.core.spi.FilterReply.DENY . json5 { &quot;logging&quot;: { &quot;level&quot;: &quot;DEBUG&quot;, &quot;appenders&quot;: [ { &quot;type&quot;: &quot;console&quot;, &quot;timeZone&quot;: &quot;${LOGGING_TIMEZONE:-system}&quot;, &quot;logFormat&quot;: &quot;%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\(%file:%line\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException&quot;, &quot;filterFactories&quot;: [ { &quot;type&quot;: &quot;janino&quot;, &quot;javaExpression&quot;: &quot;logger.equals(\&quot;io.liftwizard.logging.p6spy.P6SpySlf4jLogger\&quot;) &amp;&amp; mdc.get(\&quot;liftwizard.bundle\&quot;).equals(\&quot;DdlExecutorBundle\&quot;)&quot;, &quot;onMatch&quot;: &quot;DENY&quot; } ] } ] } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Dropwizard comes with support for dynamic configuration of ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.dropwizard.io/en/latest/manual/core.html#logging-filters",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "log filters",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ". However, it ships with just a single filter, the ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.dropwizard.io/en/latest/manual/core.html#filtering-request-logs-for-a-specific-uri",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "UriFilterFactory",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "BlockQuote",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "One can create logging filters that will intercept log statements before they are written and decide if they’re allowed. Log filters can work on both regular statements and request log statements.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Liftwizard provides an improved ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "RequestUrlFilterFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " for request logs and ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "JaninoFilterFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " for plain logs.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "requesturlfilterfactory",
+      "level" : 2,
+      "title" : "RequestUrlFilterFactory",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "RequestUrlFilterFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is an improved version of ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "UriFilterFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". It can filter access logs that do or don't match a list of urls.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To use it, add a dependency on ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-config-logging-filter-requesturl",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". Then add a filter factory to your config with type ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "url",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and a list of ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "urls",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to include or exclude. The default value of ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "onMatch",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ch.qos.logback.core.spi.FilterReply.DENY",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "data" : {
+        "requestLog" : {
+          "appenders" : [ {
+            "type" : "console",
+            "filterFactories" : [ {
+              "type" : "url",
+              "onMatch" : "DENY",
+              "urls" : [ "/icons/", "/static/", "/manifest.json", "/assets-manifest.json", "/favicon.ico", "/service-worker.js" ]
+            } ]
+          } ]
+        }
+      },
+      "highlightValues" : [ ],
+      "highlightKeys" : [ ],
+      "type" : "Json"
+    }, {
+      "id" : "janinofilterfactory",
+      "level" : 2,
+      "title" : "JaninoFilterFactory",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "JaninoFilterFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " allows you to specify the filter condition in a snippet of Java code that gets compiled with ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://janino-compiler.github.io/janino/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Janino",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To use it, add a dependency on ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-config-logging-filter-janino",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". Then add a filter factory to your config with type ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "janino",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "javaExpression",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " that evaluates to a boolean. The default value of ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "onMatch",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ch.qos.logback.core.spi.FilterReply.DENY",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "json5",
+      "snippet" : "{\n  \"logging\": {\n    \"level\": \"DEBUG\",\n    \"appenders\": [\n      {\n        \"type\": \"console\",\n        \"timeZone\": \"${LOGGING_TIMEZONE:-system}\",\n        \"logFormat\": \"%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\\\(%file:%line\\\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException\",\n        \"filterFactories\": [\n          {\n            \"type\": \"janino\",\n            \"javaExpression\": \"logger.equals(\\\"io.liftwizard.logging.p6spy.P6SpySlf4jLogger\\\") && mdc.get(\\\"liftwizard.bundle\\\").equals(\\\"DdlExecutorBundle\\\")\",\n            \"onMatch\": \"DENY\"\n          }\n        ]\n      }\n    ]\n  }\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Logging",
+      "pageTitle" : "Filter Factories",
+      "pageMeta" : { },
+      "dirName" : "logging",
+      "fileName" : "filter-factories",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

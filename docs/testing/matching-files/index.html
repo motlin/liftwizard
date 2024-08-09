@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Matching Files</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Liftwizard includes utilities for asserting that a string equals the contents of a file.If your code has changed enough, it can be more convenient to re-record the test resource files, and review the changes using git diff rather than the test assertion errors. To enable re-record mode, set the environment variable LIFTWIZARD_FILE_MATCH_RULE_RERECORD to true .The setup is different for the JUnit 4 Rule and JUnit 5 Extension. After setup, both have the same API. java this.fileMatchExtension.assertFileContents(expectedStringClassPathLocation, actualString); If the file does not exist, or the contents do not match, an assertion error is added to an https://junit.org/junit4/javadoc/4.12/org/junit/rules/ErrorCollector.html ErrorCollector. If the ErrorCollector contains any errors, the test fails at the end with all expected/actual pairs reported together.If LIFTWIZARD_FILE_MATCH_RULE_RERECORD is set to true , assertFileContents will not emit any AssertionErrors . JUnit 4 java public class ExampleTest { @Rule public final FileMatchRule fileMatchRule = new FileMatchRule(this.getClass()); @Test public void smokeTest() { String resourceClassPathLocation = this.getClass().getSimpleName() + &quot;.txt&quot;; this.fileMatchRule.assertFileContents(resourceClassPathLocation, &quot;test content&quot;); } } JUnit 5 java public class ExampleTest { @RegisterExtension private final FileMatchExtension fileMatchExtension = new FileMatchExtension(this.getClass()); @Test public void smokeTest() { String resourceClassPathLocation = this.getClass().getSimpleName() + &quot;.txt&quot;; this.fileMatchExtension.assertFileContents(resourceClassPathLocation, &quot;test content&quot;); } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Liftwizard includes utilities for asserting that a string equals the contents of a file.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If your code has changed enough, it can be more convenient to re-record the test resource files, and review the changes using ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "git diff",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " rather than the test assertion errors. To enable re-record mode, set the environment variable ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LIFTWIZARD_FILE_MATCH_RULE_RERECORD",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "true",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The setup is different for the JUnit 4 Rule and JUnit 5 Extension. After setup, both have the same API.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "this.fileMatchExtension.assertFileContents(expectedStringClassPathLocation, actualString);\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If the file does not exist, or the contents do not match, an assertion error is added to an ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://junit.org/junit4/javadoc/4.12/org/junit/rules/ErrorCollector.html",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "ErrorCollector",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ". If the ErrorCollector contains any errors, the test fails at the end with all expected/actual pairs reported together.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LIFTWIZARD_FILE_MATCH_RULE_RERECORD",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is set to ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "true",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "assertFileContents",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " will not emit any ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "AssertionErrors",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "tabsContent" : [ {
+        "name" : "JUnit 4",
+        "content" : [ {
+          "lang" : "java",
+          "snippet" : "public class ExampleTest\n{\n    @Rule\n    public final FileMatchRule fileMatchRule = new FileMatchRule(this.getClass());\n\n    @Test\n    public void smokeTest()\n    {\n        String resourceClassPathLocation = this.getClass().getSimpleName() + \".txt\";\n        this.fileMatchRule.assertFileContents(resourceClassPathLocation, \"test content\");\n    }\n}\n",
+          "lineNumber" : "",
+          "type" : "Snippet"
+        } ]
+      }, {
+        "name" : "JUnit 5",
+        "content" : [ {
+          "lang" : "java",
+          "snippet" : "public class ExampleTest\n{\n    @RegisterExtension\n    private final FileMatchExtension fileMatchExtension = new FileMatchExtension(this.getClass());\n\n    @Test\n    public void smokeTest()\n    {\n        String resourceClassPathLocation = this.getClass().getSimpleName() + \".txt\";\n        this.fileMatchExtension.assertFileContents(resourceClassPathLocation, \"test content\");\n    }\n}\n",
+          "lineNumber" : "",
+          "type" : "Snippet"
+        } ]
+      } ],
+      "type" : "Tabs"
+    } ],
+    "lastModifiedTime" : 1723206719984,
+    "tocItem" : {
+      "chapterTitle" : "Testing",
+      "pageTitle" : "Matching Files",
+      "pageMeta" : { },
+      "dirName" : "testing",
+      "fileName" : "matching-files",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

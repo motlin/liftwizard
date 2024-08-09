@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Slf4jUncaughtExceptionHandlerBundle</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>The logs</h1></header>
+<p>Slf4jUncaughtExceptionHandler is an https://docs.oracle.com/en%2Fjava%2Fjavase%2F21%2Fdocs%2Fapi%2F%2F/java.base/java/lang/Thread.UncaughtExceptionHandler.html UncaughtExceptionHandler that logs uncaught exceptions using SLF4J. Slf4jUncaughtExceptionHandlerBundle is a Dropwizard bundle that installs Slf4jUncaughtExceptionHandler on startup.When a thread is about to terminate due to an uncaught exception the Java Virtual Machine will query the thread for its UncaughtExceptionHandler using Thread.getUncaughtExceptionHandler() and will invoke the handler's uncaughtException method, passing the thread and the exception as arguments.When an uncaught exception is thrown, Slf4jUncaughtExceptionHandler logs the exception at the WARN level.With logback configuration like this: xml &lt;appender name=&quot;Console&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt; &lt;encoder&gt; &lt;pattern&gt;%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, ${LOGGING_TIMEZONE}}) %gray(\(%file:%line\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException&lt;/pattern&gt; &lt;/encoder&gt; &lt;/appender&gt; The logs look like this: shell WARN 12:00:00.000 (Slf4jUncaughtExceptionHandler.java:46) [main] {exceptionClass=io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest.RootException, liftwizard.error.message=example root, liftwizard.error.kind=io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest.RootException, threadName=main, exceptionMessage=example root, liftwizard.error.thread=main} io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandler: Exception in thread &quot;main&quot; io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest$CauseException: example cause at io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest.testUncaughtException(Slf4jUncaughtExceptionHandlerTest.java:26) ~[test-classes/:na] ... 68 common frames omitted Wrapped by: io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest$RootException: example root at io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest.testUncaughtException(Slf4jUncaughtExceptionHandlerTest.java:27) ~[test-classes/:na]</p>
+</article>
+
+<article>
+<header><h1>With Dropwizard</h1></header>
+<p>To use the exception handler with Dropwizard, add Slf4jUncaughtExceptionHandlerBundle to the list of registered bundles. java @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { bootstrap.addBundle(new Slf4jUncaughtExceptionHandlerBundle()); } And add the dependency: xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-bundle-logging-uncaught-exception-handler&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+
+<article>
+<header><h1>Without Dropwizard</h1></header>
+<p>To use Slf4jUncaughtExceptionHandler without the bundle, create an instance and set it as the default uncaught exception handler. java Thread.setDefaultUncaughtExceptionHandler(new Slf4jUncaughtExceptionHandler()); And add the dependency: xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-logging-uncaught-exception-handler&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "Slf4jUncaughtExceptionHandler",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is an ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://docs.oracle.com/en%2Fjava%2Fjavase%2F21%2Fdocs%2Fapi%2F%2F/java.base/java/lang/Thread.UncaughtExceptionHandler.html",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "code" : "UncaughtExceptionHandler",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "text" : " that logs uncaught exceptions using SLF4J.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "Slf4jUncaughtExceptionHandlerBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is a Dropwizard bundle that installs ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "Slf4jUncaughtExceptionHandler",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " on startup.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "BlockQuote",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When a thread is about to terminate due to an uncaught exception the Java Virtual Machine will query the thread for its UncaughtExceptionHandler using Thread.getUncaughtExceptionHandler() and will invoke the handler's uncaughtException method, passing the thread and the exception as arguments.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "the-logs",
+      "title" : "The logs",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When an uncaught exception is thrown, ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Slf4jUncaughtExceptionHandler",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " logs the exception at the WARN level.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "With logback configuration like this:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<appender name=\"Console\" class=\"ch.qos.logback.core.ConsoleAppender\">\n    <encoder>\n        <pattern>%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, ${LOGGING_TIMEZONE}}) %gray(\\(%file:%line\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException</pattern>\n    </encoder>\n</appender>\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The logs look like this:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "shell",
+        "snippet" : "WARN  12:00:00.000 (Slf4jUncaughtExceptionHandler.java:46) [main]  {exceptionClass=io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest.RootException, liftwizard.error.message=example root, liftwizard.error.kind=io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest.RootException, threadName=main, exceptionMessage=example root, liftwizard.error.thread=main} io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandler: Exception in thread \"main\"\nio.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest$CauseException: example cause\n\tat io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest.testUncaughtException(Slf4jUncaughtExceptionHandlerTest.java:26) ~[test-classes/:na]\n\t... 68 common frames omitted\nWrapped by: io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest$RootException: example root\n\tat io.liftwizard.logging.slf4j.uncaught.exception.handler.Slf4jUncaughtExceptionHandlerTest.testUncaughtException(Slf4jUncaughtExceptionHandlerTest.java:27) ~[test-classes/:na]\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "with-dropwizard",
+      "title" : "With Dropwizard",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To use the exception handler with Dropwizard, add ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Slf4jUncaughtExceptionHandlerBundle",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to the list of registered bundles.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap)\n{\n    bootstrap.addBundle(new Slf4jUncaughtExceptionHandlerBundle());\n}\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "And add the dependency:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-bundle-logging-uncaught-exception-handler</artifactId>\n</dependency>\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "without-dropwizard",
+      "title" : "Without Dropwizard",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Slf4jUncaughtExceptionHandler",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " without the bundle, create an instance and set it as the default uncaught exception handler.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "Thread.setDefaultUncaughtExceptionHandler(new Slf4jUncaughtExceptionHandler());\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "And add the dependency:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-logging-uncaught-exception-handler</artifactId>\n</dependency>\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Logging",
+      "pageTitle" : "Slf4jUncaughtExceptionHandlerBundle",
+      "pageMeta" : { },
+      "dirName" : "logging",
+      "fileName" : "Slf4jUncaughtExceptionHandlerBundle",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "The logs",
+        "id" : "the-logs"
+      }, {
+        "title" : "With Dropwizard",
+        "id" : "with-dropwizard"
+      }, {
+        "title" : "Without Dropwizard",
+        "id" : "without-dropwizard"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

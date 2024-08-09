@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Profile Parent</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>The &quot;profile&quot; parent pom inherits from minimal-parent liftwizard-minimal-parent . If you are able to accept more opinionated defaults, continue to bill-of-materials bill-of-materials . The profile parent contains a number of plugins you may want to enable, each wrapped individually in a maven profile. Usage Inherit from liftwizard-profile-parent in your project's pom.xml: xml &lt;parent&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-profile-parent&lt;/artifactId&gt; &lt;version&gt;${liftwizard.version}&lt;/version&gt; &lt;/parent&gt; What you will get The following sections describe the profiles that are added by liftwizard-profile-parent . You will not need to configure these in your project's pom.xml if you inherit from liftwizard-profile-parent . You can enable the profiles using mvn --activate-profiles &lt;profile1&gt;,&lt;profile2&gt;,... Active by default According to https://maven.apache.org/guides/introduction/introduction-to-profiles.html the docs:Profiles can be active by default using a configuration like the following in a POM. xml &lt;profiles&gt; &lt;profile&gt; &lt;id&gt;profile-name&lt;/id&gt; &lt;activation&gt; &lt;activeByDefault&gt;true&lt;/activeByDefault&gt; &lt;/activation&gt; ... &lt;/profile&gt; &lt;/profiles&gt; This profile will automatically be active for all builds unless another profile in the same POM is activated using one of the previously described methods. All profiles that are active by default are automatically deactivated when a profile in the POM is activated on the command line or through its activation config.This is confusing for new users, who are first confused to find some profiles are enabled by default, and later confused to find out that they are no longer enabled. No profiles in liftwizard-profile-parent are active by default, and we recommend avoiding activeByDefault in your project's pom.xml too. maven-enforcer-plugin &lt;profile&gt; &lt;id&gt;maven-enforcer-plugin&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;artifactId&gt;maven-enforcer-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;rules&gt; &lt;dependencyConvergence /&gt; &lt;requirePluginVersions&gt; &lt;banLatest&gt;true&lt;/banLatest&gt; &lt;banRelease&gt;true&lt;/banRelease&gt; &lt;banSnapshots&gt;false&lt;/banSnapshots&gt; &lt;unCheckedPluginList xml:space=&quot;preserve&quot;&gt; org.apache.maven.plugins:maven-site-plugin, org.apache.maven.plugins:maven-deploy-plugin &lt;/unCheckedPluginList&gt; &lt;/requirePluginVersions&gt; &lt;bannedDependencies&gt; &lt;excludes combine.children=&quot;append&quot;&gt; &lt;exclude&gt;commons-logging-api&lt;/exclude&gt; &lt;exclude&gt;commons-logging&lt;/exclude&gt; &lt;exclude&gt;javax.activation:javax.activation-api&lt;/exclude&gt; &lt;exclude&gt;javax.servlet:javax.servlet-api&lt;/exclude&gt; &lt;exclude&gt;javax.validation:validation-api&lt;/exclude&gt; &lt;exclude&gt;javax.ws.rs:javax.ws.rs-api&lt;/exclude&gt; &lt;exclude&gt;javax.xml.bind:jaxb-api&lt;/exclude&gt; &lt;exclude&gt;javax.xml.ws:jaxws-api&lt;/exclude&gt; &lt;exclude&gt;org.apache.logging.log4j:log4j&lt;/exclude&gt; &lt;exclude&gt;org.slf4j:jcl&lt;/exclude&gt; &lt;exclude&gt;org.slf4j:nop&lt;/exclude&gt; &lt;exclude&gt;org.slf4j:slf4j-jdk14&lt;/exclude&gt; &lt;exclude&gt;org.slf4j:slf4j-simple&lt;/exclude&gt; &lt;/excludes&gt; &lt;/bannedDependencies&gt; &lt;banDuplicatePomDependencyVersions /&gt; &lt;banDuplicateClasses&gt; &lt;findAllDuplicates&gt;true&lt;/findAllDuplicates&gt; &lt;ignoreWhenIdentical&gt;true&lt;/ignoreWhenIdentical&gt; &lt;/banDuplicateClasses&gt; &lt;/rules&gt; &lt;/configuration&gt; &lt;executions&gt; &lt;execution&gt; &lt;id&gt;enforce&lt;/id&gt; &lt;goals&gt; &lt;goal&gt;enforce&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;prettier-check&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.hubspot.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;prettier-maven-plugin&lt;/artifactId&gt; &lt;executions&gt; &lt;execution&gt; &lt;goals&gt; &lt;goal&gt;check&lt;/goal&gt; &lt;/goals&gt; &lt;phase&gt;validate&lt;/phase&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;prettier-apply&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.hubspot.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;prettier-maven-plugin&lt;/artifactId&gt; &lt;executions&gt; &lt;execution&gt; &lt;goals&gt; &lt;goal&gt;write&lt;/goal&gt; &lt;/goals&gt; &lt;phase&gt;validate&lt;/phase&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-check&lt;/id&gt; &lt;properties&gt; &lt;spotless.check.skip&gt;false&lt;/spotless.check.skip&gt; &lt;/properties&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;executions&gt; &lt;execution&gt; &lt;goals&gt; &lt;goal&gt;check&lt;/goal&gt; &lt;/goals&gt; &lt;phase&gt;validate&lt;/phase&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-apply&lt;/id&gt; &lt;properties&gt; &lt;spotless.check.skip&gt;false&lt;/spotless.check.skip&gt; &lt;/properties&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;executions&gt; &lt;execution&gt; &lt;goals&gt; &lt;goal&gt;apply&lt;/goal&gt; &lt;/goals&gt; &lt;phase&gt;verify&lt;/phase&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-formats&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;formats&gt; &lt;format&gt; &lt;toggleOffOn /&gt; &lt;includes&gt; &lt;include&gt;.gitattributes&lt;/include&gt; &lt;include&gt;.gitignore&lt;/include&gt; &lt;/includes&gt; &lt;trimTrailingWhitespace /&gt; &lt;endWithNewline /&gt; &lt;indent&gt; &lt;tabs&gt;true&lt;/tabs&gt; &lt;spacesPerTab&gt;4&lt;/spacesPerTab&gt; &lt;/indent&gt; &lt;/format&gt; &lt;/formats&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-java-sort-imports&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;java&gt; &lt;toggleOffOn&gt; &lt;off&gt;@formatter:off&lt;/off&gt; &lt;on&gt;@formatter:on&lt;/on&gt; &lt;/toggleOffOn&gt; &lt;importOrder&gt; &lt;!-- use an empty string for all the imports not specified explicitly, '|' to join group without blank line, and '\#` prefix for static imports. --&gt; &lt;order&gt;java,javax,,\#com.diffplug,\#java|\#javax,\#&lt;/order&gt; &lt;/importOrder&gt; &lt;removeUnusedImports /&gt; &lt;/java&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-java-unused-imports&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;java&gt; &lt;toggleOffOn&gt; &lt;off&gt;@formatter:off&lt;/off&gt; &lt;on&gt;@formatter:on&lt;/on&gt; &lt;/toggleOffOn&gt; &lt;removeUnusedImports /&gt; &lt;/java&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-prettier-java&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;java&gt; &lt;toggleOffOn&gt; &lt;off&gt;@formatter:off&lt;/off&gt; &lt;on&gt;@formatter:on&lt;/on&gt; &lt;/toggleOffOn&gt; &lt;prettier&gt; &lt;devDependencies&gt; &lt;prettier&gt;3.3.2&lt;/prettier&gt; &lt;prettier-plugin-java&gt;2.6.0&lt;/prettier-plugin-java&gt; &lt;/devDependencies&gt; &lt;config&gt; &lt;tabWidth&gt;4&lt;/tabWidth&gt; &lt;printWidth&gt;120&lt;/printWidth&gt; &lt;parser&gt;java&lt;/parser&gt; &lt;plugins&gt;prettier-plugin-java&lt;/plugins&gt; &lt;/config&gt; &lt;/prettier&gt; &lt;/java&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-google-java-format&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;java&gt; &lt;toggleOffOn&gt; &lt;off&gt;@formatter:off&lt;/off&gt; &lt;on&gt;@formatter:on&lt;/on&gt; &lt;/toggleOffOn&gt; &lt;googleJavaFormat&gt; &lt;version&gt;1.22.0&lt;/version&gt; &lt;style&gt;AOSP&lt;/style&gt; &lt;reflowLongStrings&gt;false&lt;/reflowLongStrings&gt; &lt;/googleJavaFormat&gt; &lt;/java&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-java-cleanthat&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;java&gt; &lt;toggleOffOn&gt; &lt;off&gt;@formatter:off&lt;/off&gt; &lt;on&gt;@formatter:on&lt;/on&gt; &lt;/toggleOffOn&gt; &lt;!-- Cleanthat will refactor code, but it may break style: apply it before formatter --&gt; &lt;cleanthat /&gt; &lt;/java&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-antlr&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;antlr4&gt; &lt;toggleOffOn /&gt; &lt;antlr4Formatter /&gt; &lt;/antlr4&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-sql&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;sql&gt; &lt;toggleOffOn /&gt; &lt;includes&gt; &lt;include&gt;**/*.sql&lt;/include&gt; &lt;/includes&gt; &lt;excludes&gt; &lt;exclude&gt;**/target/**/*.sql&lt;/exclude&gt; &lt;/excludes&gt; &lt;prettier&gt; &lt;devDependencies&gt; &lt;prettier-plugin-sql&gt;0.18.1&lt;/prettier-plugin-sql&gt; &lt;/devDependencies&gt; &lt;config&gt; &lt;plugins&gt;prettier-plugin-sql&lt;/plugins&gt; &lt;/config&gt; &lt;/prettier&gt; &lt;/sql&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-pom&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;pom&gt; &lt;toggleOffOn /&gt; &lt;sortPom&gt; &lt;expandEmptyElements&gt;false&lt;/expandEmptyElements&gt; &lt;spaceBeforeCloseEmptyElement&gt;true&lt;/spaceBeforeCloseEmptyElement&gt; &lt;keepBlankLines&gt;true&lt;/keepBlankLines&gt; &lt;nrOfIndentSpace&gt;4&lt;/nrOfIndentSpace&gt; &lt;!-- Sort order of elements: https://github.com/Ekryd/sortpom/wiki/PredefinedSortOrderProfiles--&gt; &lt;predefinedSortOrder&gt;recommended_2008_06&lt;/predefinedSortOrder&gt; &lt;!-- Custom sort order of elements: https://raw.githubusercontent.com/Ekryd/sortpom/master/sorter/src/main/resources/custom_1.xml --&gt; &lt;sortOrderFile /&gt; &lt;/sortPom&gt; &lt;/pom&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-markdown&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;markdown&gt; &lt;toggleOffOn /&gt; &lt;includes&gt; &lt;include&gt;**/*.md&lt;/include&gt; &lt;/includes&gt; &lt;excludes&gt; &lt;exclude&gt;**/target/**/*.md&lt;/exclude&gt; &lt;/excludes&gt; &lt;flexmark /&gt; &lt;/markdown&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-json&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;json&gt; &lt;toggleOffOn /&gt; &lt;includes&gt; &lt;include&gt;**/*.json&lt;/include&gt; &lt;include&gt;**/*.json5&lt;/include&gt; &lt;/includes&gt; &lt;excludes&gt; &lt;exclude&gt;**/target/**/*.json&lt;/exclude&gt; &lt;exclude&gt;**/target/**/*.json5&lt;/exclude&gt; &lt;exclude&gt;**/archetype-resources/**/*.json&lt;/exclude&gt; &lt;exclude&gt;**/archetype-resources/**/*.json5&lt;/exclude&gt; &lt;/excludes&gt; &lt;prettier&gt; &lt;config&gt; &lt;singleQuote&gt;false&lt;/singleQuote&gt; &lt;/config&gt; &lt;/prettier&gt; &lt;/json&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; &lt;profile&gt; &lt;id&gt;spotless-yaml&lt;/id&gt; &lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;com.diffplug.spotless&lt;/groupId&gt; &lt;artifactId&gt;spotless-maven-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;yaml&gt; &lt;toggleOffOn /&gt; &lt;includes&gt; &lt;include&gt;**/*.yaml&lt;/include&gt; &lt;include&gt;**/*.yml&lt;/include&gt; &lt;/includes&gt; &lt;excludes&gt; &lt;exclude&gt;**/target/**/*.yaml&lt;/exclude&gt; &lt;exclude&gt;**/target/**/*.yml&lt;/exclude&gt; &lt;/excludes&gt; &lt;prettier&gt; &lt;config&gt; &lt;singleQuote&gt;false&lt;/singleQuote&gt; &lt;/config&gt; &lt;/prettier&gt; &lt;/yaml&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; &lt;/profile&gt; The Enforcer plugin provides goals to control certain environmental constraints such as Maven version, JDK version and OS family along with many more built-in rules and user created rules.The https://maven.apache.org/enforcer/enforcer-rules/dependencyConvergence.html#dependency-convergence dependencyConvergence rule requires that dependency version numbers converge. If a project has two dependencies, A and B, both depending on the same artifact, C, this rule will fail the build if A depends on a different version of C than the version of C depended on by B.The https://maven.apache.org/enforcer/enforcer-rules/requirePluginVersions.html requirePluginVersions rule enforces that all plugins have a version defined, either in the plugin or pluginManagement section of the pom or a parent pom.The https://maven.apache.org/enforcer/enforcer-rules/bannedDependencies.html bannedDependencies rule is configured to ban all loggers except Log4j 1.x and Logback.The https://maven.apache.org/enforcer/enforcer-rules/banDuplicatePomDependencyVersions.html banDuplicatePomDependencyVersions checks that there are no duplicate dependencies declared in the POM of the project. Duplicate dependencies are dependencies which have the same group id, artifact id, type and classifier. extra-enforcer-rules The https://www.mojohaus.org/extra-enforcer-rules/ extra-enforcer-rules project provides extra rules which are not part of the standard rule set. The liftwizard-minimal-parent configures maven-enforcer-plugin to use the extra-enforcer-rules . &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-enforcer-plugin&lt;/artifactId&gt; &lt;version&gt;3.5.0&lt;/version&gt; &lt;dependencies&gt; &lt;dependency&gt; &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt; &lt;artifactId&gt;extra-enforcer-rules&lt;/artifactId&gt; &lt;version&gt;1.8.0&lt;/version&gt; &lt;/dependency&gt; &lt;/dependencies&gt; &lt;/plugin&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The \"profile\" parent pom inherits from ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/maven/minimal-parent",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "code" : "liftwizard-minimal-parent",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "text" : ". If you are able to accept more opinionated defaults, continue to ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/maven/bill-of-materials",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "code" : "bill-of-materials",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "text" : ". The profile parent contains a number of plugins you may want to enable, each wrapped individually in a maven profile.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "usage",
+      "level" : 2,
+      "title" : "Usage",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Inherit from ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-profile-parent",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " in your project's pom.xml:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<parent>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-profile-parent</artifactId>\n    <version>${liftwizard.version}</version>\n</parent>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "id" : "what-you-will-get",
+      "level" : 2,
+      "title" : "What you will get",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The following sections describe the profiles that are added by ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-profile-parent",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". You will not need to configure these in your project's pom.xml if you inherit from ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-profile-parent",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". You can enable the profiles using ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "mvn --activate-profiles <profile1>,<profile2>,...",
+        "type" : "InlinedCode"
+      } ]
+    }, {
+      "id" : "active-by-default",
+      "level" : 2,
+      "title" : "Active by default",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "According to ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://maven.apache.org/guides/introduction/introduction-to-profiles.html",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "the docs",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ":",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "BlockQuote",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Profiles can be active by default using a configuration like the following in a POM.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<profiles>\n  <profile>\n    <id>profile-name</id>\n    <activation>\n      <activeByDefault>true</activeByDefault>\n    </activation>\n    ...\n  </profile>\n</profiles>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "BlockQuote",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "This profile will automatically be active for all builds unless another profile in the same POM is activated using one of the previously described methods. All profiles that are active by default are automatically deactivated when a profile in the POM is activated on the command line or through its activation config.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "This is confusing for new users, who are first confused to find some profiles are enabled by default, and later confused to find out that they are no longer enabled. No profiles in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-profile-parent",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " are active by default, and we recommend avoiding ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "activeByDefault",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " in your project's pom.xml too.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "maven-enforcer-plugin",
+      "level" : 2,
+      "title" : "maven-enforcer-plugin",
+      "type" : "SubHeading"
+    }, {
+      "lang" : "xml",
+      "snippet" : "<profile>\n    <id>maven-enforcer-plugin</id>\n\n    <build>\n        <plugins>\n\n            <plugin>\n                <artifactId>maven-enforcer-plugin</artifactId>\n                <configuration>\n                    <rules>\n                        <dependencyConvergence />\n                        <requirePluginVersions>\n                            <banLatest>true</banLatest>\n                            <banRelease>true</banRelease>\n                            <banSnapshots>false</banSnapshots>\n                            <unCheckedPluginList xml:space=\"preserve\">\n                                org.apache.maven.plugins:maven-site-plugin,\n                                org.apache.maven.plugins:maven-deploy-plugin\n                            </unCheckedPluginList>\n                        </requirePluginVersions>\n                        <bannedDependencies>\n                            <excludes combine.children=\"append\">\n                                <exclude>commons-logging-api</exclude>\n                                <exclude>commons-logging</exclude>\n                                <exclude>javax.activation:javax.activation-api</exclude>\n                                <exclude>javax.servlet:javax.servlet-api</exclude>\n                                <exclude>javax.validation:validation-api</exclude>\n                                <exclude>javax.ws.rs:javax.ws.rs-api</exclude>\n                                <exclude>javax.xml.bind:jaxb-api</exclude>\n                                <exclude>javax.xml.ws:jaxws-api</exclude>\n                                <exclude>org.apache.logging.log4j:log4j</exclude>\n                                <exclude>org.slf4j:jcl</exclude>\n                                <exclude>org.slf4j:nop</exclude>\n                                <exclude>org.slf4j:slf4j-jdk14</exclude>\n                                <exclude>org.slf4j:slf4j-simple</exclude>\n                            </excludes>\n                        </bannedDependencies>\n                        <banDuplicatePomDependencyVersions />\n                        <banDuplicateClasses>\n                            <findAllDuplicates>true</findAllDuplicates>\n                            <ignoreWhenIdentical>true</ignoreWhenIdentical>\n                        </banDuplicateClasses>\n                    </rules>\n                </configuration>\n                <executions>\n                    <execution>\n                        <id>enforce</id>\n                        <goals>\n                            <goal>enforce</goal>\n                        </goals>\n                    </execution>\n                </executions>\n            </plugin>\n\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>prettier-check</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.hubspot.maven.plugins</groupId>\n                <artifactId>prettier-maven-plugin</artifactId>\n                <executions>\n                    <execution>\n                        <goals>\n                            <goal>check</goal>\n                        </goals>\n                        <phase>validate</phase>\n                    </execution>\n                </executions>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>prettier-apply</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.hubspot.maven.plugins</groupId>\n                <artifactId>prettier-maven-plugin</artifactId>\n                <executions>\n                    <execution>\n                        <goals>\n                            <goal>write</goal>\n                        </goals>\n                        <phase>validate</phase>\n                    </execution>\n                </executions>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-check</id>\n\n    <properties>\n        <spotless.check.skip>false</spotless.check.skip>\n    </properties>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <executions>\n                    <execution>\n                        <goals>\n                            <goal>check</goal>\n                        </goals>\n                        <phase>validate</phase>\n                    </execution>\n                </executions>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-apply</id>\n\n    <properties>\n        <spotless.check.skip>false</spotless.check.skip>\n    </properties>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <executions>\n                    <execution>\n                        <goals>\n                            <goal>apply</goal>\n                        </goals>\n                        <phase>verify</phase>\n                    </execution>\n                </executions>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-formats</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <formats>\n                        <format>\n                            <toggleOffOn />\n                            <includes>\n                                <include>.gitattributes</include>\n                                <include>.gitignore</include>\n                            </includes>\n                            <trimTrailingWhitespace />\n                            <endWithNewline />\n                            <indent>\n                                <tabs>true</tabs>\n                                <spacesPerTab>4</spacesPerTab>\n                            </indent>\n                        </format>\n                    </formats>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-java-sort-imports</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <java>\n                        <toggleOffOn>\n                            <off>@formatter:off</off>\n                            <on>@formatter:on</on>\n                        </toggleOffOn>\n\n                        <importOrder>\n                            <!-- use an empty string for all the imports not specified explicitly, '|' to join group without blank line, and '\\#` prefix for static imports. -->\n                            <order>java,javax,,\\#com.diffplug,\\#java|\\#javax,\\#</order>\n                        </importOrder>\n\n                        <removeUnusedImports />\n                    </java>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-java-unused-imports</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <java>\n                        <toggleOffOn>\n                            <off>@formatter:off</off>\n                            <on>@formatter:on</on>\n                        </toggleOffOn>\n\n                        <removeUnusedImports />\n                    </java>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-prettier-java</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <java>\n                        <toggleOffOn>\n                            <off>@formatter:off</off>\n                            <on>@formatter:on</on>\n                        </toggleOffOn>\n\n                        <prettier>\n                            <devDependencies>\n                                <prettier>3.3.2</prettier>\n                                <prettier-plugin-java>2.6.0</prettier-plugin-java>\n                            </devDependencies>\n                            <config>\n                                <tabWidth>4</tabWidth>\n                                <printWidth>120</printWidth>\n                                <parser>java</parser>\n                                <plugins>prettier-plugin-java</plugins>\n                            </config>\n                        </prettier>\n                    </java>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-google-java-format</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <java>\n                        <toggleOffOn>\n                            <off>@formatter:off</off>\n                            <on>@formatter:on</on>\n                        </toggleOffOn>\n\n                        <googleJavaFormat>\n                            <version>1.22.0</version>\n                            <style>AOSP</style>\n                            <reflowLongStrings>false</reflowLongStrings>\n                        </googleJavaFormat>\n                    </java>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-java-cleanthat</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <java>\n                        <toggleOffOn>\n                            <off>@formatter:off</off>\n                            <on>@formatter:on</on>\n                        </toggleOffOn>\n\n                        <!-- Cleanthat will refactor code, but it may break style: apply it before formatter -->\n                        <cleanthat />\n                    </java>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-antlr</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <antlr4>\n                        <toggleOffOn />\n\n                        <antlr4Formatter />\n                    </antlr4>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-sql</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <sql>\n                        <toggleOffOn />\n\n                        <includes>\n                            <include>**/*.sql</include>\n                        </includes>\n\n                        <excludes>\n                            <exclude>**/target/**/*.sql</exclude>\n                        </excludes>\n\n                        <prettier>\n                            <devDependencies>\n                                <prettier-plugin-sql>0.18.1</prettier-plugin-sql>\n                            </devDependencies>\n                            <config>\n                                <plugins>prettier-plugin-sql</plugins>\n                            </config>\n                        </prettier>\n                    </sql>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-pom</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <pom>\n                        <toggleOffOn />\n\n                        <sortPom>\n                            <expandEmptyElements>false</expandEmptyElements>\n                            <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>\n                            <keepBlankLines>true</keepBlankLines>\n                            <nrOfIndentSpace>4</nrOfIndentSpace>\n\n                            <!-- Sort order of elements: https://github.com/Ekryd/sortpom/wiki/PredefinedSortOrderProfiles-->\n                            <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>\n\n                            <!-- Custom sort order of elements: https://raw.githubusercontent.com/Ekryd/sortpom/master/sorter/src/main/resources/custom_1.xml -->\n                            <sortOrderFile />\n                        </sortPom>\n                    </pom>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-markdown</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <markdown>\n                        <toggleOffOn />\n\n                        <includes>\n                            <include>**/*.md</include>\n                        </includes>\n\n                        <excludes>\n                            <exclude>**/target/**/*.md</exclude>\n                        </excludes>\n\n                        <flexmark />\n                    </markdown>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-json</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <json>\n                        <toggleOffOn />\n\n                        <includes>\n                            <include>**/*.json</include>\n                            <include>**/*.json5</include>\n                        </includes>\n\n                        <excludes>\n                            <exclude>**/target/**/*.json</exclude>\n                            <exclude>**/target/**/*.json5</exclude>\n                            <exclude>**/archetype-resources/**/*.json</exclude>\n                            <exclude>**/archetype-resources/**/*.json5</exclude>\n                        </excludes>\n\n                        <prettier>\n                            <config>\n                                <singleQuote>false</singleQuote>\n                            </config>\n                        </prettier>\n                    </json>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>\n\n<profile>\n    <id>spotless-yaml</id>\n\n    <build>\n        <plugins>\n            <plugin>\n                <groupId>com.diffplug.spotless</groupId>\n                <artifactId>spotless-maven-plugin</artifactId>\n                <configuration>\n                    <yaml>\n                        <toggleOffOn />\n\n                        <includes>\n                            <include>**/*.yaml</include>\n                            <include>**/*.yml</include>\n                        </includes>\n\n                        <excludes>\n                            <exclude>**/target/**/*.yaml</exclude>\n                            <exclude>**/target/**/*.yml</exclude>\n                        </excludes>\n\n                        <prettier>\n                            <config>\n                                <singleQuote>false</singleQuote>\n                            </config>\n                        </prettier>\n                    </yaml>\n                </configuration>\n            </plugin>\n        </plugins>\n    </build>\n</profile>",
+      "title" : "liftwizard-profile-parent/pom.xml",
+      "surroundedBy" : [ "region Phase 1: validate" ],
+      "anchorId" : "maven-enforcer-plugin-liftwizard-profile-parent-pom-xml",
+      "type" : "Snippet"
+    }, {
+      "type" : "BlockQuote",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The Enforcer plugin provides goals to control certain environmental constraints such as Maven version, JDK version and OS family along with many more built-in rules and user created rules.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://maven.apache.org/enforcer/enforcer-rules/dependencyConvergence.html#dependency-convergence",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "dependencyConvergence",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " rule requires that dependency version numbers converge. If a project has two dependencies, A and B, both depending on the same artifact, C, this rule will fail the build if A depends on a different version of C than the version of C depended on by B.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://maven.apache.org/enforcer/enforcer-rules/requirePluginVersions.html",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "requirePluginVersions",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " rule enforces that all plugins have a version defined, either in the plugin or pluginManagement section of the pom or a parent pom.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://maven.apache.org/enforcer/enforcer-rules/bannedDependencies.html",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "bannedDependencies",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " rule is configured to ban all loggers except Log4j 1.x and Logback.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://maven.apache.org/enforcer/enforcer-rules/banDuplicatePomDependencyVersions.html",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "banDuplicatePomDependencyVersions",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " checks that there are no duplicate dependencies declared in the POM of the project. Duplicate dependencies are dependencies which have the same group id, artifact id, type and classifier.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "extra-enforcer-rules",
+      "level" : 2,
+      "title" : "extra-enforcer-rules",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.mojohaus.org/extra-enforcer-rules/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "code" : "extra-enforcer-rules",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " project",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " provides extra rules which are not part of the standard rule set. The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-minimal-parent",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " configures ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "maven-enforcer-plugin",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to use the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "extra-enforcer-rules",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-enforcer-plugin</artifactId>\n    <version>3.5.0</version>\n    <dependencies>\n        <dependency>\n            <groupId>org.codehaus.mojo</groupId>\n            <artifactId>extra-enforcer-rules</artifactId>\n            <version>1.8.0</version>\n        </dependency>\n    </dependencies>\n</plugin>",
+      "title" : "liftwizard-minimal-parent/pom.xml",
+      "surroundedBy" : [ "region Phase 1: validate" ],
+      "anchorId" : "extra-enforcer-rules-liftwizard-minimal-parent-pom-xml",
+      "type" : "Snippet"
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Maven",
+      "pageTitle" : "Profile Parent",
+      "pageMeta" : { },
+      "dirName" : "maven",
+      "fileName" : "profile-parent",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

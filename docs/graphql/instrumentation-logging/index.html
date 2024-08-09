@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Instrumentation Logging</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>LiftwizardGraphQLLoggingInstrumentation is an implementation of Instrumentation from https://www.graphql-java.com/ GraphQL Java that adds helpful context to slf4j's http://www.slf4j.org/manual.html#mdc Mapped Diagnostic Context .For example, say that during the execution of a DataFetcher , we execute a database query and log its sql. It would be helpful to see the query in the context of the DataFetcher that executed it, along with the GraphQL field and its type, and the path we took through the graph on the way to this field.This Instrumentation adds these fields to MDC, prefixed with liftwizard.graphql .To turn it on, either run the entire graphql/bundle.md LiftwizardGraphQLBundle or just add LiftwizardGraphQLLoggingInstrumentation to the list of instrumentations on your GraphQLFactory . java GraphQLFactory factory = ...; var loggingInstrumentation = new LiftwizardGraphQLLoggingInstrumentation(); List&lt;Instrumentation&gt; instrumentations = List.of(loggingInstrumentation); factory.setInstrumentations(instrumentations); Here's an example of what SQL logging might look like with MDC attached when formatted by the &quot;file-logstash&quot; appender. LiftwizardGraphQLLoggingInstrumentation lives in the liftwizard-graphql-instrumentation-logging module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-graphql-instrumentation-logging&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "LiftwizardGraphQLLoggingInstrumentation",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is an implementation of ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "Instrumentation",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " from ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.graphql-java.com/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GraphQL Java",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " that adds helpful context to slf4j's ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "http://www.slf4j.org/manual.html#mdc",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Mapped Diagnostic Context",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        } ]
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "For example, say that during the execution of a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DataFetcher",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", we execute a database query and log its sql. It would be helpful to see the query in the context of the DataFetcher that executed it, along with the GraphQL field and its type, and the path we took through the graph on the way to this field.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "This Instrumentation adds these fields to MDC, prefixed with ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard.graphql",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To turn it on, either run the entire ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/graphql/bundle",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "code" : "LiftwizardGraphQLBundle",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "text" : " or just add ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LiftwizardGraphQLLoggingInstrumentation",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to the list of instrumentations on your ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "GraphQLFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "GraphQLFactory factory = ...;\n\nvar loggingInstrumentation = new LiftwizardGraphQLLoggingInstrumentation();\n\nList<Instrumentation> instrumentations = List.of(loggingInstrumentation);\nfactory.setInstrumentations(instrumentations);\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Here's an example of what SQL logging might look like with MDC attached when formatted by the \"file-logstash\" appender.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "data" : {
+        "@timestamp" : "2020-11-26T21:03:23.010-05:00",
+        "@version" : "1",
+        "message" : "select t0.key,t0.title,t0.description_markdown,t0.imgur_image_id,t0.created_by_id,t0.created_on,t0.last_updated_by_id,t0.system_from,t0.system_to from BLUEPRINT t0 inner join FIREBASE_USER t1 on t0.created_by_id = t1.user_id where  t1.system_to = '9999-12-01T18:59:00.000-0500' and substr(t1.display_name,1,9) = 'factorioi' and t0.system_to = '9999-12-01T18:59:00.000-0500'",
+        "logger_name" : "io.liftwizard.logging.p6spy.P6SpySlf4jLogger",
+        "thread_name" : "dw-35 - POST /graphql",
+        "level" : "INFO",
+        "level_value" : 20000,
+        "liftwizard.graphql.executionId" : "18905eb7-2d87-42b9-ad14-90856949dc4e",
+        "liftwizard.graphql.field.path" : "/blueprintByOperation",
+        "liftwizard.graphql.field.parentType" : "Query",
+        "liftwizard.graphql.field.name" : "blueprintByOperation",
+        "liftwizard.graphql.field.type" : "Blueprint",
+        "liftwizard.p6spy.connectionId" : 19,
+        "liftwizard.p6spy.now" : "2020-11-27T02:03:23.010Z",
+        "liftwizard.p6spy.elapsed" : 164,
+        "liftwizard.p6spy.category" : "statement",
+        "liftwizard.p6spy.prepared" : "select t0.key,t0.title,t0.description_markdown,t0.imgur_image_id,t0.created_by_id,t0.created_on,t0.last_updated_by_id,t0.system_from,t0.system_to from BLUEPRINT t0 inner join FIREBASE_USER t1 on t0.created_by_id = t1.user_id where  t1.system_to = ? and substr(t1.display_name,1,9) = ? and t0.system_to = ?",
+        "liftwizard.p6spy.sql" : "select t0.key,t0.title,t0.description_markdown,t0.imgur_image_id,t0.created_by_id,t0.created_on,t0.last_updated_by_id,t0.system_from,t0.system_to from BLUEPRINT t0 inner join FIREBASE_USER t1 on t0.created_by_id = t1.user_id where  t1.system_to = '9999-12-01T18:59:00.000-0500' and substr(t1.display_name,1,9) = 'factorioi' and t0.system_to = '9999-12-01T18:59:00.000-0500'",
+        "liftwizard.p6spy.url" : "jdbc:p6spy:h2:tcp://localhost:9096/liftwizard-app-h2;query_timeout=600000",
+        "caller_class_name" : "io.liftwizard.logging.p6spy.P6SpySlf4jLogger",
+        "caller_method_name" : "logSQL",
+        "caller_file_name" : "P6SpySlf4jLogger.java",
+        "caller_line_number" : 82
+      },
+      "highlightValues" : [ ],
+      "highlightKeys" : [ ],
+      "type" : "Json"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "LiftwizardGraphQLLoggingInstrumentation",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-graphql-instrumentation-logging",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-graphql-instrumentation-logging</artifactId>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Graphql",
+      "pageTitle" : "Instrumentation Logging",
+      "pageMeta" : { },
+      "dirName" : "graphql",
+      "fileName" : "instrumentation-logging",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

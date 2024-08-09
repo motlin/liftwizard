@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: As Of Queries</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Temporal Schema</h1></header>
+<p>To confirm that we have not lost any data, we can perform an as-of query. We want to query the state of the blueprint at time 3 ( 2001-01-03 ), before the non-destructive update.We GET from /api/blueprint/{blueprintKey}?asOf={asOf} .We created a blueprint with key 6ed1f638-a63c-3a54-af67-ba494f27bff2 at time 3 ( 2001-01-03 ) and edited it at time 4 ( 2001-01-04 ). We can query as-of any time in the range [2001-01-03, 2001-01-04) . We'll use the beginning of the range: 2001-01-03 .Plugging these values into the template, we GET /api/blueprint/6ed1f638-a63c-3a54-af67-ba494f27bff2?asOf=2001-01-03T23:59:59Z { &quot;key&quot;: &quot;6ed1f638-a63c-3a54-af67-ba494f27bff2&quot;, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, - &quot;systemTo&quot;: null, + &quot;systemTo&quot;: &quot;2001-01-04T23:59:59Z&quot;, &quot;version&quot;: { &quot;number&quot;: 1, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, - &quot;systemTo&quot;: null, + &quot;systemTo&quot;: &quot;2001-01-04T23:59:59Z&quot;, &quot;createdOn&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;createdBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; }, &quot;lastUpdatedBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; } }, &quot;title&quot;: &quot;Blueprint title&quot;, &quot;voteSummary&quot;: { &quot;numberOfUpvotes&quot;: 0, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null }, &quot;blueprintString&quot;: { &quot;sha&quot;: &quot;cc341849b4086ce7b1893b366b0dc8e99ce4e595&quot;, &quot;createdOn&quot;: &quot;2001-01-02T23:59:59Z&quot;, &quot;createdBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; } }, &quot;imgurImage&quot;: { &quot;imgurId&quot;: &quot;Imgur ID 1&quot;, &quot;imgurType&quot;: &quot;image/png&quot;, &quot;height&quot;: 300, &quot;width&quot;: 300, &quot;systemFrom&quot;: &quot;2001-01-01T23:59:59Z&quot;, &quot;systemTo&quot;: null }, &quot;descriptionMarkdown&quot;: &quot;Blueprint description markdown&quot;, &quot;tags&quot;: [ { &quot;tagCategory&quot;: &quot;belt&quot;, &quot;tagName&quot;: &quot;balancer&quot;, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;tag&quot;: { &quot;category&quot;: &quot;belt&quot;, &quot;name&quot;: &quot;balancer&quot;, &quot;ordinal&quot;: 1, &quot;systemFrom&quot;: &quot;2000-01-01T00:00:00Z&quot;, &quot;systemTo&quot;: null } } ] } The response we get from /api/blueprint/{blueprintKey}?asOf=2001-01-03T23:59:59Z is nearly identical to the response we would have got from /api/blueprint/{blueprintKey} had we run the query at time 3: 2001-01-03 . This makes sense!There's a small difference in the data. Some of the systemTo values that used to be null are now time 4: 2001-01-04 . This illustrates an important rule of temporal data.All writes into the data store are immutable and append-only, except for the systemTo value.Next we'll focus on the data store. In this example, we're using a relational database, but these concepts apply to any data store.The schema maps closely to the json examples above, so if you're comfortable with the data, feel free to skip ahead to the queries. BLUEPRINT after create systemFrom systemTo key blueprint title descriptionMarkdown imgurImageId blueprintStringSha 2001-01-03 23:59:59.0 9999-12-01 23:59:00.0 6ed1&hellip; Blueprint title Blueprint description markdown Imgur ID 1 cc34&hellip; BLUEPRINT after update systemFrom systemTo key blueprint title descriptionMarkdown imgurImageId blueprintStringSha `:icon: minus {stroke: 'red'}` 2001-01-03 23:59:59.0 `:icon: plus {stroke: 'green'}` 2001-01-04 23:59:59.0 6ed1&hellip; `:icon: minus {stroke: 'red'}` Blueprint title `:icon: minus {stroke: 'red'}` Blueprint description markdown Imgur ID 1 cc34&hellip; `:icon: plus {stroke: 'green'}` 2001-01-04 23:59:59.0 9999-12-01 23:59:00.0 6ed1&hellip; `:icon: plus {stroke: 'green'}` Edited blueprint title `:icon: plus {stroke: 'green'}` Edited Blueprint description markdown Imgur ID 1 cc34&hellip; BLUEPRINT_VERSION after create systemFrom systemTo key createdById lastUpdatedById number createdOn 2001-01-03 23:59:59.0 9999-12-01 23:59:00.0 6ed1&hellip; User ID User ID 1 2001-01-03 23:59:59.0 BLUEPRINT_VERSION after update systemFrom systemTo key createdById lastUpdatedById number createdOn `:icon: minus {stroke: 'red'}` 2001-01-03 23:59:59.0 `:icon: plus {stroke: 'green'}` 2001-01-04 23:59:59.0 6ed1&hellip; User ID User ID `:icon: minus {stroke: 'red'}` 1 2001-01-03 23:59:59.0 `:icon: plus {stroke: 'green'}` 2001-01-04 23:59:59.0 9999-12-01 23:59:00.0 6ed1&hellip; User ID User ID `:icon: plus {stroke: 'green'}` 2 2001-01-03 23:59:59.0 Temporal Schema patterns All tables have systemFrom and systemTo columns. Old data is phased out by setting systemTo to now. New data is phased in by setting systemFrom to now. The new row's systemFrom and the old row's systemTo are set to the same value, forming a contiguous timeline. When several tables are edited within a transaction, the systemFrom and systemTo values are set to the same value across all tables. Unchanged data is copied from the old row to the new row. For very wide columns that don't change frequently, it may be more efficient to split out a separate table. The systemTo value of the new row is set to 9999-12-01 23:59:00.00 to indicate that the row is still active. In json, we had used null to represent the infinity date.</p>
+</article>
+
+<article>
+<header><h1>Temporal queries in SQL</h1></header>
+<p>As-of queries are implemented in SQL by adding temporal criteria to our WHERE clause. sql select * from BLUEPRINT t0 where t0.key = '6ed1f638-a63c-3a54-af67-ba494f27bff2' and t0.system_from &lt;= '2001-01-03 23:59:59.000' and t0.system_to &gt; '2001-01-03 23:59:59.000' Now we can see why the infinity date is represented as 9999-12-01 23:59:00.00 . If we instead used null we'd need to add additional criteria to our WHERE clauses.Joins that are one hop away from our main table are similar. sql select * from BLUEPRINT_TAG t0 where t0.blueprint_key = '6ed1f638-a63c-3a54-af67-ba494f27bff2' and t0.system_from &lt;= '2001-01-03 23:59:59.000' and t0.system_to &gt; '2001-01-03 23:59:59.000' Joins that are two hops away from our main table are more complicated. We'll see examples of these later. Temporal query patterns We perform asOf queries by adding where system_from &lt;= {asOf} and system_to &gt; {asOf} to our WHERE clause. We add this exact came criteria to every query. We always SELECT all columns from the table. In the examples above we used SELECT * . In production usage, it's common to list the columns explicitly. We never SELECT columns from two tables in the same query. Even in the upcoming examples of joins, we always SELECT from one table at a time. In the next section, we'll learn about adding versions and querying &quot;as of&quot; a version number.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To confirm that we have not lost any data, we can perform an as-of query. We want to query the state of the blueprint at time 3 (",
+        "type" : "SimpleText"
+      }, {
+        "code" : "2001-01-03",
+        "type" : "InlinedCode"
+      }, {
+        "text" : "), before the non-destructive update.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "We ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "GET",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " from ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "/api/blueprint/{blueprintKey}?asOf={asOf}",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "We created a blueprint with key ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "6ed1f638-a63c-3a54-af67-ba494f27bff2",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " at time 3 (",
+        "type" : "SimpleText"
+      }, {
+        "code" : "2001-01-03",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ") and edited it at time 4 (",
+        "type" : "SimpleText"
+      }, {
+        "code" : "2001-01-04",
+        "type" : "InlinedCode"
+      }, {
+        "text" : "). We can query as-of any time in the range ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "[2001-01-03, 2001-01-04)",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". We'll use the beginning of the range: ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "2001-01-03",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Plugging these values into the template, we GET ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "/api/blueprint/6ed1f638-a63c-3a54-af67-ba494f27bff2?asOf=2001-01-03T23:59:59Z",
+        "type" : "InlinedCode"
+      } ]
+    }, {
+      "lang" : "diff",
+      "snippet" : " {\n   \"key\": \"6ed1f638-a63c-3a54-af67-ba494f27bff2\",\n   \"systemFrom\": \"2001-01-03T23:59:59Z\",\n-  \"systemTo\": null,\n+  \"systemTo\": \"2001-01-04T23:59:59Z\",\n   \"version\": {\n     \"number\": 1,\n     \"systemFrom\": \"2001-01-03T23:59:59Z\",\n-    \"systemTo\": null,\n+    \"systemTo\": \"2001-01-04T23:59:59Z\",\n     \"createdOn\": \"2001-01-03T23:59:59Z\",\n     \"createdBy\": {\n       \"userId\": \"User ID\"\n     },\n     \"lastUpdatedBy\": {\n       \"userId\": \"User ID\"\n     }\n   },\n   \"title\": \"Blueprint title\",\n   \"voteSummary\": {\n     \"numberOfUpvotes\": 0,\n     \"systemFrom\": \"2001-01-03T23:59:59Z\",\n     \"systemTo\": null\n   },\n   \"blueprintString\": {\n     \"sha\": \"cc341849b4086ce7b1893b366b0dc8e99ce4e595\",\n     \"createdOn\": \"2001-01-02T23:59:59Z\",\n     \"createdBy\": {\n       \"userId\": \"User ID\"\n     }\n   },\n   \"imgurImage\": {\n     \"imgurId\": \"Imgur ID 1\",\n     \"imgurType\": \"image/png\",\n     \"height\": 300,\n     \"width\": 300,\n     \"systemFrom\": \"2001-01-01T23:59:59Z\",\n     \"systemTo\": null\n   },\n   \"descriptionMarkdown\": \"Blueprint description markdown\",\n   \"tags\": [\n     {\n       \"tagCategory\": \"belt\",\n       \"tagName\": \"balancer\",\n       \"systemFrom\": \"2001-01-03T23:59:59Z\",\n       \"systemTo\": null,\n       \"tag\": {\n         \"category\": \"belt\",\n         \"name\": \"balancer\",\n         \"ordinal\": 1,\n         \"systemFrom\": \"2000-01-01T00:00:00Z\",\n         \"systemTo\": null\n       }\n     }\n   ]\n }",
+      "title" : "GET /api/blueprint/{blueprintKey}?asOf=2001-01-03T23:59:59Z",
+      "commentsType" : "inline",
+      "anchorId" : "get-api-blueprint-blueprintkeyasof2001-01-03t235959z",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The response we get from ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "/api/blueprint/{blueprintKey}?asOf=2001-01-03T23:59:59Z",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is nearly identical to the response we would have got from ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "/api/blueprint/{blueprintKey}",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " had we run the query at time 3: ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "2001-01-03",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". This makes sense!",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "There's a small difference in the data. Some of the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "systemTo",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " values that used to be ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "null",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " are now time 4: ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "2001-01-04",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". This illustrates an important rule of temporal data.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "type" : "StrongEmphasis",
+        "content" : [ {
+          "text" : "All writes into the data store are immutable and append-only, except for the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "systemTo",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " value.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "temporal-schema",
+      "title" : "Temporal Schema",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Next we'll focus on the data store. In this example, we're using a relational database, but these concepts apply to any data store.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The schema maps closely to the json examples above, so if you're comfortable with the data, feel free to skip ahead to the queries.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "id" : "temporal-schema-blueprint-after-create",
+        "level" : 2,
+        "title" : "BLUEPRINT after create",
+        "type" : "SubHeading"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "systemFrom",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "systemTo",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "key"
+          }, {
+            "title" : "blueprint title"
+          }, {
+            "title" : "descriptionMarkdown"
+          }, {
+            "title" : "imgurImageId"
+          }, {
+            "title" : "blueprintStringSha"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "9999-12-01 23:59:00.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6ed1…",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Blueprint title",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Blueprint description markdown",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Imgur ID 1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "cc34…",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ],
+          "wide" : true
+        },
+        "type" : "Table"
+      }, {
+        "id" : "temporal-schema-blueprint-after-update",
+        "level" : 2,
+        "title" : "BLUEPRINT after update",
+        "type" : "SubHeading"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "systemFrom",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "systemTo",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "key"
+          }, {
+            "title" : "blueprint title"
+          }, {
+            "title" : "descriptionMarkdown"
+          }, {
+            "title" : "imgurImageId"
+          }, {
+            "title" : "blueprintStringSha"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "red",
+              "id" : "minus",
+              "type" : "Icon"
+            }, {
+              "text" : " 2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "green",
+              "id" : "plus",
+              "type" : "Icon"
+            }, {
+              "text" : " 2001-01-04 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6ed1…",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "red",
+              "id" : "minus",
+              "type" : "Icon"
+            }, {
+              "text" : " Blueprint title",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "red",
+              "id" : "minus",
+              "type" : "Icon"
+            }, {
+              "text" : " Blueprint description markdown",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Imgur ID 1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "cc34…",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "green",
+              "id" : "plus",
+              "type" : "Icon"
+            }, {
+              "text" : " 2001-01-04 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "9999-12-01 23:59:00.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6ed1…",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "green",
+              "id" : "plus",
+              "type" : "Icon"
+            }, {
+              "text" : " Edited blueprint title",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "green",
+              "id" : "plus",
+              "type" : "Icon"
+            }, {
+              "text" : " Edited Blueprint description markdown",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Imgur ID 1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "cc34…",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ],
+          "wide" : true
+        },
+        "type" : "Table"
+      }, {
+        "id" : "temporal-schema-blueprint_version-after-create",
+        "level" : 2,
+        "title" : "BLUEPRINT_VERSION after create",
+        "type" : "SubHeading"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "systemFrom",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "systemTo",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "key"
+          }, {
+            "title" : "createdById"
+          }, {
+            "title" : "lastUpdatedById"
+          }, {
+            "title" : "number"
+          }, {
+            "title" : "createdOn"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "9999-12-01 23:59:00.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6ed1…",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ],
+          "wide" : true
+        },
+        "title" : "BlueprintVersion",
+        "anchorId" : "temporal-schema-blueprint_version-after-create-blueprintversion",
+        "type" : "Table"
+      }, {
+        "id" : "temporal-schema-blueprint_version-after-update",
+        "level" : 2,
+        "title" : "BLUEPRINT_VERSION after update",
+        "type" : "SubHeading"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "systemFrom",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "systemTo",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "key"
+          }, {
+            "title" : "createdById"
+          }, {
+            "title" : "lastUpdatedById"
+          }, {
+            "title" : "number"
+          }, {
+            "title" : "createdOn"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "red",
+              "id" : "minus",
+              "type" : "Icon"
+            }, {
+              "text" : " 2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "green",
+              "id" : "plus",
+              "type" : "Icon"
+            }, {
+              "text" : " 2001-01-04 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6ed1…",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "red",
+              "id" : "minus",
+              "type" : "Icon"
+            }, {
+              "text" : " 1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "green",
+              "id" : "plus",
+              "type" : "Icon"
+            }, {
+              "text" : " 2001-01-04 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "9999-12-01 23:59:00.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6ed1…",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "stroke" : "green",
+              "id" : "plus",
+              "type" : "Icon"
+            }, {
+              "text" : " 2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ],
+          "wide" : true
+        },
+        "title" : "BlueprintVersion",
+        "anchorId" : "temporal-schema-blueprint_version-after-update-blueprintversion",
+        "type" : "Table"
+      }, {
+        "id" : "temporal-schema-temporal-schema-patterns",
+        "level" : 2,
+        "title" : "Temporal Schema patterns",
+        "type" : "SubHeading"
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "All tables have ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemFrom",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemTo",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " columns.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Old data is phased out by setting ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemTo",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to now.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "New data is phased in by setting ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemFrom",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to now.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "The new row's ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemFrom",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and the old row's ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemTo",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " are set to the same value, forming a contiguous timeline.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "When several tables are edited within a transaction, the ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemFrom",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemTo",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " values are set to the same value across all tables.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Unchanged data is copied from the old row to the new row. For very wide columns that don't change frequently, it may be more efficient to split out a separate table.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "The ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "systemTo",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " value of the new row is set to ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "9999-12-01 23:59:00.00",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to indicate that the row is still active. In json, we had used ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "null",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to represent the infinity date.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "temporal-queries-in-sql",
+      "title" : "Temporal queries in SQL",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "As-of queries are implemented in SQL by adding temporal criteria to our ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WHERE",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " clause.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "sql",
+        "snippet" : "select *\nfrom BLUEPRINT t0\nwhere t0.key = '6ed1f638-a63c-3a54-af67-ba494f27bff2'\n  and t0.system_from <= '2001-01-03 23:59:59.000'\n  and t0.system_to > '2001-01-03 23:59:59.000'\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Now we can see why the infinity date is represented as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "9999-12-01 23:59:00.00",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". If we instead used ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "null",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " we'd need to add additional criteria to our WHERE clauses.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Joins that are one hop away from our main table are similar.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "sql",
+        "snippet" : "select *\nfrom BLUEPRINT_TAG t0\nwhere t0.blueprint_key = '6ed1f638-a63c-3a54-af67-ba494f27bff2'\n  and t0.system_from <= '2001-01-03 23:59:59.000'\n  and t0.system_to > '2001-01-03 23:59:59.000'\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Joins that are two hops away from our main table are more complicated. We'll see examples of these later.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "id" : "temporal-queries-in-sql-temporal-query-patterns",
+        "level" : 2,
+        "title" : "Temporal query patterns",
+        "type" : "SubHeading"
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "We perform asOf queries by adding ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "where system_from <= {asOf} and system_to > {asOf}",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to our ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "WHERE",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " clause.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "We add this exact came criteria to every query.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "We always ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "SELECT",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " all columns from the table. In the examples above we used ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "SELECT *",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ". In production usage, it's common to list the columns explicitly.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "We never ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "SELECT",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " columns from two tables in the same query. Even in the upcoming examples of joins, we always ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "SELECT",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " from one table at a time.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the next section, we'll learn about adding versions and querying \"as of\" a version number.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719984,
+    "tocItem" : {
+      "chapterTitle" : "Temporal Data",
+      "pageTitle" : "As Of Queries",
+      "pageMeta" : { },
+      "dirName" : "temporal-data",
+      "fileName" : "as-of-queries",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Temporal Schema",
+        "id" : "temporal-schema"
+      }, {
+        "title" : "Temporal queries in SQL",
+        "id" : "temporal-queries-in-sql"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

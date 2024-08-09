@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: JerseyHttpLoggingBundle</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>The JerseyHttpLoggingBundle is an alternative to Jersey's LoggingFeature . Jersey's LoggingFeature can be configured to log or not log bodies, but it cannot be configured to exclude headers. Since headers can include authentication tokens, you may not want to log headers, or only log those in an allow-list.The bundle can be configured:include/exclude request bodies include/exclude response bodies allow-list of headers include/exclude the list of excluded header names the max body size before truncation Through code, the bundle can be configured to log using different combinations of slf4j/log4j/logback with context in MDC or OpenTracing or a Map.To turn it on, add JerseyHttpLoggingBundle to the list of registered bundles. java @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory&lt;&gt;()); bootstrap.addBundle(new EnvironmentConfigBundle()); bootstrap.addBundle(new ObjectMapperBundle()); bootstrap.addBundle(new ConfigLoggingBundle()); StructuredArgumentsMDCLogger structuredLogger = new StructuredArgumentsMDCLogger(bootstrap.getObjectMapper()); bootstrap.addBundle(new JerseyHttpLoggingBundle(structuredLogger)); // ... } The bundle registers filters which gather all the arguments to log. A &quot;logger&quot; is passed into the constructor which abstracts over whether the logging uses logback or log4j, whether the structured arguments are converted into MDC, Markers, or a Map. The StructuredArgumentsMDCLogger in the example above logs using slf4j with context in MDC. java var mdcLogger = new StructuredArgumentsMDCLogger(bootstrap.getObjectMapper()); var logstashLogger = new StructuredArgumentsLogstashEncoderLogger(); Consumer&lt;StructuredArguments&gt; structuredLogger = structuredArguments -&gt; { mdcLogger.accept(structuredArguments); logstashLogger.accept(structuredArguments); }; bootstrap.addBundle(new JerseyHttpLoggingBundle(structuredLogger)); JerseyHttpLoggingBundle lives in the liftwizard-bundle-logging-http module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-bundle-logging-http&lt;/artifactId&gt; &lt;/dependency&gt; In order to see the logging in action, we'll need to configure a log format that includes mdc and markers. test-example.json5 src/test/resources/test-example.json5 json5 { &quot;type&quot;: &quot;console&quot;, &quot;timeZone&quot;: &quot;${LOGGING_TIMEZONE:-system}&quot;, &quot;logFormat&quot;: &quot;%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\(%file:%line\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException&quot;, &quot;includeCallerData&quot;: true, } Next, lets turn on all the basic filters and see how they change what gets logged. Logging output We can rerun IntegrationTest and see the new logs in action. console DEBUG 13:21:49 [dw-249] io.liftwizard.servlet.logging.mdc.StructuredArgumentsMDCLogger: Response sent &lt;&gt; &lt; response.http.elapsedNanos=1000000000, request.http.method=GET, request.http.parameters.query.name=Dr. IntegrationTest, request.http.path.full=/hello-world, request.http.path.absolute=http://localhost:63842/hello-world, request.http.client.port=63855, request.http.headers.User-Agent=Jersey/2.25.1 (HttpUrlConnection 17.0.2), request.http.server.port=63842, request.http.client.host=127.0.0.1, request.resourceClass=com.example.helloworld.resources.HelloWorldResource, request.http.path.template=/hello-world, request.http.server.name=localhost, request.http.headers.Host=localhost:63842, response.http.headers.Content-Type=application/json, response.http.contentType=application/json, response.http.entityType=com.example.helloworld.api.Saying, response.http.status.code=200, request.http.client.address=127.0.0.1, request.resourceMethod=sayHello, response.http.status.phrase=OK, response.http.body={ &quot;id&quot; : 1, &quot;content&quot; : &quot;Hello, Dr. IntegrationTest!&quot; }, response.http.contentLength=59, request.http.server.scheme=http, response.http.status.status=OK, response.http.status.family=SUCCESSFUL&gt; Logstash encoder liftwizard-config-logging-logstash-file is a Dropwizard AppenderFactory . It sets up a file appender that logs one json object per log statement. The json is formatted by https://github.com/logstash/logstash-logback-encoder logstash-logback-encoder and is ready to be parsed by logstash.Let's add the logstash-file appender to the list of configured appenders. test-example.json5 src/test/resources/test-example.json5 json5 { // ... &quot;logging&quot;: { &quot;level&quot;: &quot;DEBUG&quot;, &quot;appenders&quot;: [ { &quot;type&quot;: &quot;console&quot;, &quot;timeZone&quot;: &quot;${LOGGING_TIMEZONE:-system}&quot;, &quot;logFormat&quot;: &quot;%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\(%file:%line\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException&quot;, &quot;includeCallerData&quot;: true, }, { &quot;type&quot; : &quot;file-logstash&quot;, &quot;currentLogFilename&quot; : &quot;./logs/logstash.jsonl&quot;, &quot;archivedLogFilenamePattern&quot;: &quot;./logs/logstash-%d.jsonl&quot;, &quot;includeCallerData&quot; : true, &quot;encoder&quot;: { &quot;includeContext&quot;: true, &quot;includeMdc&quot;: true, &quot;includeStructuredArguments&quot;: true, &quot;includedNonStructuredArguments&quot;: true, &quot;includeTags&quot;: true, &quot;prettyPrint&quot;: false, } } ] }, // ... } logstash.jsonl logs/logstash.jsonl snippet</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "JerseyHttpLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is an alternative to Jersey's ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LoggingFeature",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". Jersey's ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LoggingFeature",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " can be configured to log or not log bodies, but it cannot be configured to exclude headers. Since headers can include authentication tokens, you may not want to log headers, or only log those in an allow-list.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The bundle can be configured:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "include/exclude request bodies",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "include/exclude response bodies",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "allow-list of headers",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "include/exclude the list of excluded header ",
+            "type" : "SimpleText"
+          }, {
+            "type" : "Emphasis",
+            "content" : [ {
+              "text" : "names",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "the max body size before truncation",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Through code, the bundle can be configured to log using different combinations of slf4j/log4j/logback with context in MDC or OpenTracing or a Map.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To turn it on, add ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "JerseyHttpLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to the list of registered bundles.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {\n    bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory<>());\n    bootstrap.addBundle(new EnvironmentConfigBundle());\n \n    bootstrap.addBundle(new ObjectMapperBundle());\n    bootstrap.addBundle(new ConfigLoggingBundle());\n\n    StructuredArgumentsMDCLogger structuredLogger = new StructuredArgumentsMDCLogger(bootstrap.getObjectMapper());\n    bootstrap.addBundle(new JerseyHttpLoggingBundle(structuredLogger));\n\n    // ...\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The bundle registers filters which gather all the arguments to log. A \"logger\" is passed into the constructor which abstracts over whether the logging uses logback or log4j, whether the structured arguments are converted into MDC, Markers, or a Map. The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "StructuredArgumentsMDCLogger",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " in the example above logs using slf4j with context in MDC.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "var mdcLogger = new StructuredArgumentsMDCLogger(bootstrap.getObjectMapper());\nvar logstashLogger = new StructuredArgumentsLogstashEncoderLogger();\n\nConsumer<StructuredArguments> structuredLogger = structuredArguments ->\n{\n    mdcLogger.accept(structuredArguments);\n    logstashLogger.accept(structuredArguments);\n};\n\nbootstrap.addBundle(new JerseyHttpLoggingBundle(structuredLogger));\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "JerseyHttpLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-bundle-logging-http",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-bundle-logging-http</artifactId>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In order to see the logging in action, we'll need to configure a log format that includes mdc and markers.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "test-example-json5",
+      "level" : 3,
+      "title" : "test-example.json5",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "src/test/resources/test-example.json5",
+        "type" : "InlinedCode"
+      } ]
+    }, {
+      "lang" : "json5",
+      "snippet" : "{\n  \"type\": \"console\",\n  \"timeZone\": \"${LOGGING_TIMEZONE:-system}\",\n  \"logFormat\": \"%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\\\(%file:%line\\\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException\",\n  \"includeCallerData\": true,\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Next, lets turn on all the basic filters and see how they change what gets logged.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "logging-output",
+      "level" : 2,
+      "title" : "Logging output",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "We can rerun ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "IntegrationTest",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and see the new logs in action.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "console",
+      "snippet" : "DEBUG 13:21:49 [dw-249] io.liftwizard.servlet.logging.mdc.StructuredArgumentsMDCLogger: Response sent <> <\nresponse.http.elapsedNanos=1000000000,\nrequest.http.method=GET,\nrequest.http.parameters.query.name=Dr. IntegrationTest,\nrequest.http.path.full=/hello-world,\nrequest.http.path.absolute=http://localhost:63842/hello-world,\nrequest.http.client.port=63855,\nrequest.http.headers.User-Agent=Jersey/2.25.1 (HttpUrlConnection 17.0.2),\nrequest.http.server.port=63842,\nrequest.http.client.host=127.0.0.1,\nrequest.resourceClass=com.example.helloworld.resources.HelloWorldResource,\nrequest.http.path.template=/hello-world,\nrequest.http.server.name=localhost,\nrequest.http.headers.Host=localhost:63842,\nresponse.http.headers.Content-Type=application/json,\nresponse.http.contentType=application/json,\nresponse.http.entityType=com.example.helloworld.api.Saying,\nresponse.http.status.code=200,\nrequest.http.client.address=127.0.0.1,\nrequest.resourceMethod=sayHello,\nresponse.http.status.phrase=OK,\nresponse.http.body={\n  \"id\" : 1,\n  \"content\" : \"Hello, Dr. IntegrationTest!\"\n},\nresponse.http.contentLength=59,\nrequest.http.server.scheme=http,\nresponse.http.status.status=OK,\nresponse.http.status.family=SUCCESSFUL>\n",
+      "lineNumber" : "",
+      "title" : "Logging output (newlines added for clarity)",
+      "anchorId" : "logging-output-logging-output-newlines-added-for-clarity",
+      "type" : "Snippet"
+    }, {
+      "id" : "logstash-encoder",
+      "level" : 2,
+      "title" : "Logstash encoder",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "liftwizard-config-logging-logstash-file",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is a Dropwizard ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "AppenderFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". It sets up a file appender that logs one json object per log statement. The json is formatted by ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/logstash/logstash-logback-encoder",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "logstash-logback-encoder",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " and is ready to be parsed by logstash.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Let's add the logstash-file appender to the list of configured appenders.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "logstash-encoder-test-example-json5",
+      "level" : 3,
+      "title" : "test-example.json5",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "src/test/resources/test-example.json5",
+        "type" : "InlinedCode"
+      } ]
+    }, {
+      "lang" : "json5",
+      "snippet" : "{\n  // ...\n  \"logging\": {\n    \"level\": \"DEBUG\",\n    \"appenders\": [\n      {\n        \"type\": \"console\",\n        \"timeZone\": \"${LOGGING_TIMEZONE:-system}\",\n        \"logFormat\": \"%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\\\(%file:%line\\\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException\",\n        \"includeCallerData\": true,\n      },\n      {\n        \"type\"                      : \"file-logstash\",\n        \"currentLogFilename\"        : \"./logs/logstash.jsonl\",\n        \"archivedLogFilenamePattern\": \"./logs/logstash-%d.jsonl\",\n        \"includeCallerData\"         : true,\n        \"encoder\": {\n          \"includeContext\": true,\n          \"includeMdc\": true,\n          \"includeStructuredArguments\": true,\n          \"includedNonStructuredArguments\": true,\n          \"includeTags\": true,\n          \"prettyPrint\": false,\n        }\n      }\n    ]\n  },\n  // ...\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "id" : "logstash-encoder-logstash-jsonl",
+      "level" : 3,
+      "title" : "logstash.jsonl",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "logs/logstash.jsonl",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " snippet",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "data" : {
+        "@timestamp" : "1999-12-31T23:59:59.000-00:00",
+        "@version" : "1",
+        "message" : "Response sent",
+        "logger_name" : "io.liftwizard.servlet.logging.mdc.StructuredArgumentsMDCLogger",
+        "thread_name" : "dw-249",
+        "level" : "DEBUG",
+        "level_value" : 10000,
+        "response.http.elapsedNanos" : "1000000000",
+        "request.http.method" : "GET",
+        "request.http.parameters.query.name" : "Dr. IntegrationTest",
+        "request.http.path.full" : "/hello-world",
+        "request.http.path.absolute" : "http://localhost:63842/hello-world",
+        "request.http.client.port" : "63855",
+        "request.http.headers.User-Agent" : "Jersey/2.25.1 (HttpUrlConnection 17.0.2)",
+        "request.http.server.port" : "63842",
+        "request.http.client.host" : "127.0.0.1",
+        "request.resourceClass" : "com.example.helloworld.resources.HelloWorldResource",
+        "request.http.path.template" : "/hello-world",
+        "request.http.server.name" : "localhost",
+        "request.http.headers.Host" : "localhost:63842",
+        "response.http.headers.Content-Type" : "application/json",
+        "response.http.contentType" : "application/json",
+        "response.http.entityType" : "com.example.helloworld.api.Saying",
+        "response.http.status.code" : "200",
+        "request.http.client.address" : "127.0.0.1",
+        "request.resourceMethod" : "sayHello",
+        "response.http.status.phrase" : "OK",
+        "response.http.body" : "{\n  \"id\" : 1,\n  \"content\" : \"Hello, Dr. IntegrationTest!\"\n}",
+        "response.http.contentLength" : "59",
+        "request.http.server.scheme" : "http",
+        "response.http.status.status" : "OK",
+        "response.http.status.family" : "SUCCESSFUL",
+        "caller_class_name" : "io.liftwizard.servlet.logging.mdc.StructuredArgumentsMDCLogger",
+        "caller_method_name" : "accept",
+        "caller_file_name" : "StructuredArgumentsMDCLogger.java",
+        "caller_line_number" : 56
+      },
+      "highlightValues" : [ ],
+      "highlightKeys" : [ ],
+      "type" : "Json"
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Logging",
+      "pageTitle" : "JerseyHttpLoggingBundle",
+      "pageMeta" : { },
+      "dirName" : "logging",
+      "fileName" : "JerseyHttpLoggingBundle",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

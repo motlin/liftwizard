@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Temporal Data Overview</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Temporal features</h1></header>
+<p>Liftwizard has built-in support for working with temporal data. In this section, we'll explore the various features of services that utilize this technology.Note: This section is language and framework agnostic. If you&rsquo;re interested in the underlying technology, Liftwizard's temporal support is built on reladomo/reladomo-overview.md Reladomo.In an application with temporal data storage, data is stored along with timestamps. Here are some key features of temporal support: temporal-data/non-destructive-updates Non-destructive edits: Updates and deletes won't lose any information. Old data is phased out with a timestamp, and new data is phased in at the same timestamp. temporal-data/as-of-queries As-of queries: Retrieve data as it existed at a specific point in time. temporal-data/versioning Versioning: Numbered versions of data can make working with timestamps easier. As-of queries can be performed by either timestamp or version number. temporal-data/auditing Auditing: Keep track of who made each change, along with the data. With auditing enabled, each version has a user ID in addition to its timestamps. temporal-data/optimistic-locking Optimistic locking: Prevent multiple users from accidentally discarding each other's work with this feature. APIs that perform edits require a version number as input, and will fail if the input version number and current version number don't match. temporal-data/diffs Diff: See the differences between data at two version numbers. temporal-data/maker-checker-workflows Maker/Checker workflows: Make and review changes before exposing them to all users. Most users view the latest approved version of the data, while makers/checkers see the latest version.In the next section, we'll walk through a temporal-data/running-example running example that showcases these features.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Liftwizard has built-in support for working with temporal data. In this section, we'll explore the various features of services that utilize this technology.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Note: This section is language and framework agnostic. If you’re interested in the underlying technology, Liftwizard's temporal support is built on ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/reladomo/reladomo-overview.md",
+        "isFile" : true,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Reladomo",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "temporal-features",
+      "title" : "Temporal features",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In an application with temporal data storage, data is stored along with timestamps. Here are some key features of temporal support:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/docs/temporal-data/non-destructive-updates",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Non-destructive edits",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ": Updates and deletes ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "won't lose any information",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ". Old data is phased out with a timestamp, and new data is phased in at the same timestamp.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/docs/temporal-data/as-of-queries",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "As-of queries",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ": Retrieve data as it existed at a specific ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "point in time",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/docs/temporal-data/versioning",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Versioning",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ": ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "Numbered",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " versions of data can make working with timestamps easier. As-of queries can be performed by either timestamp or version number.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/docs/temporal-data/auditing",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Auditing",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ": Keep track of ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "who",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " made each change, along with the data. With auditing enabled, each version has a user ID in addition to its timestamps.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/docs/temporal-data/optimistic-locking",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Optimistic locking",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ": Prevent multiple users from ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "accidentally discarding",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " each other's work with this feature. APIs that perform edits require a version number as input, and will fail if the input version number and current version number don't match.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/docs/temporal-data/diffs",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Diff",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ": See the differences between data at two version numbers.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/docs/temporal-data/maker-checker-workflows",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Maker/Checker workflows",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ": ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "Make and review changes",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " before exposing them to all users. Most users view the latest ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "Emphasis",
+          "content" : [ {
+            "text" : "approved",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " version of the data, while makers/checkers see the ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "Emphasis",
+          "content" : [ {
+            "text" : "latest",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " version.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the next section, we'll walk through a ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/docs/temporal-data/running-example",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "running example",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " that showcases these features.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719984,
+    "tocItem" : {
+      "chapterTitle" : "Temporal Data",
+      "pageTitle" : "Temporal Data Overview",
+      "pageMeta" : { },
+      "dirName" : "temporal-data",
+      "fileName" : "temporal-data-overview",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Temporal features",
+        "id" : "temporal-features"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

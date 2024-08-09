@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Maven Best Practices</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>There are a number of best practices that can be handled at once by inheriting from a parent pom that takes care of them all.Liftwizard ships with several parent poms that form an inheritance hierarchy. minimal-parent.md liftwizard-minimal-parent is the most minimal parent pom. It is meant to contain uncontroversial best practices that are applicable to all projects. profile-parent.md liftwizard-profile-parent is a parent pom that inherits from liftwizard-minimal-parent and enables several linters and validators in profiles that are off by default. bill-of-materials.md liftwizard-bom is a https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms Bill of Materials (BOM) that exports all modules within Liftwizard. liftwizard-parent is a parent pom that inherits from liftwizard-profile-parent , selects versions of libraries related to Dropwizard applications, and includes opinionated configurations for plugins. Learning Maven Maven can be confusing due to the extent of the &quot;convention over configuration&quot; approach.For example, to answer &quot;how does maven run compilation before tests&quot; you would need to learn:Plugins which are bound and enabled by default maven-surefire-plugin is the plugin that handles tests maven-compiler-plugin binds to the compile and testCompile phases. maven-surefire-plugin binds to the test phase In the https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#default-lifecycle lifecycle phases compile comes before testCompile which comes before test . None of this information appears in pom.xml , and little of it is logged during the build.To make it easier to understand, liftwizard-minimal-parent includes region markers surrounding each plugin that label the phase that the plugin is bound to. The sections are sorted by phase. &lt;!--region Phase 22: install--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-install-plugin&lt;/artifactId&gt; &lt;version&gt;3.1.2&lt;/version&gt; &lt;/plugin&gt; &lt;!--endregion Phase 22: install--&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "There are a number of best practices that can be handled at once by inheriting from a parent pom that takes care of them all.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Liftwizard ships with several parent poms that form an inheritance hierarchy.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "-",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "url" : "/docs/maven/minimal-parent",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "code" : "liftwizard-minimal-parent",
+              "type" : "InlinedCode"
+            } ]
+          }, {
+            "text" : " is the most minimal parent pom. It is meant to contain uncontroversial best practices that are applicable to all projects.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "url" : "/docs/maven/profile-parent",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "code" : "liftwizard-profile-parent",
+              "type" : "InlinedCode"
+            } ]
+          }, {
+            "text" : " is a parent pom that inherits from ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "liftwizard-minimal-parent",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " and enables several linters and validators in profiles that are off by default.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "url" : "/docs/maven/bill-of-materials",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "code" : "liftwizard-bom",
+              "type" : "InlinedCode"
+            } ]
+          }, {
+            "text" : " is a ",
+            "type" : "SimpleText"
+          }, {
+            "url" : "https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "Bill of Materials (BOM)",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : " that exports all modules within Liftwizard.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "liftwizard-parent",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " is a parent pom that inherits from ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "liftwizard-profile-parent",
+            "type" : "InlinedCode"
+          }, {
+            "text" : ", selects versions of libraries related to Dropwizard applications, and includes opinionated configurations for plugins.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "learning-maven",
+      "level" : 2,
+      "title" : "Learning Maven",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Maven can be confusing due to the extent of the \"convention over configuration\" approach.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "For example, to answer \"how does maven run compilation before tests\" you would need to learn:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "-",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "Plugins which are bound and enabled by default",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "maven-surefire-plugin",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " is the plugin that handles tests",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "maven-compiler-plugin",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " binds to the ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "compile",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " and ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "testCompile",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " phases. ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "maven-surefire-plugin",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " binds to the ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "test",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " phase",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "In the ",
+            "type" : "SimpleText"
+          }, {
+            "url" : "https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#default-lifecycle",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "lifecycle phases",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : " ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "compile",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " comes before ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "testCompile",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " which comes before ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "test",
+            "type" : "InlinedCode"
+          }, {
+            "text" : ".",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "None of this information appears in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "pom.xml",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", and little of it is logged during the build.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To make it easier to understand, ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-minimal-parent",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " includes region markers surrounding each plugin that label the phase that the plugin is bound to. The sections are sorted by phase.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<!--region Phase 22: install-->\n<plugin>\n    <groupId>org.apache.maven.plugins</groupId>\n    <artifactId>maven-install-plugin</artifactId>\n    <version>3.1.2</version>\n</plugin>\n<!--endregion Phase 22: install-->",
+      "title" : "liftwizard-minimal-parent/pom.xml",
+      "surroundedBy" : [ "region Phase 22: install" ],
+      "surroundedByKeep" : true,
+      "anchorId" : "learning-maven-liftwizard-minimal-parent-pom-xml",
+      "type" : "Snippet"
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Maven",
+      "pageTitle" : "Maven Best Practices",
+      "pageMeta" : { },
+      "dirName" : "maven",
+      "fileName" : "maven-best-practices",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

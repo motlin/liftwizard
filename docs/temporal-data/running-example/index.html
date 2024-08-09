@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Running Example</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Many real-life applications support temporal services. https://stackoverflow.com/ Stack Overflow supports all of the features listed in the temporal-data/temporal-data-overview overview.In this section, we'll use https://www.factorio.school/blueprints Factorio School as a running example. https://www.factorio.school/ Factorio School and https://factorioprints.com/ Factorio Prints are websites that lets users share designs, called https://wiki.factorio.com/Blueprint blueprints, for the video game https://factorio.com/ Factorio. Liftwizard and Factorio School were both created by the https://github.com/motlin/ same author and Factorio School leverages Liftwizard's temporal support.In the next section, we'll create and edit a blueprint, and see how non-destructive edits work.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Many real-life applications support temporal services. ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://stackoverflow.com/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Stack Overflow",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " supports all of the features listed in the ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/docs/temporal-data/temporal-data-overview",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "overview",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In this section, we'll use ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.factorio.school/blueprints",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Factorio School",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " as a running example. ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.factorio.school/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Factorio School",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " and ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://factorioprints.com/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Factorio Prints",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " are websites that lets users share designs, called ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://wiki.factorio.com/Blueprint",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "blueprints",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ", for the video game ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://factorio.com/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Factorio",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ". Liftwizard and Factorio School were both created by the ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/motlin/",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "same author",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " and Factorio School leverages Liftwizard's temporal support.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In the next section, we'll create and edit a blueprint, and see how non-destructive edits work.",
+        "type" : "SimpleText"
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719984,
+    "tocItem" : {
+      "chapterTitle" : "Temporal Data",
+      "pageTitle" : "Running Example",
+      "pageMeta" : { },
+      "dirName" : "temporal-data",
+      "fileName" : "running-example",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

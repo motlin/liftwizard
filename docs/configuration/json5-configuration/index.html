@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Json5 Configuration</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Configuration through json5 instead of yaml</h1></header>
+<p>Dropwizard's configuration is specified in yaml by default. While yaml has nice properties, you may prefer json or some other format.Dropwizard's https://www.dropwizard.io/en/latest/manual/core.html#configuration documentation claims:If your configuration file doesn't end in .yml or .yaml, Dropwizard tries to parse it as a JSON file.This is easily disproved by renaming example.yml to example.json and trying to run the application. It will incorrectly start without error.Since json syntax is a subset of yml syntax, you can go ahead and convert your configuration file to json without changing the file extension from yaml or yml. However, this approach doesn't prevent you from accidentally using yaml syntax.You can change your application to use json for its configuration using JsonConfigurationFactoryFactory . java @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory&lt;&gt;()); // ... } JsonConfigurationFactoryFactory uses json5 syntax by default, using optional features in Jackson. So you'll still be able to include comments inside your configuration files.After adding the bundle, you'll have to convert your configuration files to json5 and rename them. So example.yml becomes example.json5 . Configuration files used in DropwizardAppRule / DropwizardAppExtension tests must be converted as well. So src/test/resources/test-example.yml becomes src/test/resources/test-example.json5</p>
+</article>
+
+<article>
+<header><h1>Adding the dependency</h1></header>
+<p>JsonConfigurationFactoryFactory lives in the liftwizard-configuration-factory-json module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-configuration-factory-json&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Dropwizard's configuration is specified in yaml by default. While yaml has nice properties, you may prefer json or some other format.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Dropwizard's ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.dropwizard.io/en/latest/manual/core.html#configuration",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "documentation",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " claims:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "BlockQuote",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If your configuration file doesn't end in .yml or .yaml, Dropwizard tries to parse it as a JSON file.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "This is easily disproved by renaming example.yml to example.json and trying to run the application. It will incorrectly start without error.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Since json syntax is a subset of yml syntax, you can go ahead and convert your configuration file to json without changing the file extension from yaml or yml. However, this approach doesn't prevent you from accidentally using yaml syntax.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "configuration-through-json5-instead-of-yaml",
+      "title" : "Configuration through json5 instead of yaml",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can change your application to use json for its configuration using ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "JsonConfigurationFactoryFactory",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {\n    bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory<>());\n    // ...\n}\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "JsonConfigurationFactoryFactory",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " uses json5 syntax by default, using optional features in Jackson. So you'll still be able to include comments inside your configuration files.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "After adding the bundle, you'll have to convert your configuration files to json5 and rename them. So ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "example.yml",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " becomes ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "example.json5",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". Configuration files used in ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "DropwizardAppRule",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " / ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "DropwizardAppExtension",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " tests must be converted as well. So ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "src/test/resources/test-example.yml",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " becomes ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "src/test/resources/test-example.json5",
+          "type" : "InlinedCode"
+        } ]
+      } ]
+    }, {
+      "id" : "adding-the-dependency",
+      "title" : "Adding the dependency",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "JsonConfigurationFactoryFactory",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " lives in the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "liftwizard-configuration-factory-json",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " module.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-configuration-factory-json</artifactId>\n</dependency>\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Configuration",
+      "pageTitle" : "Json5 Configuration",
+      "pageMeta" : { },
+      "dirName" : "configuration",
+      "fileName" : "json5-configuration",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Configuration through json5 instead of yaml",
+        "id" : "configuration-through-json5-instead-of-yaml"
+      }, {
+        "title" : "Adding the dependency",
+        "id" : "adding-the-dependency"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

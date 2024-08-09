@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Buffered Logging</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>In unit tests, it can be useful to suppress all logging for successful tests, but still log everything when tests fail.In order to accomplish this, we need to buffer all logging before we know the result of the test, and then flush or clear the buffer once we know the outcome. BufferedAppender BufferedAppender is the logback appender that buffers all logging until it receives a CLEAR or FLUSH marker.You can use directly in logback configuration. It requires a delegate appender for flushing, declared using an appender-ref . BufferedAppender lives in the liftwizard-logging-buffered-appender module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-logging-buffered-appender&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; Log Markers We must log CLEAR and FLUSH markers to instruct BufferedAppender to clear or flush its logs. If you are using JUnit 4 or 5, you can use the included Rule or Extension to log these markers automatically. JUnit 4 LogMarkerTestRule is a JUnit 4 Rule that clears the buffer before all tests and flushes the buffer after failed tests. It does this by logging CLEAR and FLUSH markers. java public class ExampleTest { @Rule public final TestRule logMarkerTestRule = new LogMarkerTestRule(); @Test public void smokeTest() { // test code } } LogMarkerTestRule lives in the liftwizard-junit-rule-log-marker module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-junit-rule-log-marker&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; JUnit 5 LogMarkerTestExtension is a JUnit 5 Extension that clears the buffer before all tests and flushes the buffer after failed tests. It does this by logging CLEAR and FLUSH markers. java @ExtendWith(LogMarkerTestExtension.class) public class ExampleTest { @Test public void smokeTest() { // test code } } LogMarkerTestExtension lives in the liftwizard-junit-extension-log-marker module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-junit-extension-log-marker&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; BufferedAppenderFactory The BufferedAppenderFactory allows you to use an appender with the type buffered where you would otherwise use console in your Dropwizard configuration. json5 &quot;logging&quot;: { &quot;level&quot;: &quot;DEBUG&quot;, &quot;appenders&quot;: [ { &quot;type&quot;: &quot;buffered&quot;, &quot;timeZone&quot;: &quot;${LOGGING_TIMEZONE:-system}&quot;, &quot;logFormat&quot;: &quot;%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\(%file:%line\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException&quot;, &quot;includeCallerData&quot;: true, }, ] } BufferedAppenderFactory lives in the liftwizard-config-logging-buffered module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-config-logging-buffered&lt;/artifactId&gt; &lt;scope&gt;test&lt;/scope&gt; &lt;/dependency&gt; Note: BufferedAppenderFactory is primarily useful for tests that use https://www.dropwizard.io/en/release-2.1.x/manual/testing.html#junit-4 Dropwizard's JUnit 4 Rule DropwizardAppRule or https://www.dropwizard.io/en/release-2.1.x/manual/testing.html#junit-5 Dropwizard's JUnit 5 Extension DropwizardAppExtension . java private final TestRule logMarkerTestRule = new LogMarkerTestRule(); private final DropwizardAppRule&lt;HelloWorldConfiguration&gt; dropwizardAppRule = new DropwizardAppRule&lt;&gt;( HelloWorldApplication.class, ResourceHelpers.resourceFilePath(&quot;test-example.json5&quot;)); @Rule public final RuleChain ruleChain = RuleChain .outerRule(this.dropwizardAppRule) .around(this.logMarkerTestRule); Note: LogMarkerTestRule needs to be an inner rule, with any other rules that tear down logging outer to it.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In unit tests, it can be useful to suppress all logging for successful tests, but still log everything when tests fail.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In order to accomplish this, we need to buffer all logging before we know the result of the test, and then flush or clear the buffer once we know the outcome.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "bufferedappender",
+      "level" : 2,
+      "title" : "BufferedAppender",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "BufferedAppender",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is the logback appender that buffers all logging until it receives a ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CLEAR",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " or ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "FLUSH",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " marker.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "You can use directly in logback configuration. It requires a delegate appender for flushing, declared using an ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "appender-ref",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "title" : "logback-test.xml",
+      "xmlAsJson" : {
+        "tagName" : "configuration",
+        "attributes" : [ {
+          "name" : "packagingData",
+          "value" : "\"true\""
+        } ],
+        "children" : [ {
+          "tagName" : "appender",
+          "attributes" : [ {
+            "name" : "name",
+            "value" : "\"Console\""
+          }, {
+            "name" : "class",
+            "value" : "\"ch.qos.logback.core.ConsoleAppender\""
+          } ],
+          "children" : [ {
+            "tagName" : "encoder",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "pattern",
+              "attributes" : [ ],
+              "children" : [ {
+                "tagName" : "",
+                "text" : "%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, ${LOGGING_TIMEZONE}}) %gray(\\(%file:%line\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException"
+              } ]
+            } ]
+          } ]
+        }, {
+          "tagName" : "appender",
+          "attributes" : [ {
+            "name" : "name",
+            "value" : "\"Buffered\""
+          }, {
+            "name" : "class",
+            "value" : "\"io.liftwizard.logging.logback.appender.buffered.BufferedAppender\""
+          } ],
+          "children" : [ {
+            "tagName" : "appender-ref",
+            "attributes" : [ {
+              "name" : "ref",
+              "value" : "\"Console\""
+            } ],
+            "children" : [ ]
+          } ]
+        }, {
+          "tagName" : "root",
+          "attributes" : [ {
+            "name" : "level",
+            "value" : "\"INFO\""
+          } ],
+          "children" : [ {
+            "tagName" : "appender-ref",
+            "attributes" : [ {
+              "name" : "ref",
+              "value" : "\"Buffered\""
+            } ],
+            "children" : [ ]
+          } ]
+        } ]
+      },
+      "paths" : [ ],
+      "type" : "Xml"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "BufferedAppender",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-logging-buffered-appender",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-logging-buffered-appender</artifactId>\n    <scope>test</scope>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "id" : "log-markers",
+      "level" : 2,
+      "title" : "Log Markers",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "We must log ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "CLEAR",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "FLUSH",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " markers to instruct ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "BufferedAppender",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to clear or flush its logs. If you are using JUnit 4 or 5, you can use the included Rule or Extension to log these markers automatically.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "tabsContent" : [ {
+        "name" : "JUnit 4",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "LogMarkerTestRule",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " is a JUnit 4 ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "Rule",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " that clears the buffer before all tests and flushes the buffer after failed tests. It does this by logging ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "CLEAR",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " and ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "FLUSH",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " markers.",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "lang" : "java",
+          "snippet" : "public class ExampleTest\n{\n    @Rule\n    public final TestRule logMarkerTestRule = new LogMarkerTestRule();\n\n    @Test\n    public void smokeTest()\n    {\n        // test code\n    }\n}\n",
+          "lineNumber" : "",
+          "type" : "Snippet"
+        }, {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "LogMarkerTestRule",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " lives in the ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "liftwizard-junit-rule-log-marker",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " module.",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "lang" : "xml",
+          "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-junit-rule-log-marker</artifactId>\n    <scope>test</scope>\n</dependency>\n",
+          "lineNumber" : "",
+          "type" : "Snippet"
+        } ]
+      }, {
+        "name" : "JUnit 5",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "LogMarkerTestExtension",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " is a JUnit 5 ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "Extension",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " that clears the buffer before all tests and flushes the buffer after failed tests. It does this by logging ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "CLEAR",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " and ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "FLUSH",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " markers.",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "lang" : "java",
+          "snippet" : "@ExtendWith(LogMarkerTestExtension.class)\npublic class ExampleTest\n{\n    @Test\n    public void smokeTest()\n    {\n        // test code\n    }\n}\n",
+          "lineNumber" : "",
+          "type" : "Snippet"
+        }, {
+          "type" : "Paragraph",
+          "content" : [ {
+            "code" : "LogMarkerTestExtension",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " lives in the ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "liftwizard-junit-extension-log-marker",
+            "type" : "InlinedCode"
+          }, {
+            "text" : " module.",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "lang" : "xml",
+          "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-junit-extension-log-marker</artifactId>\n    <scope>test</scope>\n</dependency>\n",
+          "lineNumber" : "",
+          "type" : "Snippet"
+        } ]
+      } ],
+      "type" : "Tabs"
+    }, {
+      "id" : "bufferedappenderfactory",
+      "level" : 2,
+      "title" : "BufferedAppenderFactory",
+      "type" : "SubHeading"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "BufferedAppenderFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " allows you to use an appender with the type ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "buffered",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " where you would otherwise use ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "console",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " in your Dropwizard configuration.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "json5",
+      "snippet" : "\"logging\": {\n  \"level\": \"DEBUG\",\n  \"appenders\": [\n    {\n      \"type\": \"buffered\",\n      \"timeZone\": \"${LOGGING_TIMEZONE:-system}\",\n      \"logFormat\": \"%highlight(%-5level) %cyan(%date{HH:mm:ss.SSS, %dwTimeZone}) %gray(\\\\(%file:%line\\\\)) [%white(%thread)] %blue(%marker) {%magenta(%mdc)} %green(%logger): %message%n%rootException\",\n      \"includeCallerData\": true,\n    },\n  ]\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "BufferedAppenderFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " lives in the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-config-logging-buffered",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "xml",
+      "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-config-logging-buffered</artifactId>\n    <scope>test</scope>\n</dependency>\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Note: ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "BufferedAppenderFactory",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is primarily useful for tests that use ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.dropwizard.io/en/release-2.1.x/manual/testing.html#junit-4",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Dropwizard's JUnit 4 Rule",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DropwizardAppRule",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " or ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://www.dropwizard.io/en/release-2.1.x/manual/testing.html#junit-5",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Dropwizard's JUnit 5 Extension",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DropwizardAppExtension",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "private final TestRule logMarkerTestRule = new LogMarkerTestRule();\n\nprivate final DropwizardAppRule<HelloWorldConfiguration> dropwizardAppRule = new DropwizardAppRule<>(\n        HelloWorldApplication.class,\n        ResourceHelpers.resourceFilePath(\"test-example.json5\"));\n\n@Rule\npublic final RuleChain ruleChain = RuleChain\n        .outerRule(this.dropwizardAppRule)\n        .around(this.logMarkerTestRule);\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Note: ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "LogMarkerTestRule",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " needs to be an inner rule, with any other rules that tear down logging outer to it.",
+        "type" : "SimpleText"
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Logging",
+      "pageTitle" : "Buffered Logging",
+      "pageMeta" : { },
+      "dirName" : "logging",
+      "fileName" : "buffered-logging",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

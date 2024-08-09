@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: ConfigLoggingBundle</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Adding the dependency</h1></header>
+<p>The ConfigLoggingBundle logs the Dropwizard configuration using SLF4J. It serializes the in-memory configuration object to json and logs that json, not the contents of the original configuration file. The output contains default values set by constructors, that were not specified in the original configuration file.To turn it on, add ConfigLoggingBundle to the list of registered bundles. @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory&lt;&gt;()); bootstrap.addBundle(new EnvironmentConfigBundle()); bootstrap.addBundle(new ObjectMapperBundle()); bootstrap.addBundle(new ConfigLoggingBundle()); StructuredArgumentsMDCLogger structuredLogger = new StructuredArgumentsMDCLogger(bootstrap.getObjectMapper()); bootstrap.addBundle(new JerseyHttpLoggingBundle(structuredLogger)); bootstrap.addBundle(new ClockBundle()); bootstrap.addBundle(new UUIDBundle()); bootstrap.addBundle(new H2Bundle()); bootstrap.addBundle(new ConnectionManagerHolderBundle()); bootstrap.addBundle(new ReladomoBundle()); bootstrap.addCommand(new RenderCommand()); bootstrap.addBundle(new AssetsBundle()); bootstrap.addBundle(new MigrationsBundle&lt;&gt;() { @Override public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) { return configuration.getNamedDataSourcesFactory().getNamedDataSourceFactoryByName(&quot;h2-tcp&quot;); } }); bootstrap.addBundle(new LiftwizardLiquibaseMigrationBundle()); bootstrap.addBundle(new ViewBundle&lt;&gt;() { @Override public Map&lt;String, Map&lt;String, String&gt;&gt; getViewConfiguration(HelloWorldConfiguration configuration) { return configuration.getViewRendererConfiguration(); } }); bootstrap.addBundle(new Slf4jUncaughtExceptionHandlerBundle()); } Now HelloWorldApplication will log something like this on startup: INFO 12:53:29 [main] {liftwizard.priority=-8, liftwizard.bundle=ConfigLoggingBundle} io.liftwizard.dropwizard.bundle.config.logging.ConfigLoggingBundle: Inferred Dropwizard configuration: json5 { &quot;template&quot;: &quot;Hello, %s!&quot;, &quot;defaultName&quot;: &quot;Stranger&quot;, &quot;configLogging&quot;: { &quot;enabled&quot;: true }, // ... &quot;metrics&quot;: { &quot;frequency&quot;: &quot;1 minute&quot;, &quot;reporters&quot;: [ ] } } Note that the metrics section at the end was not specified in test-example.json5 . It comes from serializing the output of io.dropwizard.Configuration.getMetricsFactory() . @JsonProperty(&quot;metrics&quot;) public MetricsFactory getMetricsFactory() { return metrics; } This output can be helpful for fleshing out the configuration file with default options. Including &quot;redundant&quot; defaults makes it easier to edit the configuration by hand. It's easier to flip a boolean flag from false to true than to first figure out where in the configuration file it belongs and the exact spelling of its key.The ConfigLoggingBundle also logs the &quot;default&quot; configuration at the DEBUG level. It does this by instantiating a new copy of the configuration class using the default no-arg constructor, serializing it to json, and logging it. The default configuration output can be useful for finding redundant configuration to remove. ConfigLoggingBundle lives in the liftwizard-bundle-logging-config module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-bundle-logging-config&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ConfigLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " logs the Dropwizard configuration using SLF4J. It serializes the in-memory configuration object to json and logs that json, not the contents of the original configuration file. The output contains default values set by constructors, that were not specified in the original configuration file.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To turn it on, add ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ConfigLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to the list of registered bundles.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap)\n{\n    bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory<>());\n    bootstrap.addBundle(new EnvironmentConfigBundle());\n\n    bootstrap.addBundle(new ObjectMapperBundle());\n    bootstrap.addBundle(new ConfigLoggingBundle());\n\n    StructuredArgumentsMDCLogger structuredLogger = new StructuredArgumentsMDCLogger(bootstrap.getObjectMapper());\n    bootstrap.addBundle(new JerseyHttpLoggingBundle(structuredLogger));\n\n    bootstrap.addBundle(new ClockBundle());\n    bootstrap.addBundle(new UUIDBundle());\n\n    bootstrap.addBundle(new H2Bundle());\n    bootstrap.addBundle(new ConnectionManagerHolderBundle());\n    bootstrap.addBundle(new ReladomoBundle());\n\n    bootstrap.addCommand(new RenderCommand());\n    bootstrap.addBundle(new AssetsBundle());\n    bootstrap.addBundle(new MigrationsBundle<>()\n    {\n        @Override\n        public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration)\n        {\n            return configuration.getNamedDataSourcesFactory().getNamedDataSourceFactoryByName(\"h2-tcp\");\n        }\n    });\n    bootstrap.addBundle(new LiftwizardLiquibaseMigrationBundle());\n    bootstrap.addBundle(new ViewBundle<>()\n    {\n        @Override\n        public Map<String, Map<String, String>> getViewConfiguration(HelloWorldConfiguration configuration)\n        {\n            return configuration.getViewRendererConfiguration();\n        }\n    });\n    bootstrap.addBundle(new Slf4jUncaughtExceptionHandlerBundle());\n}",
+      "entry" : "initialize",
+      "readMore" : true,
+      "readMoreVisibleLines" : 8,
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Now ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "HelloWorldApplication",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " will log something like this on startup:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "",
+      "snippet" : "INFO  12:53:29 [main]  {liftwizard.priority=-8, liftwizard.bundle=ConfigLoggingBundle} io.liftwizard.dropwizard.bundle.config.logging.ConfigLoggingBundle: Inferred Dropwizard configuration:\n\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "lang" : "json5",
+      "snippet" : "{\n  \"template\": \"Hello, %s!\",\n  \"defaultName\": \"Stranger\",\n  \"configLogging\": {\n    \"enabled\": true\n  },\n  // ...\n  \"metrics\": {\n    \"frequency\": \"1 minute\",\n    \"reporters\": [ ]\n  }\n}\n",
+      "lineNumber" : "",
+      "title" : "Output configuration",
+      "anchorId" : "output-configuration",
+      "type" : "Snippet"
+    }, {
+      "title" : "Original configuration",
+      "include" : "$['configLogging', 'template', 'metrics']",
+      "data" : {
+        "configLogging" : {
+          "enabled" : true
+        },
+        "template" : "Hello, %s!"
+      },
+      "highlightValues" : [ ],
+      "highlightKeys" : [ ],
+      "anchorId" : "original-configuration",
+      "type" : "Json"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Note that the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "metrics",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " section at the end was not specified in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "test-example.json5",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". It comes from serializing the output of ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "io.dropwizard.Configuration.getMetricsFactory()",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@JsonProperty(\"metrics\")\npublic MetricsFactory getMetricsFactory() {\n    return metrics;\n}",
+      "title" : "io.dropwizard.Configuration",
+      "entry" : "getMetricsFactory",
+      "anchorId" : "io-dropwizard-configuration",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "This output can be helpful for fleshing out the configuration file with default options. Including \"redundant\" defaults makes it easier to edit the configuration by hand. It's easier to flip a boolean flag from ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "false",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "true",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " than to first figure out where in the configuration file it belongs and the exact spelling of its key.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ConfigLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " also logs the \"default\" configuration at the ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "DEBUG",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " level. It does this by instantiating a new copy of the configuration class using the default no-arg constructor, serializing it to json, and logging it. The default configuration output can be useful for finding redundant configuration to remove.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "adding-the-dependency",
+      "title" : "Adding the dependency",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "ConfigLoggingBundle",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " lives in the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "liftwizard-bundle-logging-config",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " module.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-bundle-logging-config</artifactId>\n</dependency>\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Configuration",
+      "pageTitle" : "ConfigLoggingBundle",
+      "pageMeta" : { },
+      "dirName" : "configuration",
+      "fileName" : "ConfigLoggingBundle",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Adding the dependency",
+        "id" : "adding-the-dependency"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: ObjectMapperBundle</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Adding the dependency</h1></header>
+<p>The ObjectMapperBundle configures the Jackson ObjectMapper used by Dropwizard for serializing and deserializing all responses, as well as for logging by bundles such as liftwizard-bundle-logging-config . ObjectMapperBundle supports configuring pretty-printing on or off, and serialization inclusion to any value in Jackson's JsonInclude.Include . ObjectMapperBundle also turns on all json5 features, turns on FAIL_ON_UNKNOWN_PROPERTIES , turns on STRICT_DUPLICATE_DETECTION , and turns on serialization of dates and Strings.To turn it on, add ObjectMapperBundle to the list of registered bundles. java @Override public void initialize(Bootstrap&lt;HelloWorldConfiguration&gt; bootstrap) { // JsonConfigurationFactoryFactory uses a separate ObjectMapper, and can be configured earlier bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory&lt;&gt;()); bootstrap.addBundle(new EnvironmentConfigBundle()); bootstrap.addBundle(new ObjectMapperBundle()); // ConfigLoggingBundle uses the ObjectMapper configured by ObjectMapperBundle bootstrap.addBundle(new ConfigLoggingBundle()); // ... } You'll be able to see that ObjectMapperBundle is working because the output of ConfigLoggingBundle will now be pretty-printed by default. ObjectMapperBundle lives in the liftwizard-bundle-object-mapper module. xml &lt;dependency&gt; &lt;groupId&gt;io.liftwizard&lt;/groupId&gt; &lt;artifactId&gt;liftwizard-bundle-object-mapper&lt;/artifactId&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "The ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ObjectMapperBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " configures the Jackson ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ObjectMapper",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " used by Dropwizard for serializing and deserializing all responses, as well as for logging by bundles such as ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "liftwizard-bundle-logging-config",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "ObjectMapperBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " supports configuring pretty-printing on or off, and serialization inclusion to any value in Jackson's ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "JsonInclude.Include",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "code" : "ObjectMapperBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " also turns on all json5 features, turns on ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "FAIL_ON_UNKNOWN_PROPERTIES",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", turns on ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "STRICT_DUPLICATE_DETECTION",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ", and turns on serialization of dates and Strings.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "To turn it on, add ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ObjectMapperBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to the list of registered bundles.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "lang" : "java",
+      "snippet" : "@Override\npublic void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {\n    // JsonConfigurationFactoryFactory uses a separate ObjectMapper, and can be configured earlier\n    bootstrap.setConfigurationFactoryFactory(new JsonConfigurationFactoryFactory<>());\n    bootstrap.addBundle(new EnvironmentConfigBundle());\n \n    bootstrap.addBundle(new ObjectMapperBundle());\n \n    // ConfigLoggingBundle uses the ObjectMapper configured by ObjectMapperBundle\n    bootstrap.addBundle(new ConfigLoggingBundle());\n \n    // ...\n}\n",
+      "lineNumber" : "",
+      "type" : "Snippet"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "You'll be able to see that ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ObjectMapperBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " is working because the output of ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "ConfigLoggingBundle",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " will now be pretty-printed by default.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "adding-the-dependency",
+      "title" : "Adding the dependency",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "ObjectMapperBundle",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " lives in the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "liftwizard-bundle-object-mapper",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " module.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>io.liftwizard</groupId>\n    <artifactId>liftwizard-bundle-object-mapper</artifactId>\n</dependency>\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719980,
+    "tocItem" : {
+      "chapterTitle" : "Jackson",
+      "pageTitle" : "ObjectMapperBundle",
+      "pageMeta" : { },
+      "dirName" : "jackson",
+      "fileName" : "ObjectMapperBundle",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Adding the dependency",
+        "id" : "adding-the-dependency"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

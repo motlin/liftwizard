@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Versioning</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Query as-of version</h1></header>
+<p>We've already seen version numbers in some examples. When we edited our Blueprint, the version number increased from 1 to 2.When querying for previous data, version numbers can be more convenient than timestamps. We'll see this in the section on querying by version.With versioning, we bump the version number when we edit any data within the composite. For Blueprints, this means that we bump the version number when we edit the Blueprint itself, when we replace the ImgurImage, when we replace the blueprint string, and when we add or remove tags. We'll take a closer look in the section on Composites.As-of queries by version over rest are performed by adding a version query parameter to the URL.Our template is GET /api/blueprint/{blueprintKey}?version={version} .Plugging in the key from our running example, and the version number 1, we GET /api/blueprint/6ed1f638-a63c-3a54-af67-ba494f27bff2?version=1 This is similar to the as-of query by timestamp from the previous section, and the response is identical so we won't repeat it here.</p>
+</article>
+
+<article>
+<header><h1>Version queries in SQL</h1></header>
+<p>At the SQL layer, queries by version number are implemented by starting with the version table. sql select * from BLUEPRINT_VERSION t0 where t0.key = '6ed1f638-a63c-3a54-af67-ba494f27bff2' and t0.number = 1 This query returns version 1, which existed for the duration [2001-01-03, 2001-01-04) . systemFrom systemTo key createdById lastUpdatedById number createdOn 2001-01-03 23:59:59.0 2001-01-04 23:59:59.0 6ed1&hellip; User ID User ID 1 2001-01-03 23:59:59.0 2001-01-04 23:59:59.0 9999-12-01 23:59:00.0 6ed1&hellip; User ID User ID 2 2001-01-03 23:59:59.0 At this point we take the system_from value of 2001-01-03 23:59:59.000 and use it in our subsequent queries. The queries on all other tables are identical to the queries in the previous section.For example, to query the BLUEPRINT table: sql select * from BLUEPRINT t0 where t0.key = '6ed1f638-a63c-3a54-af67-ba494f27bff2' and t0.system_from &lt;= '2001-01-03 23:59:59.000' and t0.system_to &gt; '2001-01-03 23:59:59.000'</p>
+</article>
+
+<article>
+<header><h1>Composites</h1></header>
+<p>In the previous example, we edited the Blueprint's title and markdown description, creating version 2.Now we'll replace the Blueprint string, the ImgurImage, and add two more tags. We want to bump the version number just once more, to 3.We update the blueprint by PATCH ing /api/blueprint/{id}?version=2 .</p>
+</article>
+
+<article>
+<header><h1>Response</h1></header>
+<p>As desired, we performed the several edits while bumping the version number by only one.In addition, all of the new systemFrom times are identical: 2001-01-05T23:59:59Z .At the SQL level, all the edits were performed in a single transaction. { &quot;key&quot;: &quot;6ed1f638-a63c-3a54-af67-ba494f27bff2&quot;, - &quot;systemFrom&quot;: &quot;2001-01-04T23:59:59Z&quot;, + &quot;systemFrom&quot;: &quot;2001-01-05T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;version&quot;: { - &quot;number&quot;: 2, - &quot;systemFrom&quot;: &quot;2001-01-04T23:59:59Z&quot;, + &quot;number&quot;: 3, + &quot;systemFrom&quot;: &quot;2001-01-05T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;createdOn&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;createdBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; }, &quot;lastUpdatedBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; } }, &quot;title&quot;: &quot;Edited blueprint title&quot;, &quot;voteSummary&quot;: { &quot;numberOfUpvotes&quot;: 0, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null }, &quot;blueprintString&quot;: { - &quot;sha&quot;: &quot;cc341849b4086ce7b1893b366b0dc8e99ce4e595&quot;, - &quot;createdOn&quot;: &quot;2001-01-02T23:59:59Z&quot;, + &quot;sha&quot;: &quot;b11911083a0cf471a5156108389f9899675ccb0c&quot;, + &quot;createdOn&quot;: &quot;2001-01-03T00:00:00Z&quot;, &quot;createdBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; } }, &quot;imgurImage&quot;: { - &quot;imgurId&quot;: &quot;Imgur ID 1&quot;, - &quot;imgurType&quot;: &quot;image/png&quot;, - &quot;height&quot;: 300, - &quot;width&quot;: 300, + &quot;imgurId&quot;: &quot;2nd Imgur ID&quot;, + &quot;imgurType&quot;: &quot;2nd Imgur Type&quot;, + &quot;height&quot;: 200, + &quot;width&quot;: 200, &quot;systemFrom&quot;: &quot;2001-01-01T23:59:59Z&quot;, &quot;systemTo&quot;: null }, &quot;descriptionMarkdown&quot;: &quot;Edited Blueprint description markdown&quot;, &quot;tags&quot;: [ { &quot;tagCategory&quot;: &quot;belt&quot;, &quot;tagName&quot;: &quot;balancer&quot;, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;tag&quot;: { &quot;category&quot;: &quot;belt&quot;, &quot;name&quot;: &quot;balancer&quot;, &quot;ordinal&quot;: 1, &quot;systemFrom&quot;: &quot;2000-01-01T00:00:00Z&quot;, &quot;systemTo&quot;: null } + }, + { + &quot;tagCategory&quot;: &quot;belt&quot;, + &quot;tagName&quot;: &quot;prioritizer&quot;, + &quot;systemFrom&quot;: &quot;2001-01-05T23:59:59Z&quot;, + &quot;systemTo&quot;: null, + &quot;tag&quot;: { + &quot;category&quot;: &quot;belt&quot;, + &quot;name&quot;: &quot;prioritizer&quot;, + &quot;ordinal&quot;: 2, + &quot;systemFrom&quot;: &quot;2000-01-01T00:00:00Z&quot;, + &quot;systemTo&quot;: null + } + }, + { + &quot;tagCategory&quot;: &quot;moderation&quot;, + &quot;tagName&quot;: &quot;scheduled for deletion&quot;, + &quot;systemFrom&quot;: &quot;2001-01-05T23:59:59Z&quot;, + &quot;systemTo&quot;: null, + &quot;tag&quot;: { + &quot;category&quot;: &quot;moderation&quot;, + &quot;name&quot;: &quot;scheduled for deletion&quot;, + &quot;ordinal&quot;: 18, + &quot;systemFrom&quot;: &quot;2000-01-01T00:00:00Z&quot;, + &quot;systemTo&quot;: null + } } ] }</p>
+</article>
+
+<article>
+<header><h1>Ownership direction</h1></header>
+<p>BlueprintTag sits in the middle of a many-to-many relationship between Blueprint and Tag . In this example, we considered BlueprintTag to be part of the composite making up the Blueprint . Should we also consider it to be part of the Tag as well?This is our choice as application designers. In this case, it makes sense for BlueprintTag to be part of the Blueprint , but not part of Tag .Stack Overflow makes a similar choice. Questions and Tag s are both versioned. Applying new tags to a question creates a new version of the Question , but not the Tag .In the UML diagram above, composite relationships are denoted by black diamonds.Composites are subtle, so let's walk through a few examples.Editing a Blueprint's title or description creates a new version. These are properties directly on the root type. Adding or removing BlueprintTag mappings creates a new version. These objects live within the composite. BlueprintTag mappings don't have any mutable properties. If they did, editing those properties would create a new version. For example, if we persisted their relative ordering with an ordinal property, then reordering the Blueprint's tags would create a new version. When the Blueprint author changes their display name, this does not create a new version. The User object is not part of the composite. We don't allow reassigning Blueprints to another author. If we did, repointing the author would create a new version. This works well with a temporal schema, because Blueprint.createdById would be swapped.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "We've already seen version numbers in some examples. When we edited our Blueprint, the version number increased from 1 to 2.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "When querying for previous data, version numbers can be more convenient than timestamps. We'll see this in the section on querying by version.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "With versioning, we bump the version number when we edit any data within the composite. For Blueprints, this means that we bump the version number when we edit the Blueprint itself, when we replace the ImgurImage, when we replace the blueprint string, and when we add or remove tags. We'll take a closer look in the section on Composites.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "query-as-of-version",
+      "title" : "Query as-of version",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "As-of queries by version over rest are performed by adding a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "version",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " query parameter to the URL.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Our template is ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "GET /api/blueprint/{blueprintKey}?version={version}",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Plugging in the key from our running example, and the version number 1, we GET ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/api/blueprint/6ed1f638-a63c-3a54-af67-ba494f27bff2?version=1",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "This is similar to the as-of query by timestamp from the previous section, and the response is identical so we won't repeat it here.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "version-queries-in-sql",
+      "title" : "Version queries in SQL",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "At the SQL layer, queries by version number are implemented by starting with the version table.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "sql",
+        "snippet" : "select *\nfrom BLUEPRINT_VERSION t0\nwhere t0.key = '6ed1f638-a63c-3a54-af67-ba494f27bff2'\n  and t0.number = 1\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "This query returns version 1, which existed for the duration ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "[2001-01-03, 2001-01-04)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "systemFrom",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "systemTo",
+            "width" : 215,
+            "align" : "right"
+          }, {
+            "title" : "key"
+          }, {
+            "title" : "createdById"
+          }, {
+            "title" : "lastUpdatedById"
+          }, {
+            "title" : "number"
+          }, {
+            "title" : "createdOn"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-04 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6ed1…",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-04 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "9999-12-01 23:59:00.0",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6ed1…",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "User ID",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2001-01-03 23:59:59.0",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ],
+          "wide" : true
+        },
+        "title" : "BlueprintVersion",
+        "anchorId" : "version-queries-in-sql-blueprintversion",
+        "type" : "Table"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "At this point we take the system_from value of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "2001-01-03 23:59:59.000",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and use it in our subsequent queries. The queries on all other tables are identical to the queries in the previous section.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "For example, to query the BLUEPRINT table:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "sql",
+        "snippet" : "select *\nfrom BLUEPRINT t0\nwhere t0.key = '6ed1f638-a63c-3a54-af67-ba494f27bff2'\n  and t0.system_from <= '2001-01-03 23:59:59.000'\n  and t0.system_to > '2001-01-03 23:59:59.000'\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "composites",
+      "title" : "Composites",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the previous example, we edited the Blueprint's title and markdown description, creating version 2.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Now we'll replace the Blueprint string, the ImgurImage, and add two more tags. We want to bump the version number just once more, to 3.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "We update the blueprint by ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PATCH",
+          "type" : "InlinedCode"
+        }, {
+          "text" : "ing ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/api/blueprint/{id}?version=2",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "PATCH /api/blueprint/{id}?version=2",
+        "data" : {
+          "version" : {
+            "number" : 2
+          },
+          "blueprintString" : {
+            "sha" : "b11911083a0cf471a5156108389f9899675ccb0c"
+          },
+          "imgurImage" : {
+            "imgurId" : "2nd Imgur ID"
+          },
+          "tags" : [ {
+            "tag" : {
+              "category" : "moderation",
+              "name" : "scheduled for deletion"
+            }
+          }, {
+            "tag" : {
+              "category" : "belt",
+              "name" : "balancer"
+            }
+          }, {
+            "tag" : {
+              "category" : "belt",
+              "name" : "prioritizer"
+            }
+          } ]
+        },
+        "highlightValues" : [ ],
+        "highlightKeys" : [ ],
+        "anchorId" : "composites-patch-api-blueprint-idversion2",
+        "type" : "Json"
+      } ]
+    }, {
+      "id" : "response",
+      "title" : "Response",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "As desired, we performed the several edits while bumping the version number by only one.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In addition, all of the new ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "systemFrom",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " times are identical: ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "2001-01-05T23:59:59Z",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "At the SQL level, all the edits were performed in a single transaction.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "diff",
+        "snippet" : " {\n   \"key\": \"6ed1f638-a63c-3a54-af67-ba494f27bff2\",\n-  \"systemFrom\": \"2001-01-04T23:59:59Z\",\n+  \"systemFrom\": \"2001-01-05T23:59:59Z\",\n   \"systemTo\": null,\n   \"version\": {\n-    \"number\": 2,\n-    \"systemFrom\": \"2001-01-04T23:59:59Z\",\n+    \"number\": 3,\n+    \"systemFrom\": \"2001-01-05T23:59:59Z\",\n     \"systemTo\": null,\n     \"createdOn\": \"2001-01-03T23:59:59Z\",\n     \"createdBy\": {\n       \"userId\": \"User ID\"\n     },\n     \"lastUpdatedBy\": {\n       \"userId\": \"User ID\"\n     }\n   },\n   \"title\": \"Edited blueprint title\",\n   \"voteSummary\": {\n     \"numberOfUpvotes\": 0,\n     \"systemFrom\": \"2001-01-03T23:59:59Z\",\n     \"systemTo\": null\n   },\n   \"blueprintString\": {\n-    \"sha\": \"cc341849b4086ce7b1893b366b0dc8e99ce4e595\",\n-    \"createdOn\": \"2001-01-02T23:59:59Z\",\n+    \"sha\": \"b11911083a0cf471a5156108389f9899675ccb0c\",\n+    \"createdOn\": \"2001-01-03T00:00:00Z\",\n     \"createdBy\": {\n       \"userId\": \"User ID\"\n     }\n   },\n   \"imgurImage\": {\n-    \"imgurId\": \"Imgur ID 1\",\n-    \"imgurType\": \"image/png\",\n-    \"height\": 300,\n-    \"width\": 300,\n+    \"imgurId\": \"2nd Imgur ID\",\n+    \"imgurType\": \"2nd Imgur Type\",\n+    \"height\": 200,\n+    \"width\": 200,\n     \"systemFrom\": \"2001-01-01T23:59:59Z\",\n     \"systemTo\": null\n   },\n   \"descriptionMarkdown\": \"Edited Blueprint description markdown\",\n   \"tags\": [\n     {\n       \"tagCategory\": \"belt\",\n       \"tagName\": \"balancer\",\n       \"systemFrom\": \"2001-01-03T23:59:59Z\",\n       \"systemTo\": null,\n       \"tag\": {\n         \"category\": \"belt\",\n         \"name\": \"balancer\",\n         \"ordinal\": 1,\n         \"systemFrom\": \"2000-01-01T00:00:00Z\",\n         \"systemTo\": null\n       }\n+    },\n+    {\n+      \"tagCategory\": \"belt\",\n+      \"tagName\": \"prioritizer\",\n+      \"systemFrom\": \"2001-01-05T23:59:59Z\",\n+      \"systemTo\": null,\n+      \"tag\": {\n+        \"category\": \"belt\",\n+        \"name\": \"prioritizer\",\n+        \"ordinal\": 2,\n+        \"systemFrom\": \"2000-01-01T00:00:00Z\",\n+        \"systemTo\": null\n+      }\n+    },\n+    {\n+      \"tagCategory\": \"moderation\",\n+      \"tagName\": \"scheduled for deletion\",\n+      \"systemFrom\": \"2001-01-05T23:59:59Z\",\n+      \"systemTo\": null,\n+      \"tag\": {\n+        \"category\": \"moderation\",\n+        \"name\": \"scheduled for deletion\",\n+        \"ordinal\": 18,\n+        \"systemFrom\": \"2000-01-01T00:00:00Z\",\n+        \"systemTo\": null\n+      }\n     }\n   ]\n }",
+        "title" : "PATCH /api/blueprint/{id}?version=2 response",
+        "anchorId" : "response-patch-api-blueprint-idversion2-response",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "ownership-direction",
+      "title" : "Ownership direction",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "BlueprintTag",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " sits in the middle of a many-to-many relationship between ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Blueprint",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Tag",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". In this example, we considered ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "BlueprintTag",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to be part of the composite making up the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Blueprint",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". Should we also consider it to be part of the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Tag",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as well?",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "imageSrc" : "/docs/temporal-data/factorio-nomnoml.png",
+        "timestamp" : 1723206719984,
+        "shapes" : [ ],
+        "width" : 2251.0,
+        "height" : 944.0,
+        "type" : "AnnotatedImage"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "This is our choice as application designers. In this case, it makes sense for ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "BlueprintTag",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to be part of the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Blueprint",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", but not part of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Tag",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Stack Overflow makes a similar choice. ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Questions",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Tag",
+          "type" : "InlinedCode"
+        }, {
+          "text" : "s are both versioned. Applying new tags to a question creates a new version of the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Question",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", but not the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Tag",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the UML diagram above, composite relationships are denoted by black diamonds.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Composites are subtle, so let's walk through a few examples.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Editing a Blueprint's title or description creates a new version. These are properties directly on the root type.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Adding or removing BlueprintTag mappings creates a new version. These objects live within the composite.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "BlueprintTag mappings don't have any mutable properties. If they did, editing those properties would create a new version. For example, if we persisted their relative ordering with an ordinal property, then reordering the Blueprint's tags would create a new version.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "When the Blueprint author changes their display name, this does not create a new version. The User object is not part of the composite.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "We don't allow reassigning Blueprints to another author. If we did, repointing the author would create a new version. This works well with a temporal schema, because Blueprint.createdById would be swapped.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719984,
+    "tocItem" : {
+      "chapterTitle" : "Temporal Data",
+      "pageTitle" : "Versioning",
+      "pageMeta" : { },
+      "dirName" : "temporal-data",
+      "fileName" : "versioning",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Query as-of version",
+        "id" : "query-as-of-version"
+      }, {
+        "title" : "Version queries in SQL",
+        "id" : "version-queries-in-sql"
+      }, {
+        "title" : "Composites",
+        "id" : "composites"
+      }, {
+        "title" : "Response",
+        "id" : "response"
+      }, {
+        "title" : "Ownership direction",
+        "id" : "ownership-direction"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

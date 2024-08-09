@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>Liftwizard: Non Destructive Updates</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JBFKWT91J2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JBFKWT91J2');
+</script>
+<link rel="stylesheet" type="text/css" href="/docs/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/main.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+<link rel="stylesheet" type="text/css" href="/docs/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/docs/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>POST Request Body</h1></header>
+<p>Blueprints are created in 3 steps, starting with a test clock set at 2001-01-01 .At time 1 ( 2001-01-01 ), we create an Imgur Image entry. At time 2 ( 2001-01-02 ), we upload the blueprint string and receive a sha. At time 3 ( 2001-01-03 ), we upload the blueprint post. In this documentation, we'll focus on the third step.We create a blueprint post by POST ing to /api/blueprint/ . { title: &quot;Blueprint title&quot;, blueprintString: { // The blueprintString.sha is a foreign key, pointing to the blueprint data we created at time 2. sha: &quot;cc341849b4086ce7b1893b366b0dc8e99ce4e595&quot;, }, imgurImage: { // The imgurImage.imgurId is a foreign key, pointing to the Imgur Image data we created at time 1. imgurId: &quot;Imgur ID 1&quot;, }, descriptionMarkdown: &quot;Blueprint description markdown&quot;, // Blueprints can be tagged with multiple tags. Here we have a single tag, &quot;belt balancer&quot;. tags: [ { // This double nesting is how many-to-many relationships are represented. This object is the BlueprintTag mapping. tag: { // This object is the tag. It's part of reference data that was created earlier. The (category, name) pair is the foreign key. category: &quot;belt&quot;, name: &quot;balancer&quot;, }, }, ], }</p>
+</article>
+
+<article>
+<header><h1>POST Response Body</h1></header>
+<p>The response includes all the properties we sent, along with server-generated information. { &quot;key&quot;: &quot;6ed1f638-a63c-3a54-af67-ba494f27bff2&quot;, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;version&quot;: { &quot;number&quot;: 1, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;createdOn&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;createdBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; }, &quot;lastUpdatedBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; } }, &quot;title&quot;: &quot;Blueprint title&quot;, &quot;voteSummary&quot;: { &quot;numberOfUpvotes&quot;: 0, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null }, &quot;blueprintString&quot;: { &quot;sha&quot;: &quot;cc341849b4086ce7b1893b366b0dc8e99ce4e595&quot;, &quot;createdOn&quot;: &quot;2001-01-02T23:59:59Z&quot;, &quot;createdBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; } }, &quot;imgurImage&quot;: { &quot;imgurId&quot;: &quot;Imgur ID 1&quot;, &quot;imgurType&quot;: &quot;image/png&quot;, &quot;height&quot;: 300, &quot;width&quot;: 300, &quot;systemFrom&quot;: &quot;2001-01-01T23:59:59Z&quot;, &quot;systemTo&quot;: null }, &quot;descriptionMarkdown&quot;: &quot;Blueprint description markdown&quot;, &quot;tags&quot;: [ { &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;tag&quot;: { &quot;category&quot;: &quot;belt&quot;, &quot;name&quot;: &quot;balancer&quot;, &quot;ordinal&quot;: 1, &quot;systemFrom&quot;: &quot;2000-01-01T00:00:00Z&quot;, &quot;systemTo&quot;: null } } ] }</p>
+</article>
+
+<article>
+<header><h1>Temporal Response</h1></header>
+<p>Here's the same response, with some temporal features labeled. These will be covered in upcoming sections. { // The key is generated-server side. key: &quot;6ed1f638-a63c-3a54-af67-ba494f27bff2&quot;, // The systemFrom is the time we created the blueprint post time 3: 2001-01-03. systemFrom: &quot;2001-01-03T23:59:59Z&quot;, // The systemTo is null, or infinity, indicating this data is current. systemTo: null, // The version object is covered in the section on Versioning. version: { number: 1, systemFrom: &quot;2001-01-03T23:59:59Z&quot;, systemTo: null, // The createdOn, createdBy, and lastUpdatedBy properties are covered in the section on Auditing. createdOn: &quot;2001-01-03T23:59:59Z&quot;, createdBy: { userId: &quot;User ID&quot;, }, lastUpdatedBy: { userId: &quot;User ID&quot;, }, }, title: &quot;Blueprint title&quot;, voteSummary: { numberOfUpvotes: 0, systemFrom: &quot;2001-01-03T23:59:59Z&quot;, systemTo: null, }, blueprintString: { // The request only included blueprintString.sha, a foreign key. The response includes the whole object. sha: &quot;cc341849b4086ce7b1893b366b0dc8e99ce4e595&quot;, // We created the blueprint data at time 2: 2001-01-02. createdOn: &quot;2001-01-02T23:59:59Z&quot;, createdBy: { userId: &quot;User ID&quot;, }, }, imgurImage: { // The request only included the imgurImage.id, a foreign key. The response includes the whole object. imgurId: &quot;Imgur ID 1&quot;, imgurType: &quot;image/png&quot;, height: 300, width: 300, // We created the Imugr image at time 1: 2001-01-01. systemFrom: &quot;2001-01-01T23:59:59Z&quot;, systemTo: null, }, descriptionMarkdown: &quot;Blueprint description markdown&quot;, tags: [ { // The BlueprintTag mapping was created along with the blueprint post at time 3: 2001-01-03. systemFrom: &quot;2001-01-03T23:59:59Z&quot;, systemTo: null, tag: { // The request only included tag.category and tag.name, the composite foreign key. The response includes the whole object. category: &quot;belt&quot;, name: &quot;balancer&quot;, ordinal: 1, // It was created a year earlier than the Blueprint. systemFrom: &quot;2000-01-01T00:00:00Z&quot;, systemTo: null, }, }, ], }</p>
+</article>
+
+<article>
+<header><h1>Non-destructive updates</h1></header>
+<p>Next, we update the blueprint by PATCH ing /api/blueprint/{id}?version=1 .</p>
+</article>
+
+<article>
+<header><h1>Response</h1></header>
+<p>The response includes the updated properties we sent, plus our first temporal updates.The edits are reflected at time 4 ( 2001-01-04 ). { &quot;key&quot;: &quot;6ed1f638-a63c-3a54-af67-ba494f27bff2&quot;, - &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, + &quot;systemFrom&quot;: &quot;2001-01-04T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;version&quot;: { - &quot;number&quot;: 1, - &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, + &quot;number&quot;: 2, + &quot;systemFrom&quot;: &quot;2001-01-04T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;createdOn&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;createdBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; }, &quot;lastUpdatedBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; } }, - &quot;title&quot;: &quot;Blueprint title&quot;, + &quot;title&quot;: &quot;Edited blueprint title&quot;, &quot;voteSummary&quot;: { &quot;numberOfUpvotes&quot;: 0, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null }, &quot;blueprintString&quot;: { &quot;sha&quot;: &quot;cc341849b4086ce7b1893b366b0dc8e99ce4e595&quot;, &quot;createdOn&quot;: &quot;2001-01-02T23:59:59Z&quot;, &quot;createdBy&quot;: { &quot;userId&quot;: &quot;User ID&quot; } }, &quot;imgurImage&quot;: { &quot;imgurId&quot;: &quot;Imgur ID 1&quot;, &quot;imgurType&quot;: &quot;image/png&quot;, &quot;height&quot;: 300, &quot;width&quot;: 300, &quot;systemFrom&quot;: &quot;2001-01-01T23:59:59Z&quot;, &quot;systemTo&quot;: null }, - &quot;descriptionMarkdown&quot;: &quot;Blueprint description markdown&quot;, + &quot;descriptionMarkdown&quot;: &quot;Edited Blueprint description markdown&quot;, &quot;tags&quot;: [ { &quot;tagCategory&quot;: &quot;belt&quot;, &quot;tagName&quot;: &quot;balancer&quot;, &quot;systemFrom&quot;: &quot;2001-01-03T23:59:59Z&quot;, &quot;systemTo&quot;: null, &quot;tag&quot;: { &quot;category&quot;: &quot;belt&quot;, &quot;name&quot;: &quot;balancer&quot;, &quot;ordinal&quot;: 1, &quot;systemFrom&quot;: &quot;2000-01-01T00:00:00Z&quot;, &quot;systemTo&quot;: null } } ] }</p>
+</article>
+
+<article>
+<header><h1>As-of query</h1></header>
+<p>In the next section, we'll perform our first as-of query to prove to ourselves that no data has been lost.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/docs/footer.js"></script>
+<script type="text/javascript" src="/docs/toc.js"></script>
+<script type="text/javascript" src="/docs/assets.js"></script>
+<script type="text/javascript" src="/docs/static/main.js"></script>
+<script type="text/javascript" src="/docs/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/motlin/liftwizard/blob/main/docs/src/main/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "docs",
+    "title" : "Liftwizard",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Blueprints are created in 3 steps, starting with a test clock set at ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "2001-01-01",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "delimiter" : ".",
+      "startNumber" : 1,
+      "type" : "OrderedList",
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "At time 1 (",
+            "type" : "SimpleText"
+          }, {
+            "code" : "2001-01-01",
+            "type" : "InlinedCode"
+          }, {
+            "text" : "), we create an Imgur Image entry.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "At time 2 (",
+            "type" : "SimpleText"
+          }, {
+            "code" : "2001-01-02",
+            "type" : "InlinedCode"
+          }, {
+            "text" : "), we upload the blueprint string and receive a sha.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "At time 3 (",
+            "type" : "SimpleText"
+          }, {
+            "code" : "2001-01-03",
+            "type" : "InlinedCode"
+          }, {
+            "text" : "), we upload the blueprint post.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "In this documentation, we'll focus on the third step.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "post-request-body",
+      "title" : "POST Request Body",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "We create a blueprint post by ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "POST",
+          "type" : "InlinedCode"
+        }, {
+          "text" : "ing to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/api/blueprint/",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "json5",
+        "snippet" : "{\n  title: \"Blueprint title\",\n  blueprintString: {\n    // The blueprintString.sha is a foreign key, pointing to the blueprint data we created at time 2.\n    sha: \"cc341849b4086ce7b1893b366b0dc8e99ce4e595\",\n  },\n  imgurImage: {\n    // The imgurImage.imgurId is a foreign key, pointing to the Imgur Image data we created at time 1.\n    imgurId: \"Imgur ID 1\",\n  },\n  descriptionMarkdown: \"Blueprint description markdown\",\n  // Blueprints can be tagged with multiple tags. Here we have a single tag, \"belt balancer\".\n  tags: [\n    {\n      // This double nesting is how many-to-many relationships are represented. This object is the BlueprintTag mapping.\n      tag: {\n        // This object is the tag. It's part of reference data that was created earlier. The (category, name) pair is the foreign key.\n        category: \"belt\",\n        name: \"balancer\",\n      },\n    },\n  ],\n}",
+        "title" : "POST /api/blueprint/",
+        "commentsType" : "inline",
+        "anchorId" : "post-request-body-post-api-blueprint-",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "post-response-body",
+      "title" : "POST Response Body",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The response includes all the properties we sent, along with server-generated information.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "json",
+        "snippet" : "{\n  \"key\": \"6ed1f638-a63c-3a54-af67-ba494f27bff2\",\n  \"systemFrom\": \"2001-01-03T23:59:59Z\",\n  \"systemTo\": null,\n  \"version\": {\n    \"number\": 1,\n    \"systemFrom\": \"2001-01-03T23:59:59Z\",\n    \"systemTo\": null,\n    \"createdOn\": \"2001-01-03T23:59:59Z\",\n    \"createdBy\": {\n      \"userId\": \"User ID\"\n    },\n    \"lastUpdatedBy\": {\n      \"userId\": \"User ID\"\n    }\n  },\n  \"title\": \"Blueprint title\",\n  \"voteSummary\": {\n    \"numberOfUpvotes\": 0,\n    \"systemFrom\": \"2001-01-03T23:59:59Z\",\n    \"systemTo\": null\n  },\n  \"blueprintString\": {\n    \"sha\": \"cc341849b4086ce7b1893b366b0dc8e99ce4e595\",\n    \"createdOn\": \"2001-01-02T23:59:59Z\",\n    \"createdBy\": {\n      \"userId\": \"User ID\"\n    }\n  },\n  \"imgurImage\": {\n    \"imgurId\": \"Imgur ID 1\",\n    \"imgurType\": \"image/png\",\n    \"height\": 300,\n    \"width\": 300,\n    \"systemFrom\": \"2001-01-01T23:59:59Z\",\n    \"systemTo\": null\n  },\n  \"descriptionMarkdown\": \"Blueprint description markdown\",\n  \"tags\": [\n    {\n      \"systemFrom\": \"2001-01-03T23:59:59Z\",\n      \"systemTo\": null,\n      \"tag\": {\n        \"category\": \"belt\",\n        \"name\": \"balancer\",\n        \"ordinal\": 1,\n        \"systemFrom\": \"2000-01-01T00:00:00Z\",\n        \"systemTo\": null\n      }\n    }\n  ]\n}",
+        "title" : "POST /api/blueprint/ response",
+        "highlight" : [ 16, 23, 30, 37, 43, 44 ],
+        "anchorId" : "post-response-body-post-api-blueprint-response",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "temporal-response",
+      "title" : "Temporal Response",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Here's the same response, with some temporal features labeled. These will be covered in upcoming sections.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "json5",
+        "snippet" : "{\n  // The key is generated-server side.\n  key: \"6ed1f638-a63c-3a54-af67-ba494f27bff2\",\n  // The systemFrom is the time we created the blueprint post time 3: 2001-01-03.\n  systemFrom: \"2001-01-03T23:59:59Z\",\n  // The systemTo is null, or infinity, indicating this data is current.\n  systemTo: null,\n  // The version object is covered in the section on Versioning.\n  version: {\n    number: 1,\n    systemFrom: \"2001-01-03T23:59:59Z\",\n    systemTo: null,\n    // The createdOn, createdBy, and lastUpdatedBy properties are covered in the section on Auditing.\n    createdOn: \"2001-01-03T23:59:59Z\",\n    createdBy: {\n      userId: \"User ID\",\n    },\n    lastUpdatedBy: {\n      userId: \"User ID\",\n    },\n  },\n  title: \"Blueprint title\",\n  voteSummary: {\n    numberOfUpvotes: 0,\n    systemFrom: \"2001-01-03T23:59:59Z\",\n    systemTo: null,\n  },\n  blueprintString: {\n    // The request only included blueprintString.sha, a foreign key. The response includes the whole object.\n    sha: \"cc341849b4086ce7b1893b366b0dc8e99ce4e595\",\n    // We created the blueprint data at time 2: 2001-01-02.\n    createdOn: \"2001-01-02T23:59:59Z\",\n    createdBy: {\n      userId: \"User ID\",\n    },\n  },\n  imgurImage: {\n    // The request only included the imgurImage.id, a foreign key. The response includes the whole object.\n    imgurId: \"Imgur ID 1\",\n    imgurType: \"image/png\",\n    height: 300,\n    width: 300,\n    // We created the Imugr image at time 1: 2001-01-01.\n    systemFrom: \"2001-01-01T23:59:59Z\",\n    systemTo: null,\n  },\n  descriptionMarkdown: \"Blueprint description markdown\",\n  tags: [\n    {\n      // The BlueprintTag mapping was created along with the blueprint post at time 3: 2001-01-03.\n      systemFrom: \"2001-01-03T23:59:59Z\",\n      systemTo: null,\n      tag: {\n        // The request only included tag.category and tag.name, the composite foreign key. The response includes the whole object.\n        category: \"belt\",\n        name: \"balancer\",\n        ordinal: 1,\n        // It was created a year earlier than the Blueprint.\n        systemFrom: \"2000-01-01T00:00:00Z\",\n        systemTo: null,\n      },\n    },\n  ],\n}",
+        "title" : "POST /api/blueprint/ response",
+        "commentsType" : "inline",
+        "anchorId" : "temporal-response-post-api-blueprint-response",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "non-destructive-updates",
+      "title" : "Non-destructive updates",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Next, we update the blueprint by ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PATCH",
+          "type" : "InlinedCode"
+        }, {
+          "text" : "ing ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/api/blueprint/{id}?version=1",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "PATCH /api/blueprint/{id}?version=1",
+        "data" : {
+          "version" : {
+            "number" : 1
+          },
+          "title" : "Edited blueprint title",
+          "descriptionMarkdown" : "Edited Blueprint description markdown"
+        },
+        "highlightValues" : [ ],
+        "highlightKeys" : [ ],
+        "anchorId" : "non-destructive-updates-patch-api-blueprint-idversion1",
+        "type" : "Json"
+      } ]
+    }, {
+      "id" : "response",
+      "title" : "Response",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The response includes the updated properties we sent, plus our first temporal updates.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The edits are reflected at time 4 (",
+          "type" : "SimpleText"
+        }, {
+          "code" : "2001-01-04",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ").",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "diff",
+        "snippet" : " {\n   \"key\": \"6ed1f638-a63c-3a54-af67-ba494f27bff2\",\n-  \"systemFrom\": \"2001-01-03T23:59:59Z\",\n+  \"systemFrom\": \"2001-01-04T23:59:59Z\",\n   \"systemTo\": null,\n   \"version\": {\n-    \"number\": 1,\n-    \"systemFrom\": \"2001-01-03T23:59:59Z\",\n+    \"number\": 2,\n+    \"systemFrom\": \"2001-01-04T23:59:59Z\",\n     \"systemTo\": null,\n     \"createdOn\": \"2001-01-03T23:59:59Z\",\n     \"createdBy\": {\n       \"userId\": \"User ID\"\n     },\n     \"lastUpdatedBy\": {\n       \"userId\": \"User ID\"\n     }\n   },\n-  \"title\": \"Blueprint title\",\n+  \"title\": \"Edited blueprint title\",\n   \"voteSummary\": {\n     \"numberOfUpvotes\": 0,\n     \"systemFrom\": \"2001-01-03T23:59:59Z\",\n     \"systemTo\": null\n   },\n   \"blueprintString\": {\n     \"sha\": \"cc341849b4086ce7b1893b366b0dc8e99ce4e595\",\n     \"createdOn\": \"2001-01-02T23:59:59Z\",\n     \"createdBy\": {\n       \"userId\": \"User ID\"\n     }\n   },\n   \"imgurImage\": {\n     \"imgurId\": \"Imgur ID 1\",\n     \"imgurType\": \"image/png\",\n     \"height\": 300,\n     \"width\": 300,\n     \"systemFrom\": \"2001-01-01T23:59:59Z\",\n     \"systemTo\": null\n   },\n-  \"descriptionMarkdown\": \"Blueprint description markdown\",\n+  \"descriptionMarkdown\": \"Edited Blueprint description markdown\",\n   \"tags\": [\n     {\n       \"tagCategory\": \"belt\",\n       \"tagName\": \"balancer\",\n       \"systemFrom\": \"2001-01-03T23:59:59Z\",\n       \"systemTo\": null,\n       \"tag\": {\n         \"category\": \"belt\",\n         \"name\": \"balancer\",\n         \"ordinal\": 1,\n         \"systemFrom\": \"2000-01-01T00:00:00Z\",\n         \"systemTo\": null\n       }\n     }\n   ]\n }",
+        "title" : "PATCH /api/blueprint/{id}?version=1 response",
+        "anchorId" : "response-patch-api-blueprint-idversion1-response",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "as-of-query",
+      "title" : "As-of query",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the next section, we'll perform our first as-of query to prove to ourselves that no data has been lost.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1723206719984,
+    "tocItem" : {
+      "chapterTitle" : "Temporal Data",
+      "pageTitle" : "Non Destructive Updates",
+      "pageMeta" : { },
+      "dirName" : "temporal-data",
+      "fileName" : "non-destructive-updates",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "POST Request Body",
+        "id" : "post-request-body"
+      }, {
+        "title" : "POST Response Body",
+        "id" : "post-response-body"
+      }, {
+        "title" : "Temporal Response",
+        "id" : "temporal-response"
+      }, {
+        "title" : "Non-destructive updates",
+        "id" : "non-destructive-updates"
+      }, {
+        "title" : "Response",
+        "id" : "response"
+      }, {
+        "title" : "As-of query",
+        "id" : "as-of-query"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>
