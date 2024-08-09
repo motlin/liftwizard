@@ -596,6 +596,12 @@
 
             <dependency>
                 <groupId>io.liftwizard</groupId>
+                <artifactId>liftwizard-reladomo-databasetype-h2</artifactId>
+                <version>2.1.7-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.liftwizard</groupId>
                 <artifactId>liftwizard-reladomo-graphql-data-fetcher</artifactId>
                 <version>2.1.18-SNAPSHOT</version>
             </dependency>

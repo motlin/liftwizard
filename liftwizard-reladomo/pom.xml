@@ -41,6 +41,7 @@
         <module>liftwizard-liquibase-simulated-sequence</module>
         <module>liftwizard-maven-reladomo-logger</module>
         <module>liftwizard-named-data-source-factory</module>
+        <module>liftwizard-reladomo-databasetype-h2</module>
         <module>liftwizard-reladomo-graphql-data-fetcher</module>
         <module>liftwizard-reladomo-graphql-deep-fetcher</module>
         <module>liftwizard-reladomo-graphql-operation</module>
